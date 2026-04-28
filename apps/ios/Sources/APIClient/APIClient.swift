@@ -1,6 +1,24 @@
 import Foundation
 
-final class APIClient: Sendable {
+protocol APIClientProtocol: Sendable {
+    var baseURL: URL { get }
+    func getPortfolio(id: Int) async throws -> PortfolioResponse
+    func postPortfolioView(id: Int) async throws -> InterestedResponse
+    func postPortfolioInterested(id: Int) async throws -> InterestedResponse
+    func listProjects(portfolioId: Int) async throws -> [Project]
+    func getProject(id: Int) async throws -> Project
+    func postProjectView(id: Int) async throws -> InterestedResponse
+    func postInterested(projectId: Int) async throws -> InterestedResponse
+    func listQA(portfolioId: Int) async throws -> [QAPair]
+    func ask(portfolioId: Int, query: String) async throws -> AskResponse
+    func postAMAQuestion(portfolioId: Int, question: String) async throws -> AMAResponse
+    func createNote(portfolioId: Int, name: String, message: String) async throws -> CreateNoteResponse
+    func listConversations(portfolioId: Int) async throws -> ConversationsResponse
+    func getMessages(conversationId: Int) async throws -> MessagesResponse
+    func sendMessage(conversationId: Int, sender: String, body: String) async throws -> SendMessageResponse
+}
+
+final class APIClient: APIClientProtocol {
     let baseURL: URL
     private let session: URLSession
     private let decoder: JSONDecoder

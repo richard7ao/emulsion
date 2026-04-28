@@ -6,9 +6,9 @@ final class ProjectsViewModel {
     var isLoading = false
     var errorMessage: String?
 
-    let apiClient: APIClient
+    let apiClient: any APIClientProtocol
 
-    init(apiClient: APIClient) {
+    init(apiClient: any APIClientProtocol) {
         self.apiClient = apiClient
     }
 

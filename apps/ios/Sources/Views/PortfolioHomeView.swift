@@ -4,7 +4,7 @@ struct PortfolioHomeView: View {
     @State private var viewModel: PortfolioViewModel
     @Environment(AppState.self) private var appState
 
-    init(apiClient: APIClient) {
+    init(apiClient: any APIClientProtocol) {
         _viewModel = State(initialValue: PortfolioViewModel(apiClient: apiClient))
     }
 

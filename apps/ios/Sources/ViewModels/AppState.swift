@@ -7,9 +7,9 @@ final class AppState {
     var portfolioInterested: Bool = false
     var portfolioInterestCount: Int = 0
     var portfolioViewCount: Int = 0
-    let apiClient: APIClient
+    let apiClient: any APIClientProtocol
 
-    init(apiClient: APIClient = APIClient()) {
+    init(apiClient: any APIClientProtocol = APIClient()) {
         self.apiClient = apiClient
     }
 

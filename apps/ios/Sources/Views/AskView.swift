@@ -3,7 +3,7 @@ import SwiftUI
 struct AskView: View {
     @State private var viewModel: AskViewModel
 
-    init(apiClient: APIClient) {
+    init(apiClient: any APIClientProtocol) {
         _viewModel = State(initialValue: AskViewModel(apiClient: apiClient))
     }
 

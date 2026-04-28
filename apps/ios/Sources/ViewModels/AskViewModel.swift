@@ -9,9 +9,9 @@ final class AskViewModel {
     var questionSent = false
     var errorMessage: String?
 
-    private let apiClient: APIClient
+    private let apiClient: any APIClientProtocol
 
-    init(apiClient: APIClient) {
+    init(apiClient: any APIClientProtocol) {
         self.apiClient = apiClient
     }
 

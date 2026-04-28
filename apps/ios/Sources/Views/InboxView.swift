@@ -3,7 +3,7 @@ import SwiftUI
 struct InboxView: View {
     @State private var viewModel: InboxViewModel
 
-    init(apiClient: APIClient) {
+    init(apiClient: any APIClientProtocol) {
         _viewModel = State(initialValue: InboxViewModel(apiClient: apiClient))
     }
 

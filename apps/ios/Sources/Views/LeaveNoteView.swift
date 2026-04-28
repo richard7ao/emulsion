@@ -3,7 +3,7 @@ import SwiftUI
 struct LeaveNoteView: View {
     @State private var viewModel: LeaveNoteViewModel
 
-    init(apiClient: APIClient) {
+    init(apiClient: any APIClientProtocol) {
         _viewModel = State(initialValue: LeaveNoteViewModel(apiClient: apiClient))
     }
 

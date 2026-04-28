@@ -7,11 +7,11 @@ final class ProjectDetailViewModel {
     var errorMessage: String?
     var hasMarkedInterested = false
 
-    private let apiClient: APIClient
+    private let apiClient: any APIClientProtocol
     private let projectId: Int
     private weak var appState: AppState?
 
-    init(apiClient: APIClient, projectId: Int, appState: AppState? = nil) {
+    init(apiClient: any APIClientProtocol, projectId: Int, appState: AppState? = nil) {
         self.apiClient = apiClient
         self.projectId = projectId
         self.appState = appState

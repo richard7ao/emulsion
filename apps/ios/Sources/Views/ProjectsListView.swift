@@ -5,7 +5,7 @@ struct ProjectsListView: View {
     @State private var selectedProject: Project?
     @Environment(AppState.self) private var appState
 
-    init(apiClient: APIClient) {
+    init(apiClient: any APIClientProtocol) {
         _viewModel = State(initialValue: ProjectsViewModel(apiClient: apiClient))
     }
 

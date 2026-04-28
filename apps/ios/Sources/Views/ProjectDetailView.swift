@@ -5,7 +5,7 @@ struct ProjectDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(AppState.self) private var appState
 
-    init(apiClient: APIClient, projectId: Int, appState: AppState? = nil) {
+    init(apiClient: any APIClientProtocol, projectId: Int, appState: AppState? = nil) {
         _viewModel = State(initialValue: ProjectDetailViewModel(apiClient: apiClient, projectId: projectId, appState: appState))
     }
 
