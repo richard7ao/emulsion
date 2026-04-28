@@ -4,7 +4,7 @@
     "name": "Richard Lao",
     "bio": "Founding engineer at a 15-person startup, owning distributed backend systems end-to-end from architecture through on-call. Shipped AWS event-driven pipelines sustaining 14M-record peak bursts across ~1B structured planning data fields, LLM classification infrastructure at ~90% accuracy, and internal AI agents that cut scraper-failure triage from a week to a day.",
     "summary": "Software Engineer — Distributed Systems & Backend Infrastructure",
-    "photo_path": "/static/hero.svg"
+    "photo_path": "/static/hero.png"
   },
   "experiences": [
     {

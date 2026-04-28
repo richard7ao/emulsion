@@ -45,6 +45,9 @@ struct PortfolioHomeView: View {
             .polaroidCard(index: 0)
             .padding(.horizontal, LapseTheme.cardPadding)
 
+        SectionHeaderView(title: "Showcase")
+        ShowcaseSection()
+
         SectionHeaderView(title: "Experience")
         ForEach(Array(viewModel.experiences.enumerated()), id: \.element.id) { index, exp in
             ExperienceCardView(experience: exp, index: index + 1)
@@ -60,9 +63,8 @@ struct PortfolioHomeView: View {
         }
 
         navSection("Projects", destination: ProjectsListView(apiClient: appState.apiClient))
-        navSection("Ask Me", destination: AskView(apiClient: appState.apiClient))
+        navSection("FAQs", destination: AskView(apiClient: appState.apiClient))
         navSection("Leave a Note", destination: LeaveNoteView(apiClient: appState.apiClient))
-        navSection("Inbox", destination: InboxView(apiClient: appState.apiClient))
 
         Spacer().frame(height: LapseTheme.sectionSpacing)
     }

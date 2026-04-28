@@ -8,7 +8,7 @@ struct HeroView: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            if let photoPath, let url = URL(string: "/static/\(photoPath)", relativeTo: baseURL) {
+            if let photoPath, let url = URL(string: photoPath, relativeTo: baseURL) {
                 AsyncImage(url: url) { image in
                     image
                         .resizable()

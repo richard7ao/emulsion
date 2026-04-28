@@ -35,6 +35,8 @@
 		A1000026 /* InboxViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000046 /* InboxViewModel.swift */; };
 		A1000027 /* InboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000047 /* InboxView.swift */; };
 		A1000028 /* ConversationThreadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000048 /* ConversationThreadView.swift */; };
+		A1000029 /* TLDRCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000049 /* TLDRCardView.swift */; };
+		A1000030 /* ShowcaseSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000050 /* ShowcaseSection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +70,8 @@
 		A2000046 /* InboxViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxViewModel.swift; sourceTree = "<group>"; };
 		A2000047 /* InboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxView.swift; sourceTree = "<group>"; };
 		A2000048 /* ConversationThreadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationThreadView.swift; sourceTree = "<group>"; };
+		A2000049 /* TLDRCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLDRCardView.swift; sourceTree = "<group>"; };
+		A2000050 /* ShowcaseSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowcaseSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +120,7 @@
 				A2000045 /* LeaveNoteView.swift */,
 				A2000047 /* InboxView.swift */,
 				A2000048 /* ConversationThreadView.swift */,
+				A2000049 /* TLDRCardView.swift */,
 				A4000008 /* Components */,
 			);
 			path = Views;
@@ -128,6 +133,7 @@
 				A2000034 /* SectionHeaderView.swift */,
 				A2000036 /* ExperienceCardView.swift */,
 				A2000037 /* SkillsCardView.swift */,
+				A2000050 /* ShowcaseSection.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -261,6 +267,8 @@
 				A1000026 /* InboxViewModel.swift in Sources */,
 				A1000027 /* InboxView.swift in Sources */,
 				A1000028 /* ConversationThreadView.swift in Sources */,
+				A1000029 /* TLDRCardView.swift in Sources */,
+				A1000030 /* ShowcaseSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

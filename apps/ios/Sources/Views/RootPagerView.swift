@@ -5,7 +5,7 @@ struct RootPagerView: View {
 
     var body: some View {
         TabView(selection: $appState.currentPortfolioIndex) {
-            ContentView()
+            TLDRCardView()
                 .tag(0)
 
             PlaceholderPortfolioView()

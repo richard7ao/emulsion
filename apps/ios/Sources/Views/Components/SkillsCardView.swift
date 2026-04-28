@@ -4,6 +4,10 @@ struct SkillsCardView: View {
     let skill: Skill
     let index: Int
 
+    private var itemsList: [String] {
+        parseJSONArray(skill.items)
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(skill.category)
@@ -11,8 +15,8 @@ struct SkillsCardView: View {
                 .foregroundStyle(LapseTheme.textPrimary)
 
             FlowLayout(spacing: 6) {
-                ForEach(skill.items.components(separatedBy: ","), id: \.self) { item in
-                    Text(item.trimmingCharacters(in: .whitespaces))
+                ForEach(itemsList, id: \.self) { item in
+                    Text(item)
                         .font(LapseTheme.captionFont)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
