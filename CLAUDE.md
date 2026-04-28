@@ -24,7 +24,7 @@ bazel build //shared/emulsion-types:emulsion_types
 ## Test
 
 ```bash
-cargo test                    # All Rust tests (16 across 7 repos + cache)
+cargo test                    # All Rust tests (19 across 7 repos + cache + shared types)
 cargo test -p portfolio-api   # Backend only
 cargo test -p emulsion-types  # Shared types only
 ```

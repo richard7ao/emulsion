@@ -37,6 +37,9 @@ A1000012 /* PortfolioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRe
 		A1000030 /* ShowcaseSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000050 /* ShowcaseSection.swift */; };
 		A1000031 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000051 /* MainTabView.swift */; };
 		A1000032 /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000052 /* RemoteImage.swift */; };
+		B1000001 /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001 /* ModelTests.swift */; };
+		B1000002 /* APIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000002 /* APIClientTests.swift */; };
+		B1000003 /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000003 /* ViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,10 +75,31 @@ A2000032 /* PortfolioViewModel.swift */ = {isa = PBXFileReference; lastKnownFile
 		A2000050 /* ShowcaseSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowcaseSection.swift; sourceTree = "<group>"; };
 		A2000051 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		A2000052 /* RemoteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
+		B2000001 /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
+		B2000002 /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
+		B2000003 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
+		B2000010 /* PortfolioAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PortfolioAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXContainerItemProxy section */
+		B8000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A8000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5000001;
+			remoteInfo = PortfolioApp;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A3000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B3000001 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -89,6 +113,7 @@ A2000032 /* PortfolioViewModel.swift */ = {isa = PBXFileReference; lastKnownFile
 			isa = PBXGroup;
 			children = (
 				A4000002 /* Sources */,
+				B4000002 /* Tests */,
 				A2000020 /* Info.plist */,
 				A4000010 /* Products */,
 			);
@@ -183,8 +208,27 @@ A2000035 /* PortfolioHomeView.swift */,
 			isa = PBXGroup;
 			children = (
 				A2000010 /* PortfolioApp.app */,
+				B2000010 /* PortfolioAppTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B4000002 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				B4000001 /* PortfolioAppTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		B4000001 /* PortfolioAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				B2000001 /* ModelTests.swift */,
+				B2000002 /* APIClientTests.swift */,
+				B2000003 /* ViewModelTests.swift */,
+			);
+			path = PortfolioAppTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,6 +249,23 @@ A2000035 /* PortfolioHomeView.swift */,
 			productName = PortfolioApp;
 			productReference = A2000010 /* PortfolioApp.app */;
 			productType = "com.apple.product-type.application";
+		};
+		B5000001 /* PortfolioAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B7000001 /* Build configuration list for PBXNativeTarget "PortfolioAppTests" */;
+			buildPhases = (
+				B6000001 /* Sources */,
+				B3000001 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BA000001 /* PBXTargetDependency */,
+			);
+			name = PortfolioAppTests;
+			productName = PortfolioAppTests;
+			productReference = B2000010 /* PortfolioAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -230,6 +291,7 @@ A2000035 /* PortfolioHomeView.swift */,
 			projectRoot = "";
 			targets = (
 				A5000001 /* PortfolioApp */,
+				B5000001 /* PortfolioAppTests */,
 			);
 		};
 /* End PBXProject section */
@@ -272,7 +334,25 @@ A1000012 /* PortfolioViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B6000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1000001 /* ModelTests.swift in Sources */,
+				B1000002 /* APIClientTests.swift in Sources */,
+				B1000003 /* ViewModelTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BA000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5000001 /* PortfolioApp */;
+			targetProxy = B8000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		A9000001 /* Debug */ = {
@@ -358,6 +438,46 @@ A1000012 /* PortfolioViewModel.swift in Sources */,
 			};
 			name = Release;
 		};
+		B9000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lapse.portfolio.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PortfolioApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PortfolioApp";
+			};
+			name = Debug;
+		};
+		B9000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lapse.portfolio.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PortfolioApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PortfolioApp";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -375,6 +495,15 @@ A1000012 /* PortfolioViewModel.swift in Sources */,
 			buildConfigurations = (
 				A9000011 /* Debug */,
 				A9000012 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B7000001 /* Build configuration list for PBXNativeTarget "PortfolioAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B9000001 /* Debug */,
+				B9000002 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
