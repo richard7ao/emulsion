@@ -3,10 +3,10 @@ import Foundation
 @MainActor @Observable
 final class AskViewModel {
     var cannedPrompts: [QAPair] = []
-    var answerText: String?
-    var showFallback = false
+    var expandedPromptIds: Set<Int> = []
     var query = ""
     var isLoading = false
+    var questionSent = false
     var errorMessage: String?
 
     private let apiClient: APIClient
@@ -23,19 +23,28 @@ final class AskViewModel {
         }
     }
 
-    func ask(_ question: String) async {
-        guard !question.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+    func toggleExpanded(_ id: Int) {
+        if expandedPromptIds.contains(id) {
+            expandedPromptIds.remove(id)
+        } else {
+            expandedPromptIds.insert(id)
+        }
+    }
+
+    func isExpanded(_ id: Int) -> Bool {
+        expandedPromptIds.contains(id)
+    }
+
+    func submitQuestion() async {
+        let q = query.trimmingCharacters(in: .whitespaces)
+        guard !q.isEmpty else { return }
         isLoading = true
-        answerText = nil
-        showFallback = false
+        questionSent = false
 
         do {
-            let response = try await apiClient.ask(portfolioId: 1, query: question)
-            if let match = response.match {
-                answerText = match.answer
-            } else {
-                showFallback = true
-            }
+            _ = try await apiClient.postAMAQuestion(portfolioId: 1, question: q)
+            questionSent = true
+            query = ""
         } catch {
             errorMessage = error.localizedDescription
         }

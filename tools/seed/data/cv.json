@@ -89,6 +89,15 @@
         { "sender": "Jordan", "body": "Your MARL dissertation is exactly the kind of applied research we value. Have you considered applying ML to production systems?" },
         { "sender": "Richard", "body": "Absolutely — at Serac I built LLM classification over 1B structured fields. I enjoy bridging research and production." }
       ]
+    },
+    {
+      "participant_name": "Ask Me Anything",
+      "messages": [
+        { "sender": "Visitor", "body": "What does a typical day look like for you?" },
+        { "sender": "Visitor", "body": "How do you handle on-call incidents?" },
+        { "sender": "Visitor", "body": "What's your favourite language and why?" },
+        { "sender": "Visitor", "body": "Would you ever go back to a big company?" }
+      ]
     }
   ]
 }

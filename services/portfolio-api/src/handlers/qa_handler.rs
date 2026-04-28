@@ -4,7 +4,7 @@ use axum::Json;
 use serde::Deserialize;
 use serde_json::{json, Value};
 use crate::app_state::AppState;
-use crate::repositories::qa_repo;
+use crate::repositories::{qa_repo, conversations_repo};
 
 pub async fn list_qa(
     State(state): State<AppState>,
@@ -42,4 +42,28 @@ pub async fn ask(
             "fallback": "leave_a_note"
         }))),
     }
+}
+
+pub async fn post_ama_question(
+    State(state): State<AppState>,
+    Path(portfolio_id): Path<i64>,
+    Json(body): Json<AskRequest>,
+) -> Result<(StatusCode, Json<Value>), StatusCode> {
+    let trimmed = body.query.trim();
+    if trimmed.is_empty() {
+        return Err(StatusCode::BAD_REQUEST);
+    }
+
+    let convo_id = conversations_repo::find_or_create_ama(&state.pool, portfolio_id)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+
+    let msg_id = conversations_repo::add_message(&state.pool, convo_id, "Visitor", trimmed)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+
+    Ok((StatusCode::CREATED, Json(json!({
+        "conversation_id": convo_id,
+        "message_id": msg_id
+    }))))
 }
