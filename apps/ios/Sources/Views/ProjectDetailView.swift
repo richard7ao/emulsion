@@ -3,6 +3,7 @@ import SwiftUI
 struct ProjectDetailView: View {
     @State private var viewModel: ProjectDetailViewModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(AppState.self) private var appState
 
     init(apiClient: APIClient, projectId: Int) {
         _viewModel = State(initialValue: ProjectDetailViewModel(apiClient: apiClient, projectId: projectId))
@@ -15,47 +16,7 @@ struct ProjectDetailView: View {
                     ProgressView()
                         .padding(.top, 100)
                 } else if let project = viewModel.project {
-                    VStack(alignment: .leading, spacing: LapseTheme.cardPadding) {
-                        Text(project.title)
-                            .font(LapseTheme.titleFont)
-                            .foregroundStyle(LapseTheme.textPrimary)
-
-                        Text(project.role)
-                            .font(LapseTheme.headlineFont)
-                            .foregroundStyle(LapseTheme.textSecondary)
-
-                        HStack {
-                            Label("\(project.viewCount) views", systemImage: "eye")
-                            Spacer()
-                            Label("\(project.interestedCount) interested", systemImage: "heart")
-                        }
-                        .font(LapseTheme.captionFont)
-                        .foregroundStyle(LapseTheme.textSecondary)
-
-                        Text(project.writeup)
-                            .font(LapseTheme.bodyFont)
-                            .foregroundStyle(LapseTheme.textPrimary)
-
-                        Button {
-                            Task { await viewModel.markInterested() }
-                        } label: {
-                            HStack {
-                                Image(systemName: viewModel.hasMarkedInterested ? "heart.fill" : "heart")
-                                Text(viewModel.hasMarkedInterested ? "Interested!" : "I'm Interested")
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(viewModel.hasMarkedInterested ? LapseTheme.accent : LapseTheme.surface)
-                            .foregroundStyle(viewModel.hasMarkedInterested ? .white : LapseTheme.accent)
-                            .cornerRadius(LapseTheme.cornerRadius)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: LapseTheme.cornerRadius)
-                                    .stroke(LapseTheme.accent, lineWidth: 1)
-                            )
-                        }
-                        .disabled(viewModel.hasMarkedInterested)
-                    }
-                    .padding(LapseTheme.cardPadding)
+                    projectContent(project)
                 }
             }
             .background(LapseTheme.background)
@@ -69,6 +30,81 @@ struct ProjectDetailView: View {
         }
         .task {
             await viewModel.load()
+        }
+    }
+
+    private func projectContent(_ project: Project) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            let screenshots = parseJSONArray(project.screenshots)
+            if let first = screenshots.first,
+               let url = URL(string: first, relativeTo: appState.apiClient.baseURL) {
+                AsyncImage(url: url) { image in
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                } placeholder: {
+                    Rectangle()
+                        .fill(LapseTheme.border.opacity(0.3))
+                        .overlay {
+                            ProgressView()
+                        }
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 220)
+                .clipped()
+            }
+
+            VStack(alignment: .leading, spacing: 16) {
+                Text(project.title)
+                    .font(.system(size: 24, weight: .regular, design: .serif))
+                    .foregroundStyle(LapseTheme.textPrimary)
+
+                Text(project.role)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(LapseTheme.accent)
+
+                HStack(spacing: 20) {
+                    HStack(spacing: 5) {
+                        Image(systemName: "eye")
+                        Text("\(project.viewCount) views")
+                    }
+                    HStack(spacing: 5) {
+                        Image(systemName: "heart")
+                        Text("\(project.interestedCount) interested")
+                    }
+                }
+                .font(LapseTheme.captionFont)
+                .foregroundStyle(LapseTheme.textSecondary)
+
+                Divider()
+
+                Text(project.writeup)
+                    .font(.system(size: 15, weight: .regular))
+                    .foregroundStyle(LapseTheme.textPrimary)
+                    .lineSpacing(5)
+
+                Button {
+                    Task { await viewModel.markInterested() }
+                } label: {
+                    HStack(spacing: 8) {
+                        Image(systemName: viewModel.hasMarkedInterested ? "heart.fill" : "heart")
+                        Text(viewModel.hasMarkedInterested ? "Interested!" : "I'm Interested")
+                    }
+                    .font(.system(size: 15, weight: .medium))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 14)
+                    .background(viewModel.hasMarkedInterested ? LapseTheme.accent : LapseTheme.surface)
+                    .foregroundStyle(viewModel.hasMarkedInterested ? .white : LapseTheme.accent)
+                    .cornerRadius(10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(LapseTheme.accent, lineWidth: 1)
+                    )
+                }
+                .disabled(viewModel.hasMarkedInterested)
+                .sensoryFeedback(.impact(flexibility: .soft), trigger: viewModel.hasMarkedInterested)
+            }
+            .padding(20)
         }
     }
 }

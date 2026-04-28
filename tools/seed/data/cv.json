@@ -34,12 +34,20 @@
     {
       "title": "PharmaBridge",
       "role": "Team Captain & Lead Engineer",
-      "writeup": "2nd Place at Imperial College x National MedTech Foundation Hackathon (Apr 2026). Built a full-stack B2B platform (Next.js, Node.js, PostgreSQL) connecting licensed pharmacies to exchange, transfer, or sell OTC medicines, formalising informal inter-pharmacy swaps, validating licensing and compliance, and reducing waste from expired stock. Deployed to production under hackathon time constraints."
+      "writeup": "2nd Place at Imperial College x National MedTech Foundation Hackathon (Apr 2026). Built a full-stack B2B platform (Next.js, Node.js, PostgreSQL) connecting licensed pharmacies to exchange, transfer, or sell OTC medicines, formalising informal inter-pharmacy swaps, validating licensing and compliance, and reducing waste from expired stock. Deployed to production under hackathon time constraints.",
+      "screenshots": ["/static/pharmabridge.png"]
     },
     {
       "title": "Multi-Agent Reinforcement Learning",
       "role": "Researcher — Final-Year Dissertation",
-      "writeup": "Final-year dissertation at King's College London (2024). Designed MARL systems in Python with PyTorch and OpenAI Gym. Implemented policy-gradient and value-based networks, reward shaping, and evaluation pipelines analysing agent coordination under resource constraints."
+      "writeup": "Final-year dissertation at King's College London (2024). Designed MARL systems in Python with PyTorch and OpenAI Gym. Implemented policy-gradient and value-based networks, reward shaping, and evaluation pipelines analysing agent coordination under resource constraints.",
+      "screenshots": ["/static/marl.png"]
+    },
+    {
+      "title": "AI Triage Nurse",
+      "role": "Engineer — Hackathon Project",
+      "writeup": "Built an AI-powered triage agent that works a shift in a simulated emergency department — deciding who needs care now, who can wait, what tests to order, and when to escalate to a human clinician. The agent runs inside an OpenReward environment with a Streamlit UI for watching episodes play out and inspecting decisions in real time. Focused on bridging the gap between clinical reasoning and reinforcement learning, making triage decisions that are explainable and auditable.",
+      "screenshots": ["/static/triage.png"]
     }
   ],
   "skills": [

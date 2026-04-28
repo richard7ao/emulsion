@@ -35,6 +35,8 @@ struct ProjectData {
     title: String,
     role: String,
     writeup: String,
+    #[serde(default)]
+    screenshots: Vec<String>,
 }
 
 #[derive(Deserialize)]
@@ -91,11 +93,13 @@ async fn seed(pool: &Pool<Sqlite>, data: &CvData) -> Result<()> {
     }
 
     for proj in &data.projects {
-        sqlx::query("INSERT INTO projects (portfolio_id, title, role, writeup) VALUES (?, ?, ?, ?)")
+        let screenshots_json = serde_json::to_string(&proj.screenshots)?;
+        sqlx::query("INSERT INTO projects (portfolio_id, title, role, writeup, screenshots) VALUES (?, ?, ?, ?, ?)")
             .bind(data.portfolio.id)
             .bind(&proj.title)
             .bind(&proj.role)
             .bind(&proj.writeup)
+            .bind(&screenshots_json)
             .execute(pool).await?;
     }
 
