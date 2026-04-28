@@ -45,8 +45,12 @@ final class APIClient: Sendable {
         try await post("/v1/portfolios/\(portfolioId)/qa/ask", body: ["query": query])
     }
 
-    func createNote(portfolioId: Int, name: String, email: String, message: String) async throws -> CreateNoteResponse {
-        let body = CreateNoteRequest(name: name, email: email, message: message)
+    func postAMAQuestion(portfolioId: Int, question: String) async throws -> AMAResponse {
+        try await post("/v1/portfolios/\(portfolioId)/ama", body: ["query": question])
+    }
+
+    func createNote(portfolioId: Int, name: String, message: String) async throws -> CreateNoteResponse {
+        let body = CreateNoteRequest(name: name, message: message)
         return try await post("/v1/portfolios/\(portfolioId)/notes", body: body)
     }
 
@@ -56,6 +60,11 @@ final class APIClient: Sendable {
 
     func getMessages(conversationId: Int) async throws -> MessagesResponse {
         try await get("/v1/conversations/\(conversationId)/messages")
+    }
+
+    func sendMessage(conversationId: Int, sender: String, body: String) async throws -> SendMessageResponse {
+        let req = SendMessageRequest(sender: sender, body: body)
+        return try await post("/v1/conversations/\(conversationId)/messages", body: req)
     }
 
     // MARK: - Private

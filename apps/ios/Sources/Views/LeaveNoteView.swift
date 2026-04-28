@@ -36,20 +36,6 @@ struct LeaveNoteView: View {
                         .stroke(LapseTheme.border, lineWidth: 1)
                 )
 
-            TextField("Email", text: $viewModel.email)
-                .textFieldStyle(.plain)
-                .font(LapseTheme.bodyFont)
-                .keyboardType(.emailAddress)
-                .textContentType(.emailAddress)
-                .autocapitalization(.none)
-                .padding(12)
-                .background(LapseTheme.surface)
-                .cornerRadius(LapseTheme.cornerRadius)
-                .overlay(
-                    RoundedRectangle(cornerRadius: LapseTheme.cornerRadius)
-                        .stroke(LapseTheme.border, lineWidth: 1)
-                )
-
             TextEditor(text: $viewModel.message)
                 .font(LapseTheme.bodyFont)
                 .frame(minHeight: 120)

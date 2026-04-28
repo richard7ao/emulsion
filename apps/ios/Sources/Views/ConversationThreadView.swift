@@ -22,15 +22,14 @@ struct ConversationThreadView: View {
                 TextField("Message...", text: $draftText)
                     .textFieldStyle(.plain)
                     .font(LapseTheme.bodyFont)
-                    .disabled(true)
+                    .onSubmit { send() }
 
-                Button {
-                } label: {
+                Button { send() } label: {
                     Image(systemName: "arrow.up.circle.fill")
                         .font(.title2)
-                        .foregroundStyle(LapseTheme.border)
+                        .foregroundStyle(draftText.trimmingCharacters(in: .whitespaces).isEmpty ? LapseTheme.border : LapseTheme.accent)
                 }
-                .disabled(true)
+                .disabled(draftText.trimmingCharacters(in: .whitespaces).isEmpty)
             }
             .padding(12)
             .background(LapseTheme.surface)
@@ -42,6 +41,14 @@ struct ConversationThreadView: View {
         }
     }
 
+    private func send() {
+        let text = draftText
+        draftText = ""
+        Task {
+            await viewModel.sendMessage(conversationId: conversation.id, body: text)
+        }
+    }
+
     private func messageBubble(_ msg: Message) -> some View {
         let isMe = msg.sender == "Richard"
         return HStack {
@@ -50,7 +57,7 @@ struct ConversationThreadView: View {
                 Text(msg.body)
                     .font(LapseTheme.bodyFont)
                     .foregroundStyle(LapseTheme.textPrimary)
-                Text(msg.createdAt)
+                Text(formatTimestamp(msg.createdAt))
                     .font(LapseTheme.captionFont)
                     .foregroundStyle(LapseTheme.textSecondary)
             }

@@ -14,6 +14,7 @@ pub struct Note {
 #[derive(Debug, Deserialize)]
 pub struct CreateNote {
     pub name: String,
+    #[serde(default)]
     pub email: String,
     pub message: String,
 }

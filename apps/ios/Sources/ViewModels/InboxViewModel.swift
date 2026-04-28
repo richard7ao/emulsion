@@ -41,4 +41,16 @@ final class InboxViewModel {
 
         isLoading = false
     }
+
+    func sendMessage(conversationId: Int, body: String) async {
+        let trimmed = body.trimmingCharacters(in: .whitespaces)
+        guard !trimmed.isEmpty else { return }
+
+        do {
+            _ = try await apiClient.sendMessage(conversationId: conversationId, sender: "Richard", body: trimmed)
+            await loadMessages(conversationId: conversationId)
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
 }

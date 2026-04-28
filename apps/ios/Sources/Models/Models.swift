@@ -1,5 +1,26 @@
 import Foundation
 
+let amaParticipantName = "Ask Me Anything"
+
+private let utcParser: DateFormatter = {
+    let f = DateFormatter()
+    f.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    f.timeZone = TimeZone(identifier: "UTC")
+    return f
+}()
+
+private let londonFormatter: DateFormatter = {
+    let f = DateFormatter()
+    f.timeZone = TimeZone(identifier: "Europe/London")
+    f.dateFormat = "d MMM, HH:mm"
+    return f
+}()
+
+func formatTimestamp(_ utcString: String) -> String {
+    guard let date = utcParser.date(from: utcString) else { return utcString }
+    return londonFormatter.string(from: date)
+}
+
 struct Portfolio: Codable, Identifiable {
     let id: Int
     let name: String
@@ -99,7 +120,6 @@ struct MessagesResponse: Codable {
 
 struct CreateNoteRequest: Codable {
     let name: String
-    let email: String
     let message: String
 }
 
@@ -109,4 +129,18 @@ struct CreateNoteResponse: Codable {
 
 struct InterestedResponse: Codable {
     let status: String
+}
+
+struct SendMessageRequest: Codable {
+    let sender: String
+    let body: String
+}
+
+struct SendMessageResponse: Codable {
+    let id: Int
+}
+
+struct AMAResponse: Codable {
+    let conversationId: Int
+    let messageId: Int
 }
