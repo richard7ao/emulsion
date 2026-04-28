@@ -58,6 +58,31 @@ struct PortfolioHomeView: View {
                 .padding(.horizontal, LapseTheme.cardPadding)
                 .padding(.bottom, 12)
         }
+
+        navSection("Projects", destination: ProjectsListView(apiClient: appState.apiClient))
+        navSection("Ask Me", destination: AskView(apiClient: appState.apiClient))
+        navSection("Leave a Note", destination: LeaveNoteView(apiClient: appState.apiClient))
+        navSection("Inbox", destination: InboxView(apiClient: appState.apiClient))
+
+        Spacer().frame(height: LapseTheme.sectionSpacing)
+    }
+
+    private func navSection<D: View>(_ title: String, destination: D) -> some View {
+        NavigationLink(destination: destination) {
+            HStack {
+                Text(title)
+                    .font(LapseTheme.headlineFont)
+                    .foregroundStyle(LapseTheme.textPrimary)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(LapseTheme.textSecondary)
+            }
+            .padding(LapseTheme.cardPadding)
+            .background(LapseTheme.surface)
+            .cornerRadius(LapseTheme.cornerRadius)
+            .padding(.horizontal, LapseTheme.cardPadding)
+            .padding(.top, 8)
+        }
     }
 
     private func errorView(_ message: String) -> some View {

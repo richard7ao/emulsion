@@ -24,6 +24,17 @@
 		A1000015 /* PortfolioHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000035 /* PortfolioHomeView.swift */; };
 		A1000016 /* ExperienceCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000036 /* ExperienceCardView.swift */; };
 		A1000017 /* SkillsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000037 /* SkillsCardView.swift */; };
+		A1000018 /* ProjectsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000038 /* ProjectsViewModel.swift */; };
+		A1000019 /* ProjectDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000039 /* ProjectDetailViewModel.swift */; };
+		A1000020 /* ProjectsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000040 /* ProjectsListView.swift */; };
+		A1000021 /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000041 /* ProjectDetailView.swift */; };
+		A1000022 /* AskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000042 /* AskViewModel.swift */; };
+		A1000023 /* AskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000043 /* AskView.swift */; };
+		A1000024 /* LeaveNoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000044 /* LeaveNoteViewModel.swift */; };
+		A1000025 /* LeaveNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000045 /* LeaveNoteView.swift */; };
+		A1000026 /* InboxViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000046 /* InboxViewModel.swift */; };
+		A1000027 /* InboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000047 /* InboxView.swift */; };
+		A1000028 /* ConversationThreadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000048 /* ConversationThreadView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +57,17 @@
 		A2000035 /* PortfolioHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioHomeView.swift; sourceTree = "<group>"; };
 		A2000036 /* ExperienceCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperienceCardView.swift; sourceTree = "<group>"; };
 		A2000037 /* SkillsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillsCardView.swift; sourceTree = "<group>"; };
+		A2000038 /* ProjectsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsViewModel.swift; sourceTree = "<group>"; };
+		A2000039 /* ProjectDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailViewModel.swift; sourceTree = "<group>"; };
+		A2000040 /* ProjectsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsListView.swift; sourceTree = "<group>"; };
+		A2000041 /* ProjectDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailView.swift; sourceTree = "<group>"; };
+		A2000042 /* AskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskViewModel.swift; sourceTree = "<group>"; };
+		A2000043 /* AskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskView.swift; sourceTree = "<group>"; };
+		A2000044 /* LeaveNoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveNoteViewModel.swift; sourceTree = "<group>"; };
+		A2000045 /* LeaveNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveNoteView.swift; sourceTree = "<group>"; };
+		A2000046 /* InboxViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxViewModel.swift; sourceTree = "<group>"; };
+		A2000047 /* InboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxView.swift; sourceTree = "<group>"; };
+		A2000048 /* ConversationThreadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationThreadView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +110,12 @@
 				A2000030 /* RootPagerView.swift */,
 				A2000031 /* PlaceholderPortfolioView.swift */,
 				A2000035 /* PortfolioHomeView.swift */,
+				A2000040 /* ProjectsListView.swift */,
+				A2000041 /* ProjectDetailView.swift */,
+				A2000043 /* AskView.swift */,
+				A2000045 /* LeaveNoteView.swift */,
+				A2000047 /* InboxView.swift */,
+				A2000048 /* ConversationThreadView.swift */,
 				A4000008 /* Components */,
 			);
 			path = Views;
@@ -109,6 +137,11 @@
 			children = (
 				A2000009 /* AppState.swift */,
 				A2000032 /* PortfolioViewModel.swift */,
+				A2000038 /* ProjectsViewModel.swift */,
+				A2000039 /* ProjectDetailViewModel.swift */,
+				A2000042 /* AskViewModel.swift */,
+				A2000044 /* LeaveNoteViewModel.swift */,
+				A2000046 /* InboxViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -217,6 +250,17 @@
 				A1000015 /* PortfolioHomeView.swift in Sources */,
 				A1000016 /* ExperienceCardView.swift in Sources */,
 				A1000017 /* SkillsCardView.swift in Sources */,
+				A1000018 /* ProjectsViewModel.swift in Sources */,
+				A1000019 /* ProjectDetailViewModel.swift in Sources */,
+				A1000020 /* ProjectsListView.swift in Sources */,
+				A1000021 /* ProjectDetailView.swift in Sources */,
+				A1000022 /* AskViewModel.swift in Sources */,
+				A1000023 /* AskView.swift in Sources */,
+				A1000024 /* LeaveNoteViewModel.swift in Sources */,
+				A1000025 /* LeaveNoteView.swift in Sources */,
+				A1000026 /* InboxViewModel.swift in Sources */,
+				A1000027 /* InboxView.swift in Sources */,
+				A1000028 /* ConversationThreadView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
