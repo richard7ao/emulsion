@@ -29,23 +29,13 @@ struct LeaveNoteView: View {
                 .textFieldStyle(.plain)
                 .font(LapseTheme.bodyFont)
                 .padding(12)
-                .background(LapseTheme.surface)
-                .cornerRadius(LapseTheme.cornerRadius)
-                .overlay(
-                    RoundedRectangle(cornerRadius: LapseTheme.cornerRadius)
-                        .stroke(LapseTheme.border, lineWidth: 1)
-                )
+                .borderedCard()
 
             TextEditor(text: $viewModel.message)
                 .font(LapseTheme.bodyFont)
                 .frame(minHeight: 120)
                 .padding(8)
-                .background(LapseTheme.surface)
-                .cornerRadius(LapseTheme.cornerRadius)
-                .overlay(
-                    RoundedRectangle(cornerRadius: LapseTheme.cornerRadius)
-                        .stroke(LapseTheme.border, lineWidth: 1)
-                )
+                .borderedCard()
 
             if let error = viewModel.errorMessage {
                 Text(error)

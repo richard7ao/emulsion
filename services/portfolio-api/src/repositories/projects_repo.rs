@@ -34,14 +34,10 @@ pub async fn increment_interested_count(pool: &Pool<Sqlite>, id: i64) -> Result<
 #[cfg(test)]
 mod tests {
     use super::*;
-    use sqlx::sqlite::SqlitePoolOptions;
+    use crate::test_utils::test_pool;
 
-    async fn test_pool() -> Pool<Sqlite> {
-        let pool = SqlitePoolOptions::new()
-            .connect("sqlite::memory:")
-            .await
-            .unwrap();
-        sqlx::migrate!().run(&pool).await.unwrap();
+    async fn seeded_pool() -> Pool<Sqlite> {
+        let pool = test_pool().await;
         sqlx::query("INSERT INTO portfolios (id, name, bio, summary) VALUES (1, 'T', 'B', 'S')")
             .execute(&pool).await.unwrap();
         pool
@@ -49,7 +45,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_increment_view_count() {
-        let pool = test_pool().await;
+        let pool = seeded_pool().await;
         sqlx::query("INSERT INTO projects (id, portfolio_id, title, role, writeup, view_count, interested_count) VALUES (1, 1, 'P', 'R', 'W', 0, 0)")
             .execute(&pool).await.unwrap();
 
@@ -64,7 +60,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_increment_interested_count() {
-        let pool = test_pool().await;
+        let pool = seeded_pool().await;
         sqlx::query("INSERT INTO projects (id, portfolio_id, title, role, writeup, view_count, interested_count) VALUES (1, 1, 'P', 'R', 'W', 0, 0)")
             .execute(&pool).await.unwrap();
 

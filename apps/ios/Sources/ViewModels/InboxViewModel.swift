@@ -4,7 +4,6 @@ import Foundation
 final class InboxViewModel {
     var conversations: [Conversation] = []
     var messages: [Message] = []
-    var isTheatre = false
     var isLoading = false
     var errorMessage: String?
 
@@ -21,7 +20,6 @@ final class InboxViewModel {
         do {
             let response = try await apiClient.listConversations(portfolioId: 1)
             conversations = response.conversations
-            isTheatre = response.theatre
         } catch {
             errorMessage = error.localizedDescription
         }

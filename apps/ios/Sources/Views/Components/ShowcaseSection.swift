@@ -30,19 +30,7 @@ struct ShowcaseSection: View {
         return VStack(spacing: 8) {
             if let first = screenshots.first,
                let url = URL(string: first, relativeTo: appState.apiClient.baseURL) {
-                Color.clear
-                    .frame(width: 200, height: 140)
-                    .overlay {
-                        AsyncImage(url: url) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        } placeholder: {
-                            RoundedRectangle(cornerRadius: LapseTheme.cornerRadius)
-                                .fill(LapseTheme.border.opacity(0.3))
-                                .overlay { ProgressView() }
-                        }
-                    }
+                RemoteImage(url: url, height: 140, width: 200)
                     .clipShape(RoundedRectangle(cornerRadius: LapseTheme.cornerRadius))
             } else {
                 RoundedRectangle(cornerRadius: LapseTheme.cornerRadius)

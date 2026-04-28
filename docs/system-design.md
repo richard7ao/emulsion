@@ -16,7 +16,7 @@ The system is a two-tier client-server architecture: a native iOS app (SwiftUI) 
 
 **Backend (services/portfolio-api):** Single-binary Rust server using axum 0.7.9 with tokio async runtime. SQLite via sqlx 0.8 in WAL mode for concurrent reads. DashMap 6 provides an in-memory read cache. Static assets served via tower-http ServeDir.
 
-**iOS App (apps/ios):** SwiftUI targeting iOS 26. MVVM-lite pattern with `@Observable` ViewModels. `URLSession` for networking (no third-party dependencies). `LapseTheme` enum centralizes all visual constants. Horizontal pager (TabView with `.page` style) at root.
+**iOS App (apps/ios):** SwiftUI targeting iOS 26. MVVM-lite pattern with `@Observable` ViewModels. `URLSession` for networking (no third-party dependencies). `LapseTheme` enum centralizes all visual constants. Tab bar at root with swipeable TLDR card and inbox.
 
 **Monorepo:** Bazel 9.1.0 with Bzlmod manages both the Rust service and iOS app. `rules_rust 0.70.0` for Rust, `rules_apple 4.5.3` + `rules_swift 3.6.1` for iOS.
 
@@ -77,5 +77,5 @@ The system is a two-tier client-server architecture: a native iOS app (SwiftUI) 
 - **Single-server deployment:** No horizontal scaling. Cache is in-process, not distributed.
 - **No HTTPS:** Localhost HTTP only. iOS uses `NSAllowsLocalNetworking` ATS exception.
 - **No pagination:** All endpoints return full result sets. Would need cursor-based pagination at scale.
-- **Theatre inbox:** Conversations are read-only seeded data. Send button is disabled.
+- **Theatre inbox:** Conversations are seeded demo data. Users can send messages and ask questions via the AMA flow.
 - **Q&A fuzzy match:** Uses SQL LIKE which is case-insensitive but not fuzzy. Better alternatives: FTS5, trigram similarity, or vector embeddings.

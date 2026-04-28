@@ -8,8 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A1000001 /* PortfolioApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001 /* PortfolioApp.swift */; };
-		A1000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* ContentView.swift */; };
-		A1000003 /* LapseTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000003 /* LapseTheme.swift */; };
+A1000003 /* LapseTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000003 /* LapseTheme.swift */; };
 		A1000004 /* GrainOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000004 /* GrainOverlay.swift */; };
 		A1000005 /* PolaroidCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000005 /* PolaroidCard.swift */; };
 		A1000006 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006 /* Models.swift */; };
@@ -17,8 +16,7 @@
 		A1000008 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000008 /* APIClient.swift */; };
 		A1000009 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000009 /* AppState.swift */; };
 		A1000010 /* RootPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000030 /* RootPagerView.swift */; };
-		A1000011 /* PlaceholderPortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000031 /* PlaceholderPortfolioView.swift */; };
-		A1000012 /* PortfolioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000032 /* PortfolioViewModel.swift */; };
+A1000012 /* PortfolioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000032 /* PortfolioViewModel.swift */; };
 		A1000013 /* HeroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000033 /* HeroView.swift */; };
 		A1000014 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000034 /* SectionHeaderView.swift */; };
 		A1000015 /* PortfolioHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000035 /* PortfolioHomeView.swift */; };
@@ -38,12 +36,12 @@
 		A1000029 /* TLDRCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000049 /* TLDRCardView.swift */; };
 		A1000030 /* ShowcaseSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000050 /* ShowcaseSection.swift */; };
 		A1000031 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000051 /* MainTabView.swift */; };
+		A1000032 /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000052 /* RemoteImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A2000001 /* PortfolioApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioApp.swift; sourceTree = "<group>"; };
-		A2000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		A2000003 /* LapseTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LapseTheme.swift; sourceTree = "<group>"; };
+A2000003 /* LapseTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LapseTheme.swift; sourceTree = "<group>"; };
 		A2000004 /* GrainOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrainOverlay.swift; sourceTree = "<group>"; };
 		A2000005 /* PolaroidCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolaroidCard.swift; sourceTree = "<group>"; };
 		A2000006 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
@@ -53,8 +51,7 @@
 		A2000010 /* PortfolioApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PortfolioApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2000020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A2000030 /* RootPagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootPagerView.swift; sourceTree = "<group>"; };
-		A2000031 /* PlaceholderPortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderPortfolioView.swift; sourceTree = "<group>"; };
-		A2000032 /* PortfolioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewModel.swift; sourceTree = "<group>"; };
+A2000032 /* PortfolioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewModel.swift; sourceTree = "<group>"; };
 		A2000033 /* HeroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroView.swift; sourceTree = "<group>"; };
 		A2000034 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		A2000035 /* PortfolioHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioHomeView.swift; sourceTree = "<group>"; };
@@ -74,6 +71,7 @@
 		A2000049 /* TLDRCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLDRCardView.swift; sourceTree = "<group>"; };
 		A2000050 /* ShowcaseSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowcaseSection.swift; sourceTree = "<group>"; };
 		A2000051 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		A2000052 /* RemoteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,10 +110,8 @@
 		A4000003 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A2000002 /* ContentView.swift */,
-				A2000030 /* RootPagerView.swift */,
-				A2000031 /* PlaceholderPortfolioView.swift */,
-				A2000035 /* PortfolioHomeView.swift */,
+A2000030 /* RootPagerView.swift */,
+A2000035 /* PortfolioHomeView.swift */,
 				A2000040 /* ProjectsListView.swift */,
 				A2000041 /* ProjectDetailView.swift */,
 				A2000043 /* AskView.swift */,
@@ -137,6 +133,7 @@
 				A2000036 /* ExperienceCardView.swift */,
 				A2000037 /* SkillsCardView.swift */,
 				A2000050 /* ShowcaseSection.swift */,
+				A2000052 /* RemoteImage.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -243,8 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1000001 /* PortfolioApp.swift in Sources */,
-				A1000002 /* ContentView.swift in Sources */,
-				A1000003 /* LapseTheme.swift in Sources */,
+A1000003 /* LapseTheme.swift in Sources */,
 				A1000004 /* GrainOverlay.swift in Sources */,
 				A1000005 /* PolaroidCard.swift in Sources */,
 				A1000006 /* Models.swift in Sources */,
@@ -252,8 +248,7 @@
 				A1000008 /* APIClient.swift in Sources */,
 				A1000009 /* AppState.swift in Sources */,
 				A1000010 /* RootPagerView.swift in Sources */,
-				A1000011 /* PlaceholderPortfolioView.swift in Sources */,
-				A1000012 /* PortfolioViewModel.swift in Sources */,
+A1000012 /* PortfolioViewModel.swift in Sources */,
 				A1000013 /* HeroView.swift in Sources */,
 				A1000014 /* SectionHeaderView.swift in Sources */,
 				A1000015 /* PortfolioHomeView.swift in Sources */,
@@ -273,6 +268,7 @@
 				A1000029 /* TLDRCardView.swift in Sources */,
 				A1000030 /* ShowcaseSection.swift in Sources */,
 				A1000031 /* MainTabView.swift in Sources */,
+				A1000032 /* RemoteImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

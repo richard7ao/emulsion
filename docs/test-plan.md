@@ -7,17 +7,16 @@
 - `cargo build -p seed` — Seed binary compiles
 - `xcodebuild build` — iOS app compiles (all views, models, APIClient)
 - `bazel build //services/portfolio-api:server` — Bazel Rust target builds
-- `bazel build //apps/ios:PortfolioApp` — Bazel iOS target builds
 
 ### Tier 2 — Unit Tests
 - **Cache (3 tests):** get/set, invalidate, invalidate_prefix
-- **Portfolio repo (1 test):** find_by_id returns seeded portfolio
-- **Experience repo (1 test):** find_by_portfolio_id returns experiences
+- **Portfolio repo (4 tests):** find_by_id (found/not found), increment_view_count, increment_interested_count
+- **Experience repo (2 tests):** find_by_portfolio_id (empty/populated)
 - **Skills repo (1 test):** find_by_portfolio_id returns skills
-- **Projects repo (3 tests):** find_by_portfolio_id, increment_view_count (atomic), increment_interested_count (atomic)
-- **Q&A repo (2 tests):** find_canned_by_portfolio_id, fuzzy_match returns matching pair
-- **Notes repo (2 tests):** create and find_by_portfolio_id
-- **Conversations repo (2 tests):** find_by_portfolio_id, find_messages_by_conversation_id
+- **Projects repo (2 tests):** increment_view_count (atomic), increment_interested_count (atomic)
+- **Q&A repo (2 tests):** fuzzy_match (found/not found)
+- **Notes repo (1 test):** create and find_by_portfolio_id
+- **Conversations repo (1 test):** find_by_portfolio_id with messages
 
 All repo tests use in-memory SQLite (`sqlite::memory:`) with `sqlx::migrate!()` for isolated, repeatable test environments.
 
@@ -31,7 +30,7 @@ All repo tests use in-memory SQLite (`sqlite::memory:`) with `sqlx::migrate!()` 
 
 | Layer | Coverage | Method |
 |-------|----------|--------|
-| Rust repositories | All 7 repos, 15 tests | `cargo test` with in-memory SQLite |
+| Rust repositories | All 7 repos, 13 tests | `cargo test` with in-memory SQLite |
 | Cache | 3 tests | `cargo test` |
 | API endpoints | All 9 routes | E2E curl against live server |
 | Static serving | hero.svg + project SVGs | E2E curl HTTP status check |

@@ -38,20 +38,7 @@ struct ProjectDetailView: View {
             let screenshots = parseJSONArray(project.screenshots)
             if let first = screenshots.first,
                let url = URL(string: first, relativeTo: appState.apiClient.baseURL) {
-                Color.clear
-                    .frame(height: 220)
-                    .overlay {
-                        AsyncImage(url: url) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        } placeholder: {
-                            Rectangle()
-                                .fill(LapseTheme.border.opacity(0.3))
-                                .overlay { ProgressView() }
-                        }
-                    }
-                    .clipped()
+                RemoteImage(url: url, height: 220)
             }
 
             VStack(alignment: .leading, spacing: 16) {

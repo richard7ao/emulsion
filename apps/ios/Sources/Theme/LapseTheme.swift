@@ -20,3 +20,15 @@ enum LapseTheme {
     static let sectionSpacing: CGFloat = 24
     static let cornerRadius: CGFloat = 4
 }
+
+extension View {
+    func borderedCard() -> some View {
+        self
+            .background(LapseTheme.surface)
+            .cornerRadius(LapseTheme.cornerRadius)
+            .overlay(
+                RoundedRectangle(cornerRadius: LapseTheme.cornerRadius)
+                    .stroke(LapseTheme.border, lineWidth: 1)
+            )
+    }
+}

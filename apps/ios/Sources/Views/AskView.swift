@@ -42,12 +42,7 @@ struct AskView: View {
                     .disabled(viewModel.query.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
                 .padding(LapseTheme.cardPadding)
-                .background(LapseTheme.surface)
-                .cornerRadius(LapseTheme.cornerRadius)
-                .overlay(
-                    RoundedRectangle(cornerRadius: LapseTheme.cornerRadius)
-                        .stroke(LapseTheme.border, lineWidth: 1)
-                )
+                .borderedCard()
                 .padding(.horizontal, LapseTheme.cardPadding)
 
                 if viewModel.isLoading {
@@ -108,11 +103,6 @@ struct AskView: View {
                     .padding(LapseTheme.cardPadding)
             }
         }
-        .background(LapseTheme.surface)
-        .cornerRadius(LapseTheme.cornerRadius)
-        .overlay(
-            RoundedRectangle(cornerRadius: LapseTheme.cornerRadius)
-                .stroke(LapseTheme.border, lineWidth: 1)
-        )
+        .borderedCard()
     }
 }

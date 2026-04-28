@@ -2,7 +2,6 @@ import SwiftUI
 
 @MainActor @Observable
 final class AppState {
-    var currentPortfolioIndex: Int = 0
     var selectedTab: Int = 0
     var interestedProjectIds: Set<Int> = []
     var portfolioInterested: Bool = false

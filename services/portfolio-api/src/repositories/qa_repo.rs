@@ -22,14 +22,10 @@ pub async fn fuzzy_match(pool: &Pool<Sqlite>, portfolio_id: i64, query: &str) ->
 #[cfg(test)]
 mod tests {
     use super::*;
-    use sqlx::sqlite::SqlitePoolOptions;
+    use crate::test_utils::test_pool;
 
-    async fn test_pool() -> Pool<Sqlite> {
-        let pool = SqlitePoolOptions::new()
-            .connect("sqlite::memory:")
-            .await
-            .unwrap();
-        sqlx::migrate!().run(&pool).await.unwrap();
+    async fn seeded_pool() -> Pool<Sqlite> {
+        let pool = test_pool().await;
         sqlx::query("INSERT INTO portfolios (id, name, bio, summary) VALUES (1, 'T', 'B', 'S')")
             .execute(&pool).await.unwrap();
         sqlx::query("INSERT INTO qa_pairs (portfolio_id, prompt, answer, is_canned) VALUES (1, 'What are you working on?', 'Building at Serac', 1)")
@@ -39,7 +35,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_fuzzy_match_found() {
-        let pool = test_pool().await;
+        let pool = seeded_pool().await;
         let result = fuzzy_match(&pool, 1, "working").await.unwrap();
         assert!(result.is_some());
         assert_eq!(result.unwrap().prompt, "What are you working on?");
@@ -47,7 +43,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_fuzzy_match_not_found() {
-        let pool = test_pool().await;
+        let pool = seeded_pool().await;
         let result = fuzzy_match(&pool, 1, "xyzzy_no_match").await.unwrap();
         assert!(result.is_none());
     }

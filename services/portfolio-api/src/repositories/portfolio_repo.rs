@@ -27,16 +27,7 @@ pub async fn increment_interested_count(pool: &Pool<Sqlite>, id: i64) -> Result<
 #[cfg(test)]
 mod tests {
     use super::*;
-    use sqlx::sqlite::SqlitePoolOptions;
-
-    async fn test_pool() -> Pool<Sqlite> {
-        let pool = SqlitePoolOptions::new()
-            .connect("sqlite::memory:")
-            .await
-            .unwrap();
-        sqlx::migrate!().run(&pool).await.unwrap();
-        pool
-    }
+    use crate::test_utils::test_pool;
 
     #[tokio::test]
     async fn test_increment_view_count() {

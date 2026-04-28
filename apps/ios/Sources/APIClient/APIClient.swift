@@ -18,11 +18,11 @@ final class APIClient: Sendable {
     }
 
     func postPortfolioView(id: Int) async throws -> InterestedResponse {
-        try await post("/v1/portfolios/\(id)/view", body: Optional<String>.none)
+        try await postEmpty("/v1/portfolios/\(id)/view")
     }
 
     func postPortfolioInterested(id: Int) async throws -> InterestedResponse {
-        try await post("/v1/portfolios/\(id)/interested", body: Optional<String>.none)
+        try await postEmpty("/v1/portfolios/\(id)/interested")
     }
 
     func listProjects(portfolioId: Int) async throws -> [Project] {
@@ -34,7 +34,7 @@ final class APIClient: Sendable {
     }
 
     func postInterested(projectId: Int) async throws -> InterestedResponse {
-        try await post("/v1/projects/\(projectId)/interested", body: Optional<String>.none)
+        try await postEmpty("/v1/projects/\(projectId)/interested")
     }
 
     func listQA(portfolioId: Int) async throws -> [QAPair] {
@@ -77,6 +77,10 @@ final class APIClient: Sendable {
         let (data, response) = try await session.data(from: url)
         try validateResponse(response)
         return try decode(data)
+    }
+
+    private func postEmpty<T: Decodable>(_ path: String) async throws -> T {
+        try await post(path, body: Optional<String>.none)
     }
 
     private func post<T: Decodable, B: Encodable>(_ path: String, body: B?) async throws -> T {

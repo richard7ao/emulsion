@@ -24,11 +24,10 @@ pub async fn find_by_portfolio_id(pool: &Pool<Sqlite>, portfolio_id: i64) -> Res
 #[cfg(test)]
 mod tests {
     use super::*;
-    use sqlx::sqlite::SqlitePoolOptions;
+    use crate::test_utils::test_pool;
 
-    async fn test_pool() -> Pool<Sqlite> {
-        let pool = SqlitePoolOptions::new().connect("sqlite::memory:").await.unwrap();
-        sqlx::migrate!().run(&pool).await.unwrap();
+    async fn seeded_pool() -> Pool<Sqlite> {
+        let pool = test_pool().await;
         sqlx::query("INSERT INTO portfolios (id, name, bio, summary) VALUES (1, 'T', 'B', 'S')")
             .execute(&pool).await.unwrap();
         pool
@@ -36,7 +35,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_create_and_list() {
-        let pool = test_pool().await;
+        let pool = seeded_pool().await;
         let note = CreateNote { name: "Alice".into(), email: "a@b.com".into(), message: "Hello".into() };
         create(&pool, 1, &note).await.unwrap();
         let notes = find_by_portfolio_id(&pool, 1).await.unwrap();

@@ -5,12 +5,8 @@ SwiftUI portfolio app targeting iOS 26. MVVM architecture with @Observable ViewM
 ## Build
 
 ```bash
-# Xcode (development)
 xcodebuild -project PortfolioApp.xcodeproj -scheme PortfolioApp \
-  -destination 'platform=iOS Simulator,name=iPhone 16' build
-
-# Bazel
-bazel build //apps/ios:app
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build
 ```
 
 ## Run

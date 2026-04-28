@@ -11,16 +11,7 @@ pub async fn find_by_portfolio_id(pool: &Pool<Sqlite>, portfolio_id: i64) -> Res
 #[cfg(test)]
 mod tests {
     use super::*;
-    use sqlx::sqlite::SqlitePoolOptions;
-
-    async fn test_pool() -> Pool<Sqlite> {
-        let pool = SqlitePoolOptions::new()
-            .connect("sqlite::memory:")
-            .await
-            .unwrap();
-        sqlx::migrate!().run(&pool).await.unwrap();
-        pool
-    }
+    use crate::test_utils::test_pool;
 
     #[tokio::test]
     async fn test_find_by_portfolio_id() {

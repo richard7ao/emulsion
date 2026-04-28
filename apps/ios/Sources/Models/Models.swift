@@ -140,6 +140,14 @@ struct SendMessageResponse: Codable {
     let id: Int
 }
 
+func parseJSONArray(_ jsonString: String) -> [String] {
+    guard let data = jsonString.data(using: .utf8),
+          let array = try? JSONDecoder().decode([String].self, from: data) else {
+        return jsonString.isEmpty ? [] : [jsonString]
+    }
+    return array
+}
+
 struct AMAResponse: Codable {
     let conversationId: Int
     let messageId: Int

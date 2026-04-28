@@ -76,11 +76,10 @@ pub async fn find_messages_by_conversation_id(pool: &Pool<Sqlite>, conversation_
 #[cfg(test)]
 mod tests {
     use super::*;
-    use sqlx::sqlite::SqlitePoolOptions;
+    use crate::test_utils::test_pool;
 
-    async fn test_pool() -> Pool<Sqlite> {
-        let pool = SqlitePoolOptions::new().connect("sqlite::memory:").await.unwrap();
-        sqlx::migrate!().run(&pool).await.unwrap();
+    async fn seeded_pool() -> Pool<Sqlite> {
+        let pool = test_pool().await;
         sqlx::query("INSERT INTO portfolios (id, name, bio, summary) VALUES (1, 'T', 'B', 'S')")
             .execute(&pool).await.unwrap();
         sqlx::query("INSERT INTO conversations (id, portfolio_id, participant_name, last_message) VALUES (1, 1, 'Alex', 'Lets chat')")
@@ -92,7 +91,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_conversations_and_messages() {
-        let pool = test_pool().await;
+        let pool = seeded_pool().await;
         let convos = find_by_portfolio_id(&pool, 1).await.unwrap();
         assert_eq!(convos.len(), 1);
         let msgs = find_messages_by_conversation_id(&pool, 1).await.unwrap();

@@ -28,10 +28,6 @@ impl AppCache {
     pub fn invalidate_prefix(&self, prefix: &str) {
         self.store.retain(|k, _| !k.starts_with(prefix));
     }
-
-    pub fn invalidate_all(&self) {
-        self.store.clear();
-    }
 }
 
 #[cfg(test)]

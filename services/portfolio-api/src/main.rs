@@ -5,6 +5,8 @@ mod handlers;
 mod models;
 mod repositories;
 mod routes;
+#[cfg(test)]
+mod test_utils;
 
 use crate::app_state::AppState;
 use crate::cache::AppCache;

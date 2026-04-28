@@ -36,10 +36,6 @@ struct ProjectsListView: View {
             await viewModel.load()
         }
     }
-
-    private var apiClient: APIClient {
-        viewModel.apiClient
-    }
 }
 
 private struct ProjectCardView: View {
@@ -55,20 +51,7 @@ private struct ProjectCardView: View {
         VStack(alignment: .leading, spacing: 0) {
             if let first = screenshots.first,
                let url = URL(string: first, relativeTo: baseURL) {
-                Color.clear
-                    .frame(height: 140)
-                    .overlay {
-                        AsyncImage(url: url) { image in
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                        } placeholder: {
-                            Rectangle()
-                                .fill(LapseTheme.border.opacity(0.3))
-                                .overlay { ProgressView() }
-                        }
-                    }
-                    .clipped()
+                RemoteImage(url: url, height: 140)
             }
 
             VStack(alignment: .leading, spacing: 6) {

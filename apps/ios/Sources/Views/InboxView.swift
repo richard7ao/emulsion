@@ -12,7 +12,7 @@ struct InboxView: View {
     }
 
     private var regularConversations: [Conversation] {
-        viewModel.conversations.filter { $0.participantName != "Ask Me Anything" }
+        viewModel.conversations.filter { $0.participantName != amaParticipantName }
     }
 
     var body: some View {
