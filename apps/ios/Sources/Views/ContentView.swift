@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(AppState.self) private var appState
+
     var body: some View {
-        Text("Hello Lapse")
-            .font(.largeTitle)
+        NavigationStack {
+            PortfolioHomeView(apiClient: appState.apiClient)
+        }
     }
 }
