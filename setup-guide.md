@@ -21,7 +21,7 @@
 ## 2. Xcode
 
 Install from the Mac App Store or [developer.apple.com/downloads](https://developer.apple.com/downloads).
-Required version: **Xcode 15.x or later** (iOS 17 SDK required by the app target).
+Required version: **Xcode 16.x or later** (iOS 26 SDK required by the app target).
 
 After installation:
 
@@ -34,7 +34,7 @@ xcode-select --install
 
 # Verify
 xcodebuild -version
-# Expected: Xcode 15.x or 16.x
+# Expected: Xcode 16.x or 26.x
 ```
 
 **Create the iPhone 16 simulator** (required by all iOS verify commands):
@@ -72,7 +72,7 @@ rustup default stable
 # Verify
 rustc --version
 cargo --version
-# Expected: rustc 1.77+ / cargo 1.77+
+# Expected: rustc 1.95+ / cargo 1.95+
 ```
 
 Install sqlx CLI (needed for migrations and offline query preparation):
@@ -80,7 +80,7 @@ Install sqlx CLI (needed for migrations and offline query preparation):
 ```bash
 cargo install sqlx-cli --no-default-features --features sqlite
 sqlx --version
-# Expected: sqlx-cli 0.7+
+# Expected: sqlx-cli 0.8+
 ```
 
 ---
@@ -95,7 +95,7 @@ brew install bazelisk
 
 # Bazelisk is invoked as 'bazel' — it reads .bazelversion and downloads the right version
 bazel version
-# Expected: Bazel 7.x (or whatever .bazelversion pins)
+# Expected: Bazel 9.1.0 (or whatever .bazelversion pins)
 ```
 
 If Homebrew is not installed:
@@ -136,7 +136,7 @@ The seed binary reads real CV content from `tools/seed/data/cv_template.json`.
 A new session cannot seed meaningful data without it.
 
 ```bash
-# Open the template and replace all FILL_IN values with real content
+# Open the template and replace all placeholder values with real content
 # See prd.md §6 for the data model and §4 for expected content scope
 open tools/seed/data/cv_template.json
 ```
