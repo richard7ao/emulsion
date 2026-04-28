@@ -1,22 +1,28 @@
+mod app_state;
 mod cache;
 mod db;
+mod handlers;
 mod models;
 mod repositories;
+mod routes;
 
-use axum::{routing::get, Json, Router};
-use serde_json::{json, Value};
+use crate::app_state::AppState;
+use crate::cache::AppCache;
 use tokio::net::TcpListener;
-
-async fn health() -> Json<Value> {
-    Json(json!({"status": "ok"}))
-}
+use tracing_subscriber::EnvFilter;
 
 #[tokio::main]
 async fn main() {
-    let _pool = db::init_pool().await;
+    tracing_subscriber::fmt()
+        .with_env_filter(EnvFilter::try_from_default_env().unwrap_or_else(|_| "info".into()))
+        .init();
 
-    let app = Router::new().route("/health", get(health));
+    let pool = db::init_pool().await;
+    let cache = AppCache::new();
+    let state = AppState { pool, cache };
+
+    let app = routes::create_router(state);
     let listener = TcpListener::bind("0.0.0.0:8080").await.unwrap();
-    println!("listening on http://0.0.0.0:8080");
+    tracing::info!("listening on http://0.0.0.0:8080");
     axum::serve(listener, app).await.unwrap();
 }
