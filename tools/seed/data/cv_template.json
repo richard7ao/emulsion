@@ -1,0 +1,169 @@
+{
+  "_readme": "WHAT THIS IS: Seed data for the portfolio database. Fill in real values before running T4.1. HOW TO USE: The tools/seed binary reads this file and inserts into SQLite. Run from repo root: `cargo run --manifest-path tools/seed/Cargo.toml`. All fields marked FILL_IN must be replaced with real content — the seed binary will fail if it finds that string.",
+
+  "portfolio": {
+    "id": 1,
+    "name": "Richard Lao",
+    "bio": "FILL_IN: 2-3 sentence bio from CV. e.g. Software engineer focused on systems, distributed infra, and product. Founder of Serac Tech.",
+    "summary": "FILL_IN: One-liner used in the hero section. e.g. 'Building systems that scale — and products people use.'",
+    "photo_path": "/static/richard.jpg"
+  },
+
+  "experiences": [
+    {
+      "company": "Serac Tech",
+      "role": "FILL_IN: e.g. Founder & Lead Engineer",
+      "dates": "FILL_IN: e.g. 2023 – Present",
+      "bullets": [
+        "FILL_IN: key achievement 1",
+        "FILL_IN: key achievement 2",
+        "FILL_IN: key achievement 3"
+      ]
+    },
+    {
+      "company": "FILL_IN: previous company",
+      "role": "FILL_IN: role title",
+      "dates": "FILL_IN: date range",
+      "bullets": [
+        "FILL_IN: key achievement 1",
+        "FILL_IN: key achievement 2"
+      ]
+    },
+    {
+      "company": "FILL_IN: earlier company or university project",
+      "role": "FILL_IN: role or project title",
+      "dates": "FILL_IN: date range",
+      "bullets": [
+        "FILL_IN: key achievement 1"
+      ]
+    }
+  ],
+
+  "projects": [
+    {
+      "title": "PharmaBridge",
+      "role": "FILL_IN: e.g. Lead Engineer",
+      "writeup": "FILL_IN: 2-4 sentence project description. What problem it solved, what tech, what outcome.",
+      "screenshots": [],
+      "view_count": 0,
+      "interested_count": 0
+    },
+    {
+      "title": "MARL Dissertation",
+      "role": "FILL_IN: e.g. Researcher / Author",
+      "writeup": "FILL_IN: 2-4 sentence description of the multi-agent reinforcement learning dissertation. Topic, approach, findings.",
+      "screenshots": [],
+      "view_count": 0,
+      "interested_count": 0
+    }
+  ],
+
+  "skills": [
+    {
+      "category": "Languages",
+      "items": ["FILL_IN: e.g. Rust", "Swift", "Python", "Go", "TypeScript"]
+    },
+    {
+      "category": "Backend",
+      "items": ["FILL_IN: e.g. axum", "tokio", "sqlx", "PostgreSQL", "SQLite"]
+    },
+    {
+      "category": "iOS",
+      "items": ["SwiftUI", "Combine", "URLSession", "FILL_IN: any other iOS skills"]
+    },
+    {
+      "category": "Infrastructure",
+      "items": ["FILL_IN: e.g. AWS", "Bazel", "Docker", "Terraform"]
+    },
+    {
+      "category": "ML / Research",
+      "items": ["FILL_IN: e.g. PyTorch", "MARL", "reinforcement learning"]
+    }
+  ],
+
+  "qa_pairs": [
+    {
+      "prompt": "What are you working on right now?",
+      "answer": "FILL_IN: current focus, e.g. building Serac Tech's core infra and this portfolio app.",
+      "is_canned": true
+    },
+    {
+      "prompt": "What's your strongest technical area?",
+      "answer": "FILL_IN: e.g. Systems programming and distributed infra — I'm most at home in Rust or Go, designing for reliability.",
+      "is_canned": true
+    },
+    {
+      "prompt": "Tell me about PharmaBridge.",
+      "answer": "FILL_IN: 2-3 sentence answer about the project. What it is, what you built, what impact it had.",
+      "is_canned": true
+    },
+    {
+      "prompt": "What's your approach to software architecture?",
+      "answer": "FILL_IN: your genuine view on architecture, e.g. start boring, add complexity only when forced by scale.",
+      "is_canned": true
+    },
+    {
+      "prompt": "Why Lapse?",
+      "answer": "FILL_IN: genuine answer about what excites you about Lapse specifically.",
+      "is_canned": true
+    },
+    {
+      "prompt": "What would you build differently if you had more time?",
+      "answer": "FILL_IN: honest answer — shows self-awareness. e.g. I'd add real auth, write more integration tests, flesh out the Android extension point.",
+      "is_canned": true
+    }
+  ],
+
+  "conversations": [
+    {
+      "participant_name": "FILL_IN: fictional recruiter name, e.g. Alex",
+      "last_message": "FILL_IN: last message preview, e.g. 'Sounds great, let's set up a call.'",
+      "messages": [
+        {
+          "sender": "FILL_IN: Alex",
+          "body": "FILL_IN: opening message, e.g. 'Hi Richard, I came across your work on PharmaBridge — really impressive. Would love to connect.'"
+        },
+        {
+          "sender": "Richard",
+          "body": "FILL_IN: Richard's reply, e.g. 'Thanks Alex! Happy to chat — what team are you hiring for?'"
+        },
+        {
+          "sender": "FILL_IN: Alex",
+          "body": "FILL_IN: follow-up, e.g. 'Sounds great, let's set up a call.'"
+        }
+      ]
+    },
+    {
+      "participant_name": "FILL_IN: e.g. Sam (engineering manager)",
+      "last_message": "FILL_IN: e.g. 'We'd love to have you join the platform team.'",
+      "messages": [
+        {
+          "sender": "FILL_IN: Sam",
+          "body": "FILL_IN: opening message"
+        },
+        {
+          "sender": "Richard",
+          "body": "FILL_IN: reply"
+        },
+        {
+          "sender": "FILL_IN: Sam",
+          "body": "FILL_IN: e.g. 'We'd love to have you join the platform team.'"
+        }
+      ]
+    },
+    {
+      "participant_name": "FILL_IN: e.g. Jordan (CTO)",
+      "last_message": "FILL_IN: e.g. 'The MARL work is exactly the kind of applied research we value.'",
+      "messages": [
+        {
+          "sender": "FILL_IN: Jordan",
+          "body": "FILL_IN: opening message"
+        },
+        {
+          "sender": "Richard",
+          "body": "FILL_IN: reply"
+        }
+      ]
+    }
+  ]
+}
