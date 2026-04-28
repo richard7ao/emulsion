@@ -2,5 +2,6 @@
 members = [
     "services/portfolio-api",
     "tools/seed",
+    "shared/emulsion-types",
 ]
 resolver = "2"

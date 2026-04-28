@@ -38,4 +38,7 @@ target/
 # Agent / tooling artifacts
 .claude/
 .playwright-mcp/
-tasks/
+
+# UniFFI generated outputs
+shared/emulsion-types/EmulsionTypes.xcframework/
+shared/emulsion-types/generated/
