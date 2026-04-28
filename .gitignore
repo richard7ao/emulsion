@@ -1,0 +1,36 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode / Swift
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+DerivedData/
+*.xcuserstate
+*.moved-to-trash/
+.build/
+
+# Bazel
+bazel-*
+.bazelrc.user
+
+# Rust
+target/
+*.pdb
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
+
+# Secrets / env
+.env
+.env.local
+.env.*.local
+
+# Editor
+.vscode/
+*.swp
+*.swo
+*~

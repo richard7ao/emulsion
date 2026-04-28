@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "services/portfolio-api",
+    "tools/seed",
+]
+resolver = "2"
