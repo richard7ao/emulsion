@@ -399,7 +399,7 @@ text = open('/Users/richardlao/.claude/CLAUDE.md').read()
 blocks = re.findall(r'```json\n(.*?)\n```', text, re.DOTALL)
 print(f"Found {len(blocks)} JSON blocks")
 for i, b in enumerate(blocks, 1):
-    cleaned = re.sub(r'<[^>]+>', '"placeholder"', b)
+    cleaned = re.sub(r'<[^>]+>', 'placeholder', b)
     cleaned = cleaned.replace('"pending | in_progress | complete"', '"pending"')
     cleaned = cleaned.replace('"verification_failure | context_exhaustion"', '"verification_failure"')
     try:
