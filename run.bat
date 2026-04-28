@@ -6,6 +6,9 @@ REM Note: The iOS app requires macOS + Xcode. This script runs the API server on
 REM
 setlocal enabledelayedexpansion
 
+REM Source Rust environment if not already on PATH
+if exist "%USERPROFILE%\.cargo\env.ps1" set "PATH=%USERPROFILE%\.cargo\bin;%PATH%"
+
 set "ROOT=%~dp0"
 set "DB_PATH=%ROOT%services\portfolio-api\dev.db"
 set "DATABASE_URL=sqlite:%DB_PATH%"
@@ -34,15 +37,6 @@ REM --- Database ---
 echo  [2/4] Setting up database...
 
 if not exist "%DB_PATH%" (
-    pushd "%ROOT%services\portfolio-api"
-    cargo sqlx database create 2>nul
-    cargo sqlx migrate run
-    if errorlevel 1 (
-        echo   X  Migration failed
-        popd
-        exit /b 1
-    )
-    popd
     cargo run -p seed
     if errorlevel 1 (
         echo   X  Seeding failed

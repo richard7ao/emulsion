@@ -2,6 +2,7 @@ use anyhow::Result;
 use serde::Deserialize;
 use sqlx::sqlite::SqlitePoolOptions;
 use sqlx::{Pool, Sqlite};
+use std::str::FromStr;
 
 #[derive(Deserialize)]
 struct CvData {
@@ -147,8 +148,13 @@ async fn main() -> Result<()> {
     let database_url = std::env::var("DATABASE_URL")
         .unwrap_or_else(|_| "sqlite:./dev.db".to_string());
 
+    let opts = sqlx::sqlite::SqliteConnectOptions::from_str(&database_url)?
+        .create_if_missing(true);
     let pool = SqlitePoolOptions::new()
-        .connect(&database_url)
+        .connect_with(opts)
+        .await?;
+    sqlx::migrate!("../../services/portfolio-api/migrations")
+        .run(&pool)
         .await?;
 
     let cv_json = include_str!("../data/cv.json");

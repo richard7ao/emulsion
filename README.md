@@ -75,11 +75,7 @@ Builds and runs the Rust API server. The iOS app requires macOS + Xcode.
 ### Manual
 
 ```bash
-# 1. Set up the database
-cd services/portfolio-api
-cargo sqlx database create
-cargo sqlx migrate run
-cd ../..
+# 1. Seed the database (creates DB + runs migrations automatically)
 cargo run -p seed
 
 # 2. Start the API

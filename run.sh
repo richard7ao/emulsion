@@ -5,6 +5,9 @@
 #
 set -e
 
+# Source Rust environment if not already on PATH
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 DB_PATH="$ROOT/services/portfolio-api/dev.db"
 export DATABASE_URL="sqlite:$DB_PATH"
@@ -31,10 +34,6 @@ ok "Xcode $(xcodebuild -version 2>/dev/null | head -1 | awk '{print $2}')"
 # --- Database ---
 step "Setting up database"
 if [ ! -f "$DB_PATH" ]; then
-    cd "$ROOT/services/portfolio-api"
-    cargo sqlx database create 2>/dev/null || true
-    cargo sqlx migrate run
-    cd "$ROOT"
     cargo run -p seed
     ok "Database created and seeded"
 else
