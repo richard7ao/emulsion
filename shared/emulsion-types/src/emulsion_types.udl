@@ -17,14 +17,14 @@ dictionary Experience {
     string company;
     string role;
     string dates;
-    sequence<string> bullets;
+    string bullets;
 };
 
 dictionary Skill {
     i64 id;
     i64 portfolio_id;
     string category;
-    sequence<string> items;
+    string items;
 };
 
 dictionary Project {
@@ -33,7 +33,7 @@ dictionary Project {
     string title;
     string role;
     string writeup;
-    sequence<string> screenshots;
+    string screenshots;
     i64 view_count;
     i64 interested_count;
 };

@@ -21,7 +21,9 @@ pub struct Experience {
     pub company: String,
     pub role: String,
     pub dates: String,
-    pub bullets: Vec<String>,
+    /// JSON-encoded Vec<String>. Stored this way to keep the schema flat;
+    /// callers parse on render. A future migration would normalize this.
+    pub bullets: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -29,7 +31,8 @@ pub struct Skill {
     pub id: i64,
     pub portfolio_id: i64,
     pub category: String,
-    pub items: Vec<String>,
+    /// JSON-encoded Vec<String>. See Experience.bullets.
+    pub items: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -39,7 +42,8 @@ pub struct Project {
     pub title: String,
     pub role: String,
     pub writeup: String,
-    pub screenshots: Vec<String>,
+    /// JSON-encoded Vec<String>. See Experience.bullets.
+    pub screenshots: String,
     pub view_count: i64,
     pub interested_count: i64,
 }
@@ -96,6 +100,8 @@ pub struct AskMatch {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AskResponse {
+    /// Wire format key is "match" (a Rust keyword), so the field is renamed.
+    #[serde(rename = "match")]
     pub match_result: Option<AskMatch>,
     pub fallback: Option<String>,
 }
@@ -156,6 +162,21 @@ mod tests {
     }
 
     #[test]
+    fn ask_response_match_serializes_as_match_keyword() {
+        let resp = AskResponse {
+            match_result: Some(AskMatch {
+                prompt: "p".into(),
+                answer: "a".into(),
+            }),
+            fallback: None,
+        };
+        let json = serde_json::to_string(&resp).unwrap();
+        // Wire format must be "match", not "match_result", for iOS compat.
+        assert!(json.contains("\"match\":"), "expected \"match\" key, got: {}", json);
+        assert!(!json.contains("match_result"), "leaked match_result key: {}", json);
+    }
+
+    #[test]
     fn ask_response_with_none_match() {
         let resp = AskResponse {
             match_result: None,
@@ -163,5 +184,6 @@ mod tests {
         };
         let json = serde_json::to_string(&resp).unwrap();
         assert!(json.contains("\"fallback\":\"leave_a_note\""));
+        assert!(json.contains("\"match\":null"));
     }
 }
