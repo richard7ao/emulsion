@@ -12,6 +12,9 @@
 		A1000003 /* LapseTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000003 /* LapseTheme.swift */; };
 		A1000004 /* GrainOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000004 /* GrainOverlay.swift */; };
 		A1000005 /* PolaroidCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000005 /* PolaroidCard.swift */; };
+		A1000006 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006 /* Models.swift */; };
+		A1000007 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007 /* APIError.swift */; };
+		A1000008 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000008 /* APIClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +23,9 @@
 		A2000003 /* LapseTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LapseTheme.swift; sourceTree = "<group>"; };
 		A2000004 /* GrainOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrainOverlay.swift; sourceTree = "<group>"; };
 		A2000005 /* PolaroidCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolaroidCard.swift; sourceTree = "<group>"; };
+		A2000006 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		A2000007 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		A2000008 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		A2000010 /* PortfolioApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PortfolioApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2000020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -48,6 +54,8 @@
 			isa = PBXGroup;
 			children = (
 				A2000001 /* PortfolioApp.swift */,
+				A4000006 /* APIClient */,
+				A4000005 /* Models */,
 				A4000004 /* Theme */,
 				A4000003 /* Views */,
 			);
@@ -70,6 +78,23 @@
 				A2000005 /* PolaroidCard.swift */,
 			);
 			path = Theme;
+			sourceTree = "<group>";
+		};
+		A4000005 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A2000006 /* Models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A4000006 /* APIClient */ = {
+			isa = PBXGroup;
+			children = (
+				A2000008 /* APIClient.swift */,
+				A2000007 /* APIError.swift */,
+			);
+			path = APIClient;
 			sourceTree = "<group>";
 		};
 		A4000010 /* Products */ = {
@@ -137,6 +162,9 @@
 				A1000003 /* LapseTheme.swift in Sources */,
 				A1000004 /* GrainOverlay.swift in Sources */,
 				A1000005 /* PolaroidCard.swift in Sources */,
+				A1000006 /* Models.swift in Sources */,
+				A1000007 /* APIError.swift in Sources */,
+				A1000008 /* APIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
