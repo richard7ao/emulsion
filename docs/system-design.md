@@ -2,7 +2,7 @@
 
 ## Architecture Overview
 
-The system is a two-tier client-server architecture: a native iOS app (SwiftUI) communicating with a Rust backend (axum) over HTTP/JSON.
+The system is a two-tier client-server architecture: a native iOS app (SwiftUI) communicating with a Rust backend (axum) over HTTP/JSON. A shared Rust crate (`emulsion-types`) defines all domain types once, with UniFFI generating Swift bindings for type-safe cross-language sharing.
 
 ```
 ┌──────────────────────┐       HTTP/JSON       ┌──────────────────────┐
@@ -12,6 +12,12 @@ The system is a two-tier client-server architecture: a native iOS app (SwiftUI) 
 │  URLSession async    │                       │  DashMap cache       │
 │  LapseTheme system   │                       │  ServeDir for /static│
 └──────────────────────┘                       └──────────────────────┘
+         ▲                                              ▲
+         │              ┌──────────────────┐            │
+         └──────────────│  Shared Types    │────────────┘
+            UniFFI      │  emulsion-types  │   Cargo dep
+            bindings    │  (Rust + UDL)    │
+                        └──────────────────┘
 ```
 
 **Backend (services/portfolio-api):** Single-binary Rust server using axum 0.7.9 with tokio async runtime. SQLite via sqlx 0.8 in WAL mode for concurrent reads. DashMap 6 provides an in-memory read cache. Static assets served via tower-http ServeDir.
@@ -19,6 +25,20 @@ The system is a two-tier client-server architecture: a native iOS app (SwiftUI) 
 **iOS App (apps/ios):** SwiftUI targeting iOS 26. MVVM-lite pattern with `@Observable` ViewModels. `URLSession` for networking (no third-party dependencies). `LapseTheme` enum centralizes all visual constants. Tab bar at root with swipeable TLDR card and inbox.
 
 **Monorepo:** Bazel 9.1.0 with Bzlmod manages both the Rust service and iOS app. `rules_rust 0.70.0` for Rust, `rules_apple 4.5.3` + `rules_swift 3.6.1` for iOS.
+
+## Shared Platform Layer
+
+`shared/emulsion-types` is a Rust crate that defines all domain types once:
+
+- **8 domain structs:** Portfolio, Experience, Skill, Project, QAPair, Note, Conversation, Message
+- **5 response DTOs:** PortfolioResponse, AskMatch, AskResponse, ConversationsResponse, MessagesResponse
+- **UDL schema** (`emulsion_types.udl`): UniFFI interface definition for cross-language binding generation
+- **Generated Swift bindings** (`generated/emulsion_types.swift`): Type-safe Swift structs generated from the Rust definitions
+- **xcframework generation** (`generate-bindings.sh`): Builds for aarch64-apple-ios-sim, produces .xcframework
+
+The backend depends on `emulsion-types` via Cargo path dependency. The iOS app currently uses its own Codable models matching the same JSON contract; see "Direct FFI calls" in Considered But Not Built for the migration path.
+
+A type change in Rust regenerates Swift bindings automatically — the iOS Codable models still need manual sync until the app migrates to the generated bindings.
 
 ## Data Flow
 
@@ -70,7 +90,7 @@ The system is a two-tier client-server architecture: a native iOS app (SwiftUI) 
 | Image upload for projects | Placeholder SVGs demonstrate the static serving pattern. Real image handling would need S3/CDN, resize pipeline, content moderation. |
 | Authentication beyond X-Owner-Token | Notes listing uses a header token as a placeholder. Real auth (JWT, OAuth) is out of scope for a demo portfolio. |
 | Server-side pagination | Dataset is small (2 projects, 6 Q&As, 3 conversations). Pagination adds complexity without value at this scale. |
-| Shared Rust layer (UniFFI) | Phase 8 stretch goal. Would allow iOS to share types with the backend. Not implemented due to time constraints. |
+| Direct FFI calls (replacing HTTP) | UniFFI shared types are built (Phase 8), but the iOS app still communicates over HTTP/JSON. Migrating to direct FFI calls would eliminate the network layer for on-device use. |
 
 ## Known Limitations
 

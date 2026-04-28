@@ -1,3 +1,4 @@
+// Canonical type: emulsion_types::Portfolio (shared/emulsion-types/src/lib.rs)
 use serde::Serialize;
 use sqlx::FromRow;
 

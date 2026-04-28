@@ -1,0 +1,98 @@
+namespace emulsion_types {};
+
+dictionary Portfolio {
+    i64 id;
+    string name;
+    string bio;
+    string? photo_path;
+    string summary;
+    string created_at;
+    i64 view_count;
+    i64 interested_count;
+};
+
+dictionary Experience {
+    i64 id;
+    i64 portfolio_id;
+    string company;
+    string role;
+    string dates;
+    sequence<string> bullets;
+};
+
+dictionary Skill {
+    i64 id;
+    i64 portfolio_id;
+    string category;
+    sequence<string> items;
+};
+
+dictionary Project {
+    i64 id;
+    i64 portfolio_id;
+    string title;
+    string role;
+    string writeup;
+    sequence<string> screenshots;
+    i64 view_count;
+    i64 interested_count;
+};
+
+dictionary QAPair {
+    i64 id;
+    i64 portfolio_id;
+    string prompt;
+    string answer;
+    boolean is_canned;
+};
+
+dictionary Note {
+    i64 id;
+    i64 portfolio_id;
+    string name;
+    string email;
+    string message;
+    string created_at;
+};
+
+dictionary Conversation {
+    i64 id;
+    i64 portfolio_id;
+    string participant_name;
+    string last_message;
+    string updated_at;
+};
+
+dictionary Message {
+    i64 id;
+    i64 conversation_id;
+    string sender;
+    string body;
+    string created_at;
+};
+
+dictionary PortfolioResponse {
+    Portfolio portfolio;
+    sequence<Experience> experiences;
+    sequence<Skill> skills;
+};
+
+dictionary AskMatch {
+    string prompt;
+    string answer;
+};
+
+dictionary AskResponse {
+    AskMatch? match_result;
+    string? fallback;
+};
+
+dictionary ConversationsResponse {
+    sequence<Conversation> conversations;
+    boolean theatre;
+};
+
+dictionary MessagesResponse {
+    sequence<Message> messages;
+    boolean theatre;
+};

@@ -3,6 +3,7 @@ load("@rules_rust//rust:defs.bzl", "rust_binary")
 rust_binary(
     name = "server",
     srcs = glob(["src/**/*.rs"]),
+    compile_data = glob(["migrations/**"]),
     deps = [
         "@crates//:axum",
         "@crates//:tokio",

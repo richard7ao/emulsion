@@ -1,0 +1,25 @@
+[package]
+name = "emulsion-types"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["lib", "staticlib"]
+name = "emulsion_types"
+
+[dependencies]
+uniffi = "0.28"
+serde = { version = "1", features = ["derive"] }
+
+[build-dependencies]
+uniffi = { version = "0.28", features = ["build"] }
+
+[dev-dependencies]
+serde_json = "1"
+
+[features]
+bindgen = ["uniffi/cli"]
+
+[[bin]]
+name = "uniffi_bindgen"
+required-features = ["bindgen"]

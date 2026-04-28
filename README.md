@@ -35,7 +35,8 @@ A native iOS portfolio app with a polaroid/film aesthetic, backed by a Rust API 
 |---|---|
 | **iOS** | SwiftUI · iOS 26 · MVVM · no third-party deps |
 | **Backend** | Rust · axum 0.7.9 · SQLite (WAL) via sqlx · DashMap cache |
-| **Build** | Cargo workspaces · Xcode · Bazel config present |
+| **Shared** | UniFFI 0.28 · domain types defined once in Rust, Swift bindings generated |
+| **Build** | Bazel 9.1.0 (Bzlmod) · Cargo workspaces · Xcode |
 | **Aesthetic** | Polaroid/film — warm off-whites, grain overlay, editorial serif |
 
 ---
@@ -44,12 +45,13 @@ A native iOS portfolio app with a polaroid/film aesthetic, backed by a Rust API 
 
 ```
 emulsion/
-├── apps/ios/                SwiftUI app (Xcode project)
-├── services/portfolio-api/  Rust · axum · SQLite
-├── tools/seed/              Seeds SQLite from CV JSON
-├── docs/                    System design, test plan, screenshots
-├── run.sh                   macOS setup & run
-└── run.bat                  Windows setup & run (backend only)
+├── apps/ios/                  SwiftUI app (Xcode project)
+├── services/portfolio-api/    Rust · axum · SQLite
+├── shared/emulsion-types/     UniFFI shared types + Swift bindings
+├── tools/seed/                Seeds SQLite from CV JSON
+├── docs/                      System design, test plan, screenshots
+├── run.sh                     macOS setup & run
+└── run.bat                    Windows setup & run (backend only)
 ```
 
 ---
@@ -86,6 +88,16 @@ cargo run -p portfolio-api
 open apps/ios/PortfolioApp.xcodeproj
 # Cmd+R to run on iPhone 17 Pro Simulator
 ```
+
+### Bazel
+
+```bash
+# Build the backend and iOS app
+bazel build //services/portfolio-api:server
+bazel build //apps/ios:app
+```
+
+Cargo and Xcode remain available for faster iteration during development.
 
 ---
 
