@@ -9,4 +9,6 @@ pub struct Portfolio {
     pub photo_path: Option<String>,
     pub summary: String,
     pub created_at: String,
+    pub view_count: i64,
+    pub interested_count: i64,
 }

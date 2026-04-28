@@ -8,6 +8,8 @@ pub fn create_router(state: AppState) -> Router {
     Router::new()
         .route("/health", get(handlers::health_handler::health))
         .route("/v1/portfolios/:id", get(handlers::portfolio_handler::get_portfolio))
+        .route("/v1/portfolios/:id/view", post(handlers::portfolio_handler::post_view))
+        .route("/v1/portfolios/:id/interested", post(handlers::portfolio_handler::post_interested))
         .route("/v1/portfolios/:id/projects", get(handlers::projects_handler::list_projects))
         .route("/v1/projects/:id", get(handlers::projects_handler::get_project))
         .route("/v1/projects/:id/interested", post(handlers::projects_handler::post_interested))

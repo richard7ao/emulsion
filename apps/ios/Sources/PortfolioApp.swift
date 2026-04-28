@@ -6,7 +6,7 @@ struct PortfolioApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootPagerView(appState: appState)
+            MainTabView(appState: appState)
                 .environment(appState)
         }
     }

@@ -37,6 +37,7 @@
 		A1000028 /* ConversationThreadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000048 /* ConversationThreadView.swift */; };
 		A1000029 /* TLDRCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000049 /* TLDRCardView.swift */; };
 		A1000030 /* ShowcaseSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000050 /* ShowcaseSection.swift */; };
+		A1000031 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000051 /* MainTabView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +73,7 @@
 		A2000048 /* ConversationThreadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationThreadView.swift; sourceTree = "<group>"; };
 		A2000049 /* TLDRCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLDRCardView.swift; sourceTree = "<group>"; };
 		A2000050 /* ShowcaseSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowcaseSection.swift; sourceTree = "<group>"; };
+		A2000051 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				A2000047 /* InboxView.swift */,
 				A2000048 /* ConversationThreadView.swift */,
 				A2000049 /* TLDRCardView.swift */,
+				A2000051 /* MainTabView.swift */,
 				A4000008 /* Components */,
 			);
 			path = Views;
@@ -269,6 +272,7 @@
 				A1000028 /* ConversationThreadView.swift in Sources */,
 				A1000029 /* TLDRCardView.swift in Sources */,
 				A1000030 /* ShowcaseSection.swift in Sources */,
+				A1000031 /* MainTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,6 +17,14 @@ final class APIClient: Sendable {
         try await get("/v1/portfolios/\(id)")
     }
 
+    func postPortfolioView(id: Int) async throws -> InterestedResponse {
+        try await post("/v1/portfolios/\(id)/view", body: Optional<String>.none)
+    }
+
+    func postPortfolioInterested(id: Int) async throws -> InterestedResponse {
+        try await post("/v1/portfolios/\(id)/interested", body: Optional<String>.none)
+    }
+
     func listProjects(portfolioId: Int) async throws -> [Project] {
         try await get("/v1/portfolios/\(portfolioId)/projects")
     }

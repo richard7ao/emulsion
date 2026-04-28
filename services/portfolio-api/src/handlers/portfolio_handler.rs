@@ -5,6 +5,28 @@ use serde_json::{json, Value};
 use crate::app_state::AppState;
 use crate::repositories::{portfolio_repo, experience_repo, skills_repo};
 
+pub async fn post_view(
+    State(state): State<AppState>,
+    Path(id): Path<i64>,
+) -> Result<Json<Value>, StatusCode> {
+    portfolio_repo::increment_view_count(&state.pool, id)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+    state.cache.invalidate(&format!("portfolio:{}", id));
+    Ok(Json(json!({"status": "ok"})))
+}
+
+pub async fn post_interested(
+    State(state): State<AppState>,
+    Path(id): Path<i64>,
+) -> Result<Json<Value>, StatusCode> {
+    portfolio_repo::increment_interested_count(&state.pool, id)
+        .await
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+    state.cache.invalidate(&format!("portfolio:{}", id));
+    Ok(Json(json!({"status": "ok"})))
+}
+
 pub async fn get_portfolio(
     State(state): State<AppState>,
     Path(id): Path<i64>,

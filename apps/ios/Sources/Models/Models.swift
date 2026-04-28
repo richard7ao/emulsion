@@ -7,6 +7,8 @@ struct Portfolio: Codable, Identifiable {
     let photoPath: String?
     let summary: String
     let createdAt: String
+    let viewCount: Int
+    let interestedCount: Int
 }
 
 struct Experience: Codable, Identifiable {
