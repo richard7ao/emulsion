@@ -1,0 +1,76 @@
+{
+  "_readme": "WHAT THIS IS: Runtime state for the autonomous build agent. Tracks task progress and post-mortems across sessions. HOW TO USE: Agent reads this at session start (Step 2 of CLAUDE.md). Never edit manually unless recovering from a corrupt state — use the CLAUDE.md schema in Section 8 to reinitialize.",
+  "schema_version": "1.0",
+  "last_updated": "2026-04-28T00:00:00Z",
+  "server_running": false,
+  "current_phase": "phase_1",
+  "current_task": "T1.1",
+  "phases": {
+    "phase_1": {
+      "status": "pending",
+      "tasks": {
+        "T1.1": { "status": "pending" },
+        "T1.2": { "status": "pending" },
+        "T1.3": { "status": "pending" },
+        "T1.4": { "status": "pending" }
+      }
+    },
+    "phase_2": {
+      "status": "pending",
+      "tasks": {
+        "T2.1": { "status": "pending" },
+        "T2.2": { "status": "pending" },
+        "T2.3": { "status": "pending" },
+        "T2.4": { "status": "pending" },
+        "T2.5": { "status": "pending" }
+      }
+    },
+    "phase_3": {
+      "status": "pending",
+      "tasks": {
+        "T3.1": { "status": "pending" },
+        "T3.2": { "status": "pending" },
+        "T3.3": { "status": "pending" },
+        "T3.4": { "status": "pending" },
+        "T3.5": { "status": "pending" },
+        "T3.6": { "status": "pending" }
+      }
+    },
+    "phase_4": {
+      "status": "pending",
+      "tasks": {
+        "T4.1": { "status": "pending" },
+        "T4.2": { "status": "pending" }
+      }
+    },
+    "phase_5": {
+      "status": "pending",
+      "tasks": {
+        "T5.1": { "status": "pending" },
+        "T5.2": { "status": "pending" },
+        "T5.3": { "status": "pending" },
+        "T5.4": { "status": "pending" }
+      }
+    },
+    "phase_6": {
+      "status": "pending",
+      "tasks": {
+        "T6.1": { "status": "pending" },
+        "T6.2": { "status": "pending" },
+        "T6.3": { "status": "pending" },
+        "T6.4": { "status": "pending" },
+        "T6.5": { "status": "pending" },
+        "T6.6": { "status": "pending" }
+      }
+    },
+    "phase_7": {
+      "status": "pending",
+      "tasks": {
+        "T7.1": { "status": "pending" },
+        "T7.2": { "status": "pending" },
+        "T7.3": { "status": "pending" }
+      }
+    }
+  },
+  "postmortems": []
+}
