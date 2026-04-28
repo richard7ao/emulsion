@@ -5,8 +5,8 @@ struct ProjectDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(AppState.self) private var appState
 
-    init(apiClient: APIClient, projectId: Int) {
-        _viewModel = State(initialValue: ProjectDetailViewModel(apiClient: apiClient, projectId: projectId))
+    init(apiClient: APIClient, projectId: Int, appState: AppState? = nil) {
+        _viewModel = State(initialValue: ProjectDetailViewModel(apiClient: apiClient, projectId: projectId, appState: appState))
     }
 
     var body: some View {
@@ -38,20 +38,20 @@ struct ProjectDetailView: View {
             let screenshots = parseJSONArray(project.screenshots)
             if let first = screenshots.first,
                let url = URL(string: first, relativeTo: appState.apiClient.baseURL) {
-                AsyncImage(url: url) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                } placeholder: {
-                    Rectangle()
-                        .fill(LapseTheme.border.opacity(0.3))
-                        .overlay {
-                            ProgressView()
+                Color.clear
+                    .frame(height: 220)
+                    .overlay {
+                        AsyncImage(url: url) { image in
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                        } placeholder: {
+                            Rectangle()
+                                .fill(LapseTheme.border.opacity(0.3))
+                                .overlay { ProgressView() }
                         }
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 220)
-                .clipped()
+                    }
+                    .clipped()
             }
 
             VStack(alignment: .leading, spacing: 16) {

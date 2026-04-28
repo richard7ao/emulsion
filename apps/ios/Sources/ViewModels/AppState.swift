@@ -1,12 +1,33 @@
 import SwiftUI
 
-@Observable
+@MainActor @Observable
 final class AppState {
     var currentPortfolioIndex: Int = 0
     var selectedTab: Int = 0
+    var interestedProjectIds: Set<Int> = []
+    var portfolioInterested: Bool = false
+    var portfolioInterestCount: Int = 0
+    var portfolioViewCount: Int = 0
     let apiClient: APIClient
 
     init(apiClient: APIClient = APIClient()) {
         self.apiClient = apiClient
+    }
+
+    func togglePortfolioInterest() {
+        guard !portfolioInterested else { return }
+        portfolioInterested = true
+        portfolioInterestCount += 1
+        Task {
+            _ = try? await apiClient.postPortfolioInterested(id: 1)
+        }
+    }
+
+    func markProjectInterested(_ id: Int) {
+        interestedProjectIds.insert(id)
+    }
+
+    func isProjectInterested(_ id: Int) -> Bool {
+        interestedProjectIds.contains(id)
     }
 }

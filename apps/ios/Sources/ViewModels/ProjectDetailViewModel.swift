@@ -9,10 +9,12 @@ final class ProjectDetailViewModel {
 
     private let apiClient: APIClient
     private let projectId: Int
+    private weak var appState: AppState?
 
-    init(apiClient: APIClient, projectId: Int) {
+    init(apiClient: APIClient, projectId: Int, appState: AppState? = nil) {
         self.apiClient = apiClient
         self.projectId = projectId
+        self.appState = appState
     }
 
     func load() async {
@@ -21,6 +23,7 @@ final class ProjectDetailViewModel {
 
         do {
             project = try await apiClient.getProject(id: projectId)
+            hasMarkedInterested = appState?.isProjectInterested(projectId) ?? false
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -43,6 +46,7 @@ final class ProjectDetailViewModel {
         )
         project = current
         hasMarkedInterested = true
+        appState?.markProjectInterested(projectId)
 
         do {
             _ = try await apiClient.postInterested(projectId: projectId)

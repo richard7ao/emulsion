@@ -23,6 +23,16 @@ struct PortfolioHomeView: View {
         }
         .background(LapseTheme.background)
         .grainOverlay()
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    appState.togglePortfolioInterest()
+                } label: {
+                    Image(systemName: appState.portfolioInterested ? "heart.fill" : "heart")
+                        .foregroundStyle(appState.portfolioInterested ? LapseTheme.accent : LapseTheme.textSecondary)
+                }
+            }
+        }
         .task {
             await viewModel.load()
         }

@@ -12,7 +12,9 @@ struct MainTabView: View {
                 }
                 .tag(0)
 
-            InboxView(apiClient: appState.apiClient)
+            NavigationStack {
+                InboxView(apiClient: appState.apiClient)
+            }
                 .tabItem {
                     Image(systemName: "tray.fill")
                     Text("Inbox")

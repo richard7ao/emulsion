@@ -3,6 +3,7 @@ import SwiftUI
 struct ProjectsListView: View {
     @State private var viewModel: ProjectsViewModel
     @State private var selectedProject: Project?
+    @Environment(AppState.self) private var appState
 
     init(apiClient: APIClient) {
         _viewModel = State(initialValue: ProjectsViewModel(apiClient: apiClient))
@@ -29,7 +30,7 @@ struct ProjectsListView: View {
         .background(LapseTheme.background)
         .navigationTitle("Projects")
         .sheet(item: $selectedProject) { project in
-            ProjectDetailView(apiClient: viewModel.apiClient, projectId: project.id)
+            ProjectDetailView(apiClient: viewModel.apiClient, projectId: project.id, appState: appState)
         }
         .task {
             await viewModel.load()
@@ -54,18 +55,20 @@ private struct ProjectCardView: View {
         VStack(alignment: .leading, spacing: 0) {
             if let first = screenshots.first,
                let url = URL(string: first, relativeTo: baseURL) {
-                AsyncImage(url: url) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                } placeholder: {
-                    Rectangle()
-                        .fill(LapseTheme.border.opacity(0.3))
-                        .overlay { ProgressView() }
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: 140)
-                .clipped()
+                Color.clear
+                    .frame(height: 140)
+                    .overlay {
+                        AsyncImage(url: url) { image in
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                        } placeholder: {
+                            Rectangle()
+                                .fill(LapseTheme.border.opacity(0.3))
+                                .overlay { ProgressView() }
+                        }
+                    }
+                    .clipped()
             }
 
             VStack(alignment: .leading, spacing: 6) {
@@ -89,6 +92,7 @@ private struct ProjectCardView: View {
         }
         .background(LapseTheme.surface)
         .cornerRadius(12)
+        .contentShape(Rectangle())
         .shadow(color: .black.opacity(0.04), radius: 6, x: 0, y: 3)
     }
 }
