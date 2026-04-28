@@ -1,0 +1,86 @@
+{
+  "portfolio": {
+    "id": 1,
+    "name": "Richard Lao",
+    "bio": "Founding engineer at a 15-person startup, owning distributed backend systems end-to-end from architecture through on-call. Shipped AWS event-driven pipelines sustaining 14M-record peak bursts across ~1B structured planning data fields, LLM classification infrastructure at ~90% accuracy, and internal AI agents that cut scraper-failure triage from a week to a day.",
+    "summary": "Software Engineer — Distributed Systems & Backend Infrastructure",
+    "photo_path": "/static/hero.svg"
+  },
+  "experiences": [
+    {
+      "company": "Serac Group",
+      "role": "Founding Software Engineer",
+      "dates": "Jan 2025 – Present",
+      "bullets": [
+        "Designed event-driven AWS ingestion pipeline (Lambda, SQS, API Gateway) sustaining 10M+ records/month with 14M-record peak bursts at 99.9% SLA",
+        "Reduced AWS infrastructure spend from ~£25k to ~£18k/month (~28%) by redesigning pipeline topology",
+        "Built LLM-based classification system over ~1B structured fields at ~90% accuracy",
+        "Designed AI agents that cut scraper-failure triage from ~1 week to ~1 day (7x faster)",
+        "Built authorisation, ingestion, validation, and workflow-orchestration microservices",
+        "Own end-to-end internal tooling; mentor engineers and interns on microservices patterns"
+      ]
+    },
+    {
+      "company": "Santander UK",
+      "role": "Software Engineering Intern, Cybersecurity",
+      "dates": "Aug – Oct 2023",
+      "bullets": [
+        "Contributed to Quantified Forecast Risk, a Python/AWS predictive-modelling initiative across ~100-engineer security department",
+        "Embedded across Product Security, GRC, Security Architecture, and Security Engineering"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "PharmaBridge",
+      "role": "Team Captain & Lead Engineer",
+      "writeup": "2nd Place at Imperial College x National MedTech Foundation Hackathon (Apr 2026). Built a full-stack B2B platform (Next.js, Node.js, PostgreSQL) connecting licensed pharmacies to exchange, transfer, or sell OTC medicines, formalising informal inter-pharmacy swaps, validating licensing and compliance, and reducing waste from expired stock. Deployed to production under hackathon time constraints."
+    },
+    {
+      "title": "Multi-Agent Reinforcement Learning",
+      "role": "Researcher — Final-Year Dissertation",
+      "writeup": "Final-year dissertation at King's College London (2024). Designed MARL systems in Python with PyTorch and OpenAI Gym. Implemented policy-gradient and value-based networks, reward shaping, and evaluation pipelines analysing agent coordination under resource constraints."
+    }
+  ],
+  "skills": [
+    { "category": "Languages", "items": ["Python", "TypeScript", "Scala", "JavaScript", "Rust", "Swift"] },
+    { "category": "Distributed Systems", "items": ["AWS Lambda", "SQS", "SNS", "API Gateway", "S3", "RDS", "Event-driven architectures", "Microservices"] },
+    { "category": "Backend & Data", "items": ["Node.js", "REST APIs", "PostgreSQL", "SQLite", "ETL pipelines", "Data modelling"] },
+    { "category": "AI/ML", "items": ["OpenAI APIs", "LLM classification", "PyTorch", "scikit-learn", "Reinforcement learning (MARL)"] },
+    { "category": "DevOps", "items": ["Docker", "GitHub Actions", "GitLab CI", "Bazel", "Automated rollback", "Zero-downtime releases"] },
+    { "category": "Frontend", "items": ["Next.js", "React", "SwiftUI"] }
+  ],
+  "qa_pairs": [
+    { "prompt": "What are you working on right now?", "answer": "I'm a founding engineer at Serac Group, building distributed backend systems for planning data infrastructure in partnership with Idox plc. I own two products end-to-end — Planda Portal and Ava (Application Validation Assistant). Day-to-day that means event-driven AWS pipelines, LLM classification, and internal developer tooling." },
+    { "prompt": "What's your strongest technical area?", "answer": "Distributed systems and backend infrastructure. I'm most comfortable designing event-driven pipelines, microservices, and data systems that need to handle scale reliably. At Serac I sustain 14M-record peak bursts at 99.9% SLA — that's where I thrive." },
+    { "prompt": "Tell me about PharmaBridge.", "answer": "PharmaBridge placed 2nd at the Imperial College x National MedTech Foundation Hackathon in April 2026. I was Team Captain and Lead Engineer. We built a B2B platform connecting licensed pharmacies to exchange OTC medicines — formalising what was previously done through informal WhatsApp groups. Full-stack: Next.js, Node.js, PostgreSQL, deployed to Vercel under hackathon time constraints." },
+    { "prompt": "What's your approach to software architecture?", "answer": "Start boring, add complexity only when forced by scale or requirements. I prefer event-driven patterns because they decouple services naturally, but I don't reach for distributed systems when a monolith would work. At Serac I replaced a legacy system with a partitioned queue architecture — but only because the legacy system was failing under load, not because distributed was inherently better." },
+    { "prompt": "Why Lapse?", "answer": "I'm drawn to Lapse because you're building a consumer product that requires real engineering depth — performance at scale, native mobile, and a codebase that needs to move fast without breaking. My background is in backend infrastructure, but I want to work closer to the product and the user. Lapse is the kind of company where engineering decisions directly shape the user experience." },
+    { "prompt": "What would you build differently with more time?", "answer": "Real auth (JWT), more integration tests, a shared Rust platform layer for cross-platform code sharing, and I'd flesh out the Android extension point with an actual Kotlin client. I'd also add request-level tracing with OpenTelemetry and a proper CI pipeline with Bazel remote caching." }
+  ],
+  "conversations": [
+    {
+      "participant_name": "Alex",
+      "messages": [
+        { "sender": "Alex", "body": "Hi Richard, I came across your work on the Serac ingestion pipeline — really impressive scale for a 15-person startup. Would love to connect." },
+        { "sender": "Richard", "body": "Thanks Alex! Happy to chat — what team are you hiring for?" },
+        { "sender": "Alex", "body": "Platform engineering. Your event-driven background is exactly what we need. Let's set up a call." }
+      ]
+    },
+    {
+      "participant_name": "Sam",
+      "messages": [
+        { "sender": "Sam", "body": "Richard — saw PharmaBridge placed 2nd at the Imperial hackathon. Congrats! We're looking for engineers who can ship under pressure." },
+        { "sender": "Richard", "body": "Thanks Sam! That hackathon was intense but rewarding. What's the role?" },
+        { "sender": "Sam", "body": "Backend lead on our data platform. We'd love to have you join." }
+      ]
+    },
+    {
+      "participant_name": "Jordan",
+      "messages": [
+        { "sender": "Jordan", "body": "Your MARL dissertation is exactly the kind of applied research we value. Have you considered applying ML to production systems?" },
+        { "sender": "Richard", "body": "Absolutely — at Serac I built LLM classification over 1B structured fields. I enjoy bridging research and production." }
+      ]
+    }
+  ]
+}
