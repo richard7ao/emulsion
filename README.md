@@ -12,7 +12,7 @@
 [![axum](https://img.shields.io/badge/axum-0.7.9-7B1FA2?style=flat-square)](https://github.com/tokio-rs/axum)
 [![SQLite](https://img.shields.io/badge/SQLite-WAL-003B57?logo=sqlite&logoColor=white&style=flat-square)](https://www.sqlite.org)
 [![Bazel](https://img.shields.io/badge/Bazel-9.1.0-43A047?logo=bazel&logoColor=white&style=flat-square)](https://bazel.build)
-[![tests](https://img.shields.io/badge/tests-49_passing-success?style=flat-square)](#how-to-run-tests)
+[![tests](https://img.shields.io/badge/tests-71_passing-success?style=flat-square)](#how-to-run-tests)
 
 <br />
 
@@ -140,7 +140,7 @@ iOS requires macOS + Xcode.
 Run everything:
 
 ```bash
-cargo test --workspace          # 31 Rust tests (27 backend + 4 shared types)
+cargo test --workspace          # 34 Rust tests (30 backend + 4 shared types)
 bazel test //...                # 2 Bazel test targets aggregating the Rust suites
 xcodebuild test \
   -project apps/ios/PortfolioApp.xcodeproj \
