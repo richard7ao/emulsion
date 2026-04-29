@@ -5,6 +5,9 @@ use tower_http::trace::TraceLayer;
 use crate::app_state::AppState;
 use crate::handlers;
 
+#[cfg(test)]
+mod tests;
+
 pub fn create_router(state: AppState) -> Router {
     Router::new()
         .route("/health", get(handlers::health_handler::health))
