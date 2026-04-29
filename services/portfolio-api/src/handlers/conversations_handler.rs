@@ -30,9 +30,10 @@ pub async fn list_conversations(
     Path(portfolio_id): Path<i64>,
 ) -> Result<Json<Value>, AppError> {
     let convos = conversations_repo::find_by_portfolio_id(&state.pool, portfolio_id).await?;
+    let all_theatre = convos.iter().all(|c| c.is_theatre);
     Ok(Json(json!({
         "conversations": convos,
-        "theatre": true
+        "theatre": all_theatre
     })))
 }
 
@@ -40,9 +41,11 @@ pub async fn get_messages(
     State(state): State<AppState>,
     Path(cid): Path<i64>,
 ) -> Result<Json<Value>, AppError> {
+    let convo = conversations_repo::find_by_id(&state.pool, cid).await?;
+    let theatre = convo.map(|c| c.is_theatre).unwrap_or(true);
     let messages = conversations_repo::find_messages_by_conversation_id(&state.pool, cid).await?;
     Ok(Json(json!({
         "messages": messages,
-        "theatre": true
+        "theatre": theatre
     })))
 }

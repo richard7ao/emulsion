@@ -39,8 +39,8 @@ bazel build //apps/ios:app
 bazel build //shared/emulsion-types:emulsion_types
 
 # Test
-cargo test --workspace               # All Rust tests (31 total)
-cargo test -p portfolio-api           # Backend only (27 tests)
+cargo test --workspace               # All Rust tests (34 total)
+cargo test -p portfolio-api           # Backend only (30 tests)
 cargo test -p emulsion-types          # Shared types (4 tests)
 ```
 

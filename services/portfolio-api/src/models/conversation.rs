@@ -8,4 +8,5 @@ pub struct Conversation {
     pub participant_name: String,
     pub last_message: String,
     pub updated_at: String,
+    pub is_theatre: bool,
 }

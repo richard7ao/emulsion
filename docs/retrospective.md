@@ -160,3 +160,21 @@ After a harsh spec review against the brief, six issues were fixed:
 6. **Benchmark script.** `scripts/benchmark.sh` runs 20 requests per endpoint and reports p50/p99 latency, backing up the "low latency" claim with real measurements.
 
 Test count: 27 backend + 4 shared = 31 Rust tests (up from 22 + 4 = 26). iOS unchanged at 18. Total: 49.
+
+---
+
+## Post-script: crit-survival v3
+
+A spec-level review identified five structural gaps. All five fixed in a single commit:
+
+1. **FTS5 full-text search.** Replaced the naive keyword-count loop in Q&A matching with SQLite FTS5 using the porter tokenizer. "builds" now matches "Building", "works" matches "working". BM25 ranking returns the best hit. Migration `0005_fts5_qa.sql` creates a content-sync virtual table with INSERT/DELETE triggers, so the seed tool populates the index automatically.
+
+2. **Theatre flag is data-driven.** Added `is_theatre` column to conversations (`0006_conversation_theatre.sql`, default 1). Seeded conversations start as theatre. Sending a message sets `is_theatre = 0`. AMA conversations are created with `is_theatre = 0`. The handler returns per-conversation state instead of hardcoding `"theatre": true`. The inbox is no longer a lie.
+
+3. **All 6 iOS ViewModels tested.** Added `AskViewModelTests` (6 tests), `InboxViewModelTests` (7 tests), `LeaveNoteViewModelTests` (6 tests). `MockAPIClient` upgraded with configurable result properties for all API methods. iOS test count: 37 (up from 18).
+
+4. **MockAPIClient made configurable.** Every API method now returns from a configurable `Result` property. This makes it trivial to test any ViewModel's happy path, error path, and edge cases without touching the mock itself.
+
+5. **Conversation model carries theatre state.** iOS `Conversation` struct gained an optional `isTheatre` field. Backend `Conversation` model includes `is_theatre` from the database. The wire contract now reflects reality.
+
+Test count: 30 backend + 4 shared = 34 Rust tests. 37 iOS tests. Total: 71.

@@ -82,6 +82,7 @@ struct Conversation: Codable, Identifiable {
     let participantName: String
     let lastMessage: String
     let updatedAt: String
+    let isTheatre: Bool?
 }
 
 struct Message: Codable, Identifiable {

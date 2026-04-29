@@ -100,7 +100,11 @@ Handlers return `AppError`, an enum that maps to the correct HTTP status and log
 
 ## Q&A Matching
 
-`POST /v1/portfolios/:id/qa/ask` tokenizes the query into keywords (words >= 3 characters), searches both `prompt` and `answer` text of all canned Q&A pairs, and returns the pair with the most keyword hits. Short/common words are filtered to reduce noise. This is O(n) on the Q&A count — FTS5 would be the next step for larger datasets.
+`POST /v1/portfolios/:id/qa/ask` uses SQLite FTS5 with the porter tokenizer for full-text search. The query is tokenized into keywords (words >= 3 characters), each quoted and joined with `OR`, then matched against the `qa_pairs_fts` virtual table. Results are ranked by BM25 relevance.
+
+**Porter stemming** handles morphological variants: "builds" matches "Building", "works" matches "working". This eliminates the prior limitation where exact keyword overlap was required.
+
+**Schema:** `qa_pairs_fts` is a content-sync FTS5 table backed by `qa_pairs`. Triggers on INSERT/DELETE keep the index in sync automatically — no manual FTS population needed.
 
 ## Latency Considerations
 
@@ -129,4 +133,4 @@ Handlers return `AppError`, an enum that maps to the correct HTTP status and log
 
 - **Single-server deployment:** No horizontal scaling. Cache is in-process, not distributed.
 - **No pagination:** All endpoints return full result sets. Would need cursor-based pagination at scale.
-- **Theatre inbox:** Conversations are seeded demo data. Users can send messages and ask questions via the AMA flow.
+- **Theatre inbox:** Seeded conversations start as theatre (`is_theatre = 1`). Sending a message or creating an AMA conversation transitions the flag to `is_theatre = 0`. The API returns per-conversation theatre state; the top-level `theatre` flag is `false` if any conversation has user-written content.

@@ -134,8 +134,9 @@ iOS requires macOS + Xcode.
 | Backend repo + cache | 19 | `cargo test -p portfolio-api` |
 | Backend DB pragma | 1 | (in same suite — asserts `init_pool_with_url` applies pragmas) |
 | Backend HTTP integration | 7 | (in same suite — `tower::ServiceExt::oneshot` against the live router) |
+| Backend FTS5 + theatre | 3 | (in same suite — porter stemming, theatre flag transition, AMA non-theatre) |
 | Shared types | 4 | `cargo test -p emulsion-types` |
-| iOS models / APIClient / ViewModels | 12 / 2 / 4 | `xcodebuild test` with `MockAPIClient: APIClientProtocol` |
+| iOS models / APIClient / ViewModels | 12 / 2 / 23 | `xcodebuild test` with `MockAPIClient: APIClientProtocol` |
 
 Run everything:
 
@@ -145,7 +146,7 @@ bazel test //...                # 2 Bazel test targets aggregating the Rust suit
 xcodebuild test \
   -project apps/ios/PortfolioApp.xcodeproj \
   -scheme PortfolioApp \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro'   # 18 iOS tests
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro'   # 37 iOS tests
 ```
 
 Full plan, including what isn't tested and why: [`docs/test-plan.md`](docs/test-plan.md).
@@ -156,7 +157,7 @@ Full plan, including what isn't tested and why: [`docs/test-plan.md`](docs/test-
 
 - Single user, single server, localhost only. No multi-tenancy, no auth beyond an `X-Owner-Token` header that's checked for presence (not value) on the notes listing.
 - Dataset is small and fixed (1 portfolio, 3 projects, 6 Q&As, a handful of conversations). All endpoints return full result sets — no pagination.
-- Inbox conversations are seeded "theatre" data; the AMA flow does write back, but the conversation list itself is read-only by design (`"theatre": true` flag in the response).
+- Inbox conversations start as seeded "theatre" data (`is_theatre = 1`). Sending a message or creating an AMA conversation flips the flag to `is_theatre = 0` — the API returns the real per-conversation theatre state.
 - macOS + Xcode is the dev environment. iOS app requires the Simulator; Windows users can still run the backend.
 
 **Known limitations:**
@@ -205,7 +206,8 @@ See [`docs/system-design.md`](docs/system-design.md) for the full design.
 - **Latency-conscious backend.** WAL-mode SQLite tuned with `synchronous = NORMAL`, `busy_timeout = 5s`, `foreign_keys = ON`, 16 MB cache, B-tree indexes on every FK column.
 - **Cache-aside reads.** `DashMap` lock-free in-process cache with prefix invalidation. Keys live in a typed `cache::keys` module.
 - **Bazel builds both sides.** Backend binary, iOS .ipa, and shared-types library all produced by Bazel. UniFFI scaffolding is feature-gated so the shared crate is sandbox-buildable.
-- **Tests that go through the router.** `tower::ServiceExt::oneshot` exercises real handler + extractor + JSON wiring. iOS ViewModels are mocked through `APIClientProtocol`. Shared types have a wire-format regression guard.
+- **FTS5 full-text search.** Q&A matching uses SQLite FTS5 with porter stemming — "builds" matches "Building", "works" matches "working". BM25 ranking returns the best hit.
+- **Tests that go through the router.** `tower::ServiceExt::oneshot` exercises real handler + extractor + JSON wiring. All 6 iOS ViewModels mocked through `APIClientProtocol`. Shared types have a wire-format regression guard.
 - **Agent-ready.** [`AGENTS.md`](AGENTS.md) documents conventions, file layout, and patterns for AI coding agents.
 
 ## Stack

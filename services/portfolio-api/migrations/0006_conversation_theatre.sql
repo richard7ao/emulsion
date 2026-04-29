@@ -1,0 +1,1 @@
+ALTER TABLE conversations ADD COLUMN is_theatre INTEGER NOT NULL DEFAULT 1;

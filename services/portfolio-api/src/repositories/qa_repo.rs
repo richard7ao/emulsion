@@ -17,22 +17,22 @@ pub async fn fuzzy_match(pool: &Pool<Sqlite>, portfolio_id: i64, query: &str) ->
         return Ok(None);
     }
 
-    let all = find_canned_by_portfolio_id(pool, portfolio_id).await?;
-    let lower_keywords: Vec<String> = keywords.iter().map(|kw| kw.to_lowercase()).collect();
+    let fts_query = keywords.iter()
+        .map(|kw| format!("\"{}\"", kw.replace('"', "")))
+        .collect::<Vec<_>>()
+        .join(" OR ");
 
-    let mut best: Option<(usize, &QaPair)> = None;
-    for pair in &all {
-        let prompt = pair.prompt.to_lowercase();
-        let answer = pair.answer.to_lowercase();
-        let hits = lower_keywords.iter()
-            .filter(|kw| prompt.contains(kw.as_str()) || answer.contains(kw.as_str()))
-            .count();
-        if hits > 0 && best.map_or(true, |(prev, _)| hits > prev) {
-            best = Some((hits, pair));
-        }
-    }
-
-    Ok(best.map(|(_, pair)| pair.clone()))
+    sqlx::query_as::<_, QaPair>(
+        "SELECT qa_pairs.* FROM qa_pairs_fts \
+         JOIN qa_pairs ON qa_pairs.id = qa_pairs_fts.rowid \
+         WHERE qa_pairs_fts MATCH ? AND qa_pairs.portfolio_id = ? AND qa_pairs.is_canned = 1 \
+         ORDER BY bm25(qa_pairs_fts) \
+         LIMIT 1"
+    )
+        .bind(&fts_query)
+        .bind(portfolio_id)
+        .fetch_optional(pool)
+        .await
 }
 
 #[cfg(test)]
@@ -76,5 +76,12 @@ mod tests {
         let pool = seeded_pool().await;
         let result = fuzzy_match(&pool, 1, "at on").await.unwrap();
         assert!(result.is_none(), "words under 3 chars should be filtered out");
+    }
+
+    #[tokio::test]
+    async fn test_fuzzy_match_porter_stemming() {
+        let pool = seeded_pool().await;
+        let result = fuzzy_match(&pool, 1, "builds").await.unwrap();
+        assert!(result.is_some(), "porter stemmer should match 'builds' to 'Building' via shared stem 'build'");
     }
 }

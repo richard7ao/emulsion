@@ -16,15 +16,15 @@
 - **Experience repo (2 tests):** find_by_portfolio_id (empty/populated)
 - **Skills repo (1 test):** find_by_portfolio_id returns skills
 - **Projects repo (2 tests):** increment_view_count (atomic), increment_interested_count (atomic)
-- **Q&A repo (4 tests):** fuzzy_match (found/not found), fuzzy_match_searches_answer_too, fuzzy_match_short_words_ignored
+- **Q&A repo (5 tests):** fuzzy_match via FTS5 (found/not found), fuzzy_match_searches_answer_too, fuzzy_match_short_words_ignored, fuzzy_match_porter_stemming
 - **Notes repo (1 test):** create and find_by_portfolio_id
-- **Conversations repo (2 tests):** find_by_portfolio_id with messages, find_or_create_ama idempotency
+- **Conversations repo (4 tests):** find_by_portfolio_id with messages, theatre_flag_transitions_on_message, ama_conversation_is_not_theatre, find_or_create_ama idempotency
 - **DB pragma (1 test):** `init_pool_with_url` applies busy_timeout, foreign_keys, synchronous
 - **HTTP integration (7 tests):** /health (with DB ping), 404 portfolio, full portfolio response, 400 empty note, 401 missing owner token, 404 JSON error body, 400 JSON error body
 - **Shared types (4 tests):** portfolio_roundtrip, portfolio_response_contains_nested, ask_response_match_serializes_as_match_keyword, ask_response_with_none_match
 - **iOS models (12 tests):** Portfolio/Experience/Project/PortfolioResponse/AskResponse/ConversationsResponse decoding, parseJSONArray (valid/empty/invalid), formatTimestamp (valid/invalid)
 - **iOS APIClient (2 tests):** default baseURL, custom baseURL
-- **iOS ViewModels (4 tests):** PortfolioViewModel initial state, load happy path, load error path, ProjectDetailViewModel markInterested increment
+- **iOS ViewModels (23 tests):** PortfolioViewModel (initial state, load happy/error), ProjectDetailViewModel (markInterested), AskViewModel (loadPrompts happy/error, submitQuestion happy/empty/error, toggleExpanded), InboxViewModel (loadConversations happy/error, loadMessages happy/error, sendMessage happy/empty/error), LeaveNoteViewModel (isValid 3 cases, submit happy/invalid/error)
 
 All Rust repo tests use in-memory SQLite (`sqlite::memory:`) with `sqlx::migrate!()` for isolated, repeatable test environments. iOS tests run via `xcodebuild test` on the Simulator using a `MockAPIClient` conforming to `APIClientProtocol`.
 
@@ -47,7 +47,7 @@ All Rust repo tests use in-memory SQLite (`sqlite::memory:`) with `sqlx::migrate
 | Static serving | hero/project PNGs | E2E curl HTTP status check |
 | iOS models | 12 tests | `xcodebuild test` |
 | iOS APIClient | 2 tests | `xcodebuild test` |
-| iOS ViewModels | 4 tests | `xcodebuild test` with `MockAPIClient` |
+| iOS ViewModels | 23 tests | `xcodebuild test` with `MockAPIClient` (all 6 ViewModels) |
 | iOS build | Full app with all views | `xcodebuild build` |
 
 ## What Is Not Tested (and Why)
@@ -56,5 +56,5 @@ All Rust repo tests use in-memory SQLite (`sqlite::memory:`) with `sqlx::migrate
 |-----|--------|
 | iOS UI snapshot tests | Visual correctness verified by running in Simulator. Snapshot tests would catch regressions but add maintenance overhead. |
 | Concurrent access | Single-user demo. SQLite WAL mode and atomic SQL ensure correctness, but no load testing performed. |
-| iOS ViewModels for Ask/Inbox/LeaveNote | Only `PortfolioViewModel` and `ProjectDetailViewModel` have happy/error/markInterested coverage. Adding parity for the others is mechanical with `MockAPIClient`. |
+| ProjectsViewModel | Only covered via integration; dedicated unit tests would add parity. |
 | End-to-end iOS↔backend test | Requires a Simulator run with the live server. Covered manually via `./run.sh`. |

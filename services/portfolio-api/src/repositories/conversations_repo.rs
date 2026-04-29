@@ -3,6 +3,13 @@ use crate::models::{Conversation, Message};
 
 const AMA_PARTICIPANT_NAME: &str = "Ask Me Anything";
 
+pub async fn find_by_id(pool: &Pool<Sqlite>, id: i64) -> Result<Option<Conversation>, sqlx::Error> {
+    sqlx::query_as::<_, Conversation>("SELECT * FROM conversations WHERE id = ?")
+        .bind(id)
+        .fetch_optional(pool)
+        .await
+}
+
 pub async fn find_by_portfolio_id(pool: &Pool<Sqlite>, portfolio_id: i64) -> Result<Vec<Conversation>, sqlx::Error> {
     sqlx::query_as::<_, Conversation>("SELECT * FROM conversations WHERE portfolio_id = ? ORDER BY updated_at DESC")
         .bind(portfolio_id)
@@ -34,7 +41,7 @@ pub async fn add_message(pool: &Pool<Sqlite>, conversation_id: i64, sender: &str
         .bind(body)
         .execute(pool)
         .await?;
-    sqlx::query("UPDATE conversations SET last_message = ?, updated_at = datetime('now') WHERE id = ?")
+    sqlx::query("UPDATE conversations SET last_message = ?, updated_at = datetime('now'), is_theatre = 0 WHERE id = ?")
         .bind(body)
         .bind(conversation_id)
         .execute(pool)
@@ -44,8 +51,8 @@ pub async fn add_message(pool: &Pool<Sqlite>, conversation_id: i64, sender: &str
 
 pub async fn find_or_create_ama(pool: &Pool<Sqlite>, portfolio_id: i64) -> Result<i64, sqlx::Error> {
     sqlx::query(
-        "INSERT OR IGNORE INTO conversations (portfolio_id, participant_name, last_message) \
-         VALUES (?, ?, '')"
+        "INSERT OR IGNORE INTO conversations (portfolio_id, participant_name, last_message, is_theatre) \
+         VALUES (?, ?, '', 0)"
     )
         .bind(portfolio_id)
         .bind(AMA_PARTICIPANT_NAME)
@@ -94,6 +101,26 @@ mod tests {
         let msgs = find_messages_by_conversation_id(&pool, 1).await.unwrap();
         assert_eq!(msgs.len(), 1);
         assert_eq!(msgs[0].sender, "Alex");
+    }
+
+    #[tokio::test]
+    async fn test_theatre_flag_transitions_on_message() {
+        let pool = seeded_pool().await;
+        let convo = find_by_id(&pool, 1).await.unwrap().unwrap();
+        assert!(convo.is_theatre, "seeded conversations should be theatre");
+
+        add_message(&pool, 1, "Visitor", "Hello").await.unwrap();
+
+        let convo = find_by_id(&pool, 1).await.unwrap().unwrap();
+        assert!(!convo.is_theatre, "conversation should be non-theatre after a message is sent");
+    }
+
+    #[tokio::test]
+    async fn test_ama_conversation_is_not_theatre() {
+        let pool = seeded_pool().await;
+        let ama_id = find_or_create_ama(&pool, 1).await.unwrap();
+        let convo = find_by_id(&pool, ama_id).await.unwrap().unwrap();
+        assert!(!convo.is_theatre, "AMA conversations should not be theatre");
     }
 
     #[tokio::test]
