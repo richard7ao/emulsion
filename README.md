@@ -159,9 +159,7 @@ Full plan, including what isn't tested and why: [`docs/test-plan.md`](docs/test-
 
 **Known limitations:**
 
-- **No HTTPS.** iOS uses an `NSAllowsLocalNetworking` ATS exception.
 - **In-process cache only.** `DashMap` is per-process; no Redis / distributed cache.
-- **Q&A "fuzzy" match is `LIKE '%query%'`** — case-insensitive but not real fuzzy. FTS5 / trigram / vectors are the migration path.
 - **iOS shared-types migration not finished.** Backend uses `emulsion_types::PortfolioResponse`. iOS still uses its own Codable mirrors. The xcframework exists; the pbxproj entry is the missing step.
 - **Bazel iOS test target.** Hand-rolled pbxproj makes `ios_unit_test` painful. iOS tests run via `xcodebuild test` only; `bazel test //...` covers the Rust suites.
 - **`tools/seed`** uses compile-time path macros (`sqlx::migrate!`, `include_str!`) that don't resolve in Bazel's sandbox; tagged `manual` and run via Cargo only.
