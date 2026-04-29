@@ -3,13 +3,14 @@ use axum::http::StatusCode;
 use axum::Json;
 use serde_json::{json, Value};
 use crate::app_state::AppState;
+use crate::cache::keys;
 use crate::repositories::projects_repo;
 
 pub async fn list_projects(
     State(state): State<AppState>,
     Path(portfolio_id): Path<i64>,
 ) -> Result<Json<Value>, StatusCode> {
-    let cache_key = format!("projects:list:{}", portfolio_id);
+    let cache_key = keys::projects_list(portfolio_id);
     if let Some(cached) = state.cache.get(&cache_key) {
         let val: Value = serde_json::from_str(&cached).unwrap_or(Value::Null);
         return Ok(Json(val));
@@ -28,7 +29,7 @@ pub async fn get_project(
     State(state): State<AppState>,
     Path(id): Path<i64>,
 ) -> Result<Json<Value>, StatusCode> {
-    let cache_key = format!("projects:item:{}", id);
+    let cache_key = keys::project_item(id);
     if let Some(cached) = state.cache.get(&cache_key) {
         let val: Value = serde_json::from_str(&cached).unwrap_or(Value::Null);
         return Ok(Json(val));
@@ -52,7 +53,7 @@ pub async fn post_project_view(
         .await
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
-    state.cache.invalidate_prefix("projects:");
+    state.cache.invalidate_prefix(keys::PROJECTS_PREFIX);
     Ok(Json(json!({"status": "ok"})))
 }
 
@@ -64,6 +65,6 @@ pub async fn post_interested(
         .await
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
-    state.cache.invalidate_prefix("projects:");
+    state.cache.invalidate_prefix(keys::PROJECTS_PREFIX);
     Ok(Json(json!({"status": "ok"})))
 }

@@ -1,6 +1,22 @@
 use dashmap::DashMap;
 use std::sync::Arc;
 
+pub mod keys {
+    pub const PROJECTS_PREFIX: &str = "projects:";
+
+    pub fn portfolio(id: i64) -> String {
+        format!("portfolio:{}", id)
+    }
+
+    pub fn projects_list(portfolio_id: i64) -> String {
+        format!("projects:list:{}", portfolio_id)
+    }
+
+    pub fn project_item(id: i64) -> String {
+        format!("projects:item:{}", id)
+    }
+}
+
 #[derive(Clone)]
 pub struct AppCache {
     store: Arc<DashMap<String, String>>,

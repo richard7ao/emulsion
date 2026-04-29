@@ -6,8 +6,11 @@ use std::time::Duration;
 pub async fn init_pool() -> Pool<Sqlite> {
     let database_url = std::env::var("DATABASE_URL")
         .unwrap_or_else(|_| "sqlite:./dev.db".to_string());
+    init_pool_with_url(&database_url).await
+}
 
-    let opts = SqliteConnectOptions::from_str(&database_url)
+pub async fn init_pool_with_url(database_url: &str) -> Pool<Sqlite> {
+    let opts = SqliteConnectOptions::from_str(database_url)
         .expect("invalid DATABASE_URL")
         .create_if_missing(true)
         .journal_mode(sqlx::sqlite::SqliteJournalMode::Wal)
@@ -38,8 +41,7 @@ mod tests {
 
     #[tokio::test]
     async fn pragmas_are_applied() {
-        std::env::set_var("DATABASE_URL", "sqlite::memory:");
-        let pool = init_pool().await;
+        let pool = init_pool_with_url("sqlite::memory:").await;
         let busy: i64 = sqlx::query("PRAGMA busy_timeout")
             .fetch_one(&pool).await.unwrap().get(0);
         assert_eq!(busy, 5000, "busy_timeout should be 5000ms");

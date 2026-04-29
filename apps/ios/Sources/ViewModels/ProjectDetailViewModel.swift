@@ -33,18 +33,9 @@ final class ProjectDetailViewModel {
     }
 
     func markInterested() async {
-        guard var current = project, !hasMarkedInterested else { return }
+        guard !hasMarkedInterested, var current = project else { return }
 
-        current = Project(
-            id: current.id,
-            portfolioId: current.portfolioId,
-            title: current.title,
-            role: current.role,
-            writeup: current.writeup,
-            screenshots: current.screenshots,
-            viewCount: current.viewCount,
-            interestedCount: current.interestedCount + 1
-        )
+        current.interestedCount += 1
         project = current
         hasMarkedInterested = true
         appState?.markProjectInterested(projectId)

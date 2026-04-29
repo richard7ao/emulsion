@@ -56,7 +56,7 @@ struct Project: Codable, Identifiable {
     let writeup: String
     let screenshots: String
     let viewCount: Int
-    let interestedCount: Int
+    var interestedCount: Int
 }
 
 struct QAPair: Codable, Identifiable {
