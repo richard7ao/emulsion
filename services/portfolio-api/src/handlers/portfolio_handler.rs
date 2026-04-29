@@ -30,11 +30,12 @@ pub async fn post_interested(
 pub async fn get_portfolio(
     State(state): State<AppState>,
     Path(id): Path<i64>,
-) -> Result<Json<Value>, StatusCode> {
+) -> Result<Json<emulsion_types::PortfolioResponse>, StatusCode> {
     let cache_key = format!("portfolio:{}", id);
     if let Some(cached) = state.cache.get(&cache_key) {
-        let val: Value = serde_json::from_str(&cached).unwrap_or(Value::Null);
-        return Ok(Json(val));
+        if let Ok(val) = serde_json::from_str::<emulsion_types::PortfolioResponse>(&cached) {
+            return Ok(Json(val));
+        }
     }
 
     let (portfolio, experiences, skills) = tokio::join!(
@@ -46,17 +47,18 @@ pub async fn get_portfolio(
     let portfolio = portfolio
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?
         .ok_or(StatusCode::NOT_FOUND)?;
-
     let experiences = experiences.map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
     let skills = skills.map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
-    let response = json!({
-        "portfolio": portfolio,
-        "experiences": experiences,
-        "skills": skills,
-    });
+    let response = emulsion_types::PortfolioResponse {
+        portfolio: portfolio.into(),
+        experiences: experiences.into_iter().map(Into::into).collect(),
+        skills: skills.into_iter().map(Into::into).collect(),
+    };
 
-    state.cache.set(cache_key, response.to_string());
+    if let Ok(serialized) = serde_json::to_string(&response) {
+        state.cache.set(cache_key, serialized);
+    }
 
     Ok(Json(response))
 }

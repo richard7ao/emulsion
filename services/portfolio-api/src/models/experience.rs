@@ -1,4 +1,3 @@
-// Canonical type: emulsion_types::Experience (shared/emulsion-types/src/lib.rs)
 use serde::Serialize;
 use sqlx::FromRow;
 
@@ -10,4 +9,17 @@ pub struct Experience {
     pub role: String,
     pub dates: String,
     pub bullets: String,
+}
+
+impl From<Experience> for emulsion_types::Experience {
+    fn from(e: Experience) -> Self {
+        Self {
+            id: e.id,
+            portfolio_id: e.portfolio_id,
+            company: e.company,
+            role: e.role,
+            dates: e.dates,
+            bullets: e.bullets,
+        }
+    }
 }
