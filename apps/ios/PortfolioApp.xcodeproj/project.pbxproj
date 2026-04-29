@@ -40,6 +40,7 @@ A1000012 /* PortfolioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRe
 		B1000001 /* ModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001 /* ModelTests.swift */; };
 		B1000002 /* APIClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000002 /* APIClientTests.swift */; };
 		B1000003 /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000003 /* ViewModelTests.swift */; };
+		B1000004 /* MockAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000004 /* MockAPIClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +79,7 @@ A2000032 /* PortfolioViewModel.swift */ = {isa = PBXFileReference; lastKnownFile
 		B2000001 /* ModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTests.swift; sourceTree = "<group>"; };
 		B2000002 /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
 		B2000003 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
+		B2000004 /* MockAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAPIClient.swift; sourceTree = "<group>"; };
 		B2000010 /* PortfolioAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PortfolioAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -227,6 +229,7 @@ A2000035 /* PortfolioHomeView.swift */,
 				B2000001 /* ModelTests.swift */,
 				B2000002 /* APIClientTests.swift */,
 				B2000003 /* ViewModelTests.swift */,
+				B2000004 /* MockAPIClient.swift */,
 			);
 			path = PortfolioAppTests;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@ A1000012 /* PortfolioViewModel.swift in Sources */,
 				B1000001 /* ModelTests.swift in Sources */,
 				B1000002 /* APIClientTests.swift in Sources */,
 				B1000003 /* ViewModelTests.swift in Sources */,
+				B1000004 /* MockAPIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
