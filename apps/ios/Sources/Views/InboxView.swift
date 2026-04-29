@@ -30,7 +30,7 @@ struct InboxView: View {
                         }
 
                         Rectangle()
-                            .fill(LapseTheme.background)
+                            .fill(EmulsionTheme.background)
                             .frame(height: 12)
                     }
 
@@ -46,7 +46,7 @@ struct InboxView: View {
                 }
             }
         }
-        .background(LapseTheme.background)
+        .background(EmulsionTheme.background)
         .grainOverlay()
         .navigationTitle("Inbox")
         .task {
@@ -59,49 +59,49 @@ struct InboxView: View {
             HStack {
                 Image(systemName: "pin.fill")
                     .font(.caption2)
-                    .foregroundStyle(LapseTheme.accent)
+                    .foregroundStyle(EmulsionTheme.accent)
                 Text(convo.participantName)
-                    .font(LapseTheme.headlineFont)
-                    .foregroundStyle(LapseTheme.textPrimary)
+                    .font(EmulsionTheme.headlineFont)
+                    .foregroundStyle(EmulsionTheme.textPrimary)
                 Spacer()
                 Text(formatTimestamp(convo.updatedAt))
-                    .font(LapseTheme.captionFont)
-                    .foregroundStyle(LapseTheme.textSecondary)
+                    .font(EmulsionTheme.captionFont)
+                    .foregroundStyle(EmulsionTheme.textSecondary)
             }
             Text(convo.lastMessage)
-                .font(LapseTheme.bodyFont)
-                .foregroundStyle(LapseTheme.textSecondary)
+                .font(EmulsionTheme.bodyFont)
+                .foregroundStyle(EmulsionTheme.textSecondary)
                 .lineLimit(1)
         }
-        .padding(LapseTheme.cardPadding)
-        .background(LapseTheme.accent.opacity(0.06))
+        .padding(EmulsionTheme.cardPadding)
+        .background(EmulsionTheme.accent.opacity(0.06))
         .overlay(
-            RoundedRectangle(cornerRadius: LapseTheme.cornerRadius)
-                .stroke(LapseTheme.accent.opacity(0.2), lineWidth: 1)
+            RoundedRectangle(cornerRadius: EmulsionTheme.cornerRadius)
+                .stroke(EmulsionTheme.accent.opacity(0.2), lineWidth: 1)
         )
-        .cornerRadius(LapseTheme.cornerRadius)
-        .padding(.horizontal, LapseTheme.cardPadding)
-        .padding(.top, LapseTheme.cardPadding)
+        .cornerRadius(EmulsionTheme.cornerRadius)
+        .padding(.horizontal, EmulsionTheme.cardPadding)
+        .padding(.top, EmulsionTheme.cardPadding)
     }
 
     private func conversationRow(_ convo: Conversation) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text(convo.participantName)
-                    .font(LapseTheme.headlineFont)
-                    .foregroundStyle(LapseTheme.textPrimary)
+                    .font(EmulsionTheme.headlineFont)
+                    .foregroundStyle(EmulsionTheme.textPrimary)
                 Spacer()
                 Text(formatTimestamp(convo.updatedAt))
-                    .font(LapseTheme.captionFont)
-                    .foregroundStyle(LapseTheme.textSecondary)
+                    .font(EmulsionTheme.captionFont)
+                    .foregroundStyle(EmulsionTheme.textSecondary)
             }
             Text(convo.lastMessage)
-                .font(LapseTheme.bodyFont)
-                .foregroundStyle(LapseTheme.textSecondary)
+                .font(EmulsionTheme.bodyFont)
+                .foregroundStyle(EmulsionTheme.textSecondary)
                 .lineLimit(1)
         }
-        .padding(LapseTheme.cardPadding)
-        .background(LapseTheme.surface)
+        .padding(EmulsionTheme.cardPadding)
+        .background(EmulsionTheme.surface)
         .overlay(alignment: .bottom) {
             Divider()
         }

@@ -21,7 +21,7 @@ struct PortfolioHomeView: View {
                 }
             }
         }
-        .background(LapseTheme.background)
+        .background(EmulsionTheme.background)
         .grainOverlay()
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -29,7 +29,7 @@ struct PortfolioHomeView: View {
                     appState.togglePortfolioInterest()
                 } label: {
                     Image(systemName: appState.portfolioInterested ? "heart.fill" : "heart")
-                        .foregroundStyle(appState.portfolioInterested ? LapseTheme.accent : LapseTheme.textSecondary)
+                        .foregroundStyle(appState.portfolioInterested ? EmulsionTheme.accent : EmulsionTheme.textSecondary)
                 }
             }
         }
@@ -49,11 +49,11 @@ struct PortfolioHomeView: View {
 
         SectionHeaderView(title: "About")
         Text(portfolio.bio)
-            .font(LapseTheme.bodyFont)
-            .foregroundStyle(LapseTheme.textPrimary)
-            .padding(.horizontal, LapseTheme.cardPadding)
+            .font(EmulsionTheme.bodyFont)
+            .foregroundStyle(EmulsionTheme.textPrimary)
+            .padding(.horizontal, EmulsionTheme.cardPadding)
             .polaroidCard(index: 0)
-            .padding(.horizontal, LapseTheme.cardPadding)
+            .padding(.horizontal, EmulsionTheme.cardPadding)
 
         SectionHeaderView(title: "Showcase")
         ShowcaseSection()
@@ -61,14 +61,14 @@ struct PortfolioHomeView: View {
         SectionHeaderView(title: "Experience")
         ForEach(Array(viewModel.experiences.enumerated()), id: \.element.id) { index, exp in
             ExperienceCardView(experience: exp, index: index + 1)
-                .padding(.horizontal, LapseTheme.cardPadding)
+                .padding(.horizontal, EmulsionTheme.cardPadding)
                 .padding(.bottom, 12)
         }
 
         SectionHeaderView(title: "Skills")
         ForEach(Array(viewModel.skills.enumerated()), id: \.element.id) { index, skill in
             SkillsCardView(skill: skill, index: index + 10)
-                .padding(.horizontal, LapseTheme.cardPadding)
+                .padding(.horizontal, EmulsionTheme.cardPadding)
                 .padding(.bottom, 12)
         }
 
@@ -76,23 +76,23 @@ struct PortfolioHomeView: View {
         navSection("FAQs", destination: AskView(apiClient: appState.apiClient))
         navSection("Leave a Note", destination: LeaveNoteView(apiClient: appState.apiClient))
 
-        Spacer().frame(height: LapseTheme.sectionSpacing)
+        Spacer().frame(height: EmulsionTheme.sectionSpacing)
     }
 
     private func navSection<D: View>(_ title: String, destination: D) -> some View {
         NavigationLink(destination: destination) {
             HStack {
                 Text(title)
-                    .font(LapseTheme.headlineFont)
-                    .foregroundStyle(LapseTheme.textPrimary)
+                    .font(EmulsionTheme.headlineFont)
+                    .foregroundStyle(EmulsionTheme.textPrimary)
                 Spacer()
                 Image(systemName: "chevron.right")
-                    .foregroundStyle(LapseTheme.textSecondary)
+                    .foregroundStyle(EmulsionTheme.textSecondary)
             }
-            .padding(LapseTheme.cardPadding)
-            .background(LapseTheme.surface)
-            .cornerRadius(LapseTheme.cornerRadius)
-            .padding(.horizontal, LapseTheme.cardPadding)
+            .padding(EmulsionTheme.cardPadding)
+            .background(EmulsionTheme.surface)
+            .cornerRadius(EmulsionTheme.cornerRadius)
+            .padding(.horizontal, EmulsionTheme.cardPadding)
             .padding(.top, 8)
         }
     }
@@ -101,17 +101,17 @@ struct PortfolioHomeView: View {
         VStack(spacing: 12) {
             Image(systemName: "exclamationmark.triangle")
                 .font(.system(size: 40))
-                .foregroundStyle(LapseTheme.accent)
+                .foregroundStyle(EmulsionTheme.accent)
             Text(message)
-                .font(LapseTheme.bodyFont)
-                .foregroundStyle(LapseTheme.textSecondary)
+                .font(EmulsionTheme.bodyFont)
+                .foregroundStyle(EmulsionTheme.textSecondary)
                 .multilineTextAlignment(.center)
             Button("Retry") {
                 Task { await viewModel.load() }
             }
-            .foregroundStyle(LapseTheme.accent)
+            .foregroundStyle(EmulsionTheme.accent)
         }
         .padding(.top, 100)
-        .padding(.horizontal, LapseTheme.cardPadding)
+        .padding(.horizontal, EmulsionTheme.cardPadding)
     }
 }

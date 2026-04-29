@@ -41,7 +41,7 @@ cargo test -p emulsion-types  # Shared types only
 - Handlers: extract AppState → call repo → return `Result<Json<T>, AppError>` (see `src/error.rs`)
 - Views: View → ViewModel (@Observable) → APIClient call
 - Counters: atomic SQL `UPDATE SET col = col + 1` (never read-modify-write)
-- Theme: all colors/fonts via LapseTheme (never hardcoded)
+- Theme: all colors/fonts via EmulsionTheme (never hardcoded)
 - Naming: `*_handler.rs`, `*_repo.rs`, `*View.swift`, `*ViewModel.swift`
 
 ## Adding Things

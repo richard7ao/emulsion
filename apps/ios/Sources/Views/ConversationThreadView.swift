@@ -13,7 +13,7 @@ struct ConversationThreadView: View {
                         messageBubble(msg)
                     }
                 }
-                .padding(LapseTheme.cardPadding)
+                .padding(EmulsionTheme.cardPadding)
             }
 
             Divider()
@@ -21,20 +21,20 @@ struct ConversationThreadView: View {
             HStack {
                 TextField("Message...", text: $draftText)
                     .textFieldStyle(.plain)
-                    .font(LapseTheme.bodyFont)
+                    .font(EmulsionTheme.bodyFont)
                     .onSubmit { send() }
 
                 Button { send() } label: {
                     Image(systemName: "arrow.up.circle.fill")
                         .font(.title2)
-                        .foregroundStyle(draftText.trimmingCharacters(in: .whitespaces).isEmpty ? LapseTheme.border : LapseTheme.accent)
+                        .foregroundStyle(draftText.trimmingCharacters(in: .whitespaces).isEmpty ? EmulsionTheme.border : EmulsionTheme.accent)
                 }
                 .disabled(draftText.trimmingCharacters(in: .whitespaces).isEmpty)
             }
             .padding(12)
-            .background(LapseTheme.surface)
+            .background(EmulsionTheme.surface)
         }
-        .background(LapseTheme.background)
+        .background(EmulsionTheme.background)
         .navigationTitle(conversation.participantName)
         .task {
             await viewModel.loadMessages(conversationId: conversation.id)
@@ -55,15 +55,15 @@ struct ConversationThreadView: View {
             if isMe { Spacer() }
             VStack(alignment: isMe ? .trailing : .leading, spacing: 4) {
                 Text(msg.body)
-                    .font(LapseTheme.bodyFont)
-                    .foregroundStyle(LapseTheme.textPrimary)
+                    .font(EmulsionTheme.bodyFont)
+                    .foregroundStyle(EmulsionTheme.textPrimary)
                 Text(formatTimestamp(msg.createdAt))
-                    .font(LapseTheme.captionFont)
-                    .foregroundStyle(LapseTheme.textSecondary)
+                    .font(EmulsionTheme.captionFont)
+                    .foregroundStyle(EmulsionTheme.textSecondary)
             }
             .padding(12)
-            .background(isMe ? LapseTheme.accent.opacity(0.1) : LapseTheme.surface)
-            .cornerRadius(LapseTheme.cornerRadius)
+            .background(isMe ? EmulsionTheme.accent.opacity(0.1) : EmulsionTheme.surface)
+            .cornerRadius(EmulsionTheme.cornerRadius)
             if !isMe { Spacer() }
         }
     }

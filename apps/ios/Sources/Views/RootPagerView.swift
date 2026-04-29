@@ -5,6 +5,6 @@ struct RootPagerView: View {
 
     var body: some View {
         TLDRCardView()
-            .background(LapseTheme.background)
+            .background(EmulsionTheme.background)
     }
 }

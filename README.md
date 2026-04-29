@@ -214,7 +214,7 @@ See [`docs/system-design.md`](docs/system-design.md) for the full design.
 
 | Layer | Tech | Notes |
 |---|---|---|
-| **iOS** | SwiftUI · iOS 26 · MVVM with `@Observable` | Zero third-party deps. `URLSession` networking. `LapseTheme` enum for visual constants. |
+| **iOS** | SwiftUI · iOS 26 · MVVM with `@Observable` | Zero third-party deps. `URLSession` networking. `EmulsionTheme` enum for visual constants. |
 | **Backend** | Rust 1.95 · axum 0.7.9 · sqlx 0.8 | Single-binary tokio server. SQLite WAL. `tower-http` `TraceLayer` for per-request logs. |
 | **Shared** | UniFFI 0.28 · feature-gated | Wire types defined once in Rust. UDL schema → Swift xcframework via `generate-bindings.sh`. |
 | **Build** | Bazel 9.1.0 (Bzlmod) · Cargo workspace · Xcode | `rules_rust 0.70`, `rules_apple 4.5.3`, `rules_swift 3.6.1`. |

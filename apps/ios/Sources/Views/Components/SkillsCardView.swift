@@ -11,20 +11,20 @@ struct SkillsCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(skill.category)
-                .font(LapseTheme.headlineFont)
-                .foregroundStyle(LapseTheme.textPrimary)
+                .font(EmulsionTheme.headlineFont)
+                .foregroundStyle(EmulsionTheme.textPrimary)
 
             FlowLayout(spacing: 6) {
                 ForEach(itemsList, id: \.self) { item in
                     Text(item)
-                        .font(LapseTheme.captionFont)
+                        .font(EmulsionTheme.captionFont)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 4)
-                        .background(LapseTheme.background)
-                        .cornerRadius(LapseTheme.cornerRadius)
+                        .background(EmulsionTheme.background)
+                        .cornerRadius(EmulsionTheme.cornerRadius)
                         .overlay(
-                            RoundedRectangle(cornerRadius: LapseTheme.cornerRadius)
-                                .stroke(LapseTheme.border, lineWidth: 1)
+                            RoundedRectangle(cornerRadius: EmulsionTheme.cornerRadius)
+                                .stroke(EmulsionTheme.border, lineWidth: 1)
                         )
                 }
             }

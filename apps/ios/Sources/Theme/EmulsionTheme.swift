@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum LapseTheme {
+enum EmulsionTheme {
     // Warm off-white background
     static let background = Color(red: 250/255, green: 245/255, blue: 235/255)
     static let surface = Color.white
@@ -24,11 +24,11 @@ enum LapseTheme {
 extension View {
     func borderedCard() -> some View {
         self
-            .background(LapseTheme.surface)
-            .cornerRadius(LapseTheme.cornerRadius)
+            .background(EmulsionTheme.surface)
+            .cornerRadius(EmulsionTheme.cornerRadius)
             .overlay(
-                RoundedRectangle(cornerRadius: LapseTheme.cornerRadius)
-                    .stroke(LapseTheme.border, lineWidth: 1)
+                RoundedRectangle(cornerRadius: EmulsionTheme.cornerRadius)
+                    .stroke(EmulsionTheme.border, lineWidth: 1)
             )
     }
 }

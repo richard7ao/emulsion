@@ -5,11 +5,11 @@ struct SectionHeaderView: View {
 
     var body: some View {
         Text(title)
-            .font(LapseTheme.headlineFont)
-            .foregroundStyle(LapseTheme.textPrimary)
+            .font(EmulsionTheme.headlineFont)
+            .foregroundStyle(EmulsionTheme.textPrimary)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, LapseTheme.cardPadding)
-            .padding(.top, LapseTheme.sectionSpacing)
+            .padding(.horizontal, EmulsionTheme.cardPadding)
+            .padding(.top, EmulsionTheme.sectionSpacing)
             .padding(.bottom, 8)
     }
 }

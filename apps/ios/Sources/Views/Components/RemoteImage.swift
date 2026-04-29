@@ -15,7 +15,7 @@ struct RemoteImage: View {
                         .aspectRatio(contentMode: .fill)
                 } placeholder: {
                     Rectangle()
-                        .fill(LapseTheme.border.opacity(0.3))
+                        .fill(EmulsionTheme.border.opacity(0.3))
                         .overlay { ProgressView() }
                 }
             }

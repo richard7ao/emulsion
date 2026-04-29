@@ -15,7 +15,7 @@ struct TLDRCardView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                LapseTheme.background.ignoresSafeArea()
+                EmulsionTheme.background.ignoresSafeArea()
 
                 if isLoading {
                     ProgressView()
@@ -128,20 +128,20 @@ struct TLDRCardView: View {
             VStack(spacing: 16) {
                 Image(systemName: result == .accepted ? "hands.clap.fill" : "cloud.rain.fill")
                     .font(.system(size: 52))
-                    .foregroundStyle(result == .accepted ? LapseTheme.accent : LapseTheme.textSecondary)
+                    .foregroundStyle(result == .accepted ? EmulsionTheme.accent : EmulsionTheme.textSecondary)
                     .symbolEffect(.bounce, value: swipeResult != nil)
 
                 Text(result == .accepted
                      ? "I'll take that as a pass"
                      : "Wait — come back!")
                     .font(.system(size: 24, weight: .regular, design: .serif))
-                    .foregroundStyle(LapseTheme.textPrimary)
+                    .foregroundStyle(EmulsionTheme.textPrimary)
 
                 Text(result == .accepted
                      ? "So... when do I start?"
                      : "I built this entire app from scratch in SwiftUI.\nJust saying.")
                     .font(.system(size: 15))
-                    .foregroundStyle(LapseTheme.textSecondary)
+                    .foregroundStyle(EmulsionTheme.textSecondary)
                     .multilineTextAlignment(.center)
                     .lineSpacing(3)
             }
@@ -161,7 +161,7 @@ struct TLDRCardView: View {
                     .foregroundStyle(.white)
                     .padding(.horizontal, 28)
                     .padding(.vertical, 14)
-                    .background(LapseTheme.accent)
+                    .background(EmulsionTheme.accent)
                     .cornerRadius(24)
             }
             .padding(.bottom, 60)
@@ -182,11 +182,11 @@ struct TLDRCardView: View {
                             .aspectRatio(contentMode: .fill)
                     } placeholder: {
                         Circle()
-                            .fill(LapseTheme.border)
+                            .fill(EmulsionTheme.border)
                             .overlay {
                                 Image(systemName: "person.fill")
                                     .font(.system(size: 40))
-                                    .foregroundStyle(LapseTheme.textSecondary)
+                                    .foregroundStyle(EmulsionTheme.textSecondary)
                             }
                     }
                     .frame(width: 120, height: 120)
@@ -197,12 +197,12 @@ struct TLDRCardView: View {
 
                 Text(portfolio.name)
                     .font(.system(size: 26, weight: .regular, design: .serif))
-                    .foregroundStyle(LapseTheme.textPrimary)
+                    .foregroundStyle(EmulsionTheme.textPrimary)
                     .padding(.bottom, 4)
 
                 Text(portfolio.summary)
                     .font(.system(size: 14, weight: .regular))
-                    .foregroundStyle(LapseTheme.textSecondary)
+                    .foregroundStyle(EmulsionTheme.textSecondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 24)
                     .padding(.bottom, 16)
@@ -213,7 +213,7 @@ struct TLDRCardView: View {
 
                 Text(portfolio.bio)
                     .font(.system(size: 15, weight: .regular))
-                    .foregroundStyle(LapseTheme.textPrimary)
+                    .foregroundStyle(EmulsionTheme.textPrimary)
                     .lineSpacing(4)
                     .multilineTextAlignment(.leading)
                     .padding(.horizontal, 24)
@@ -225,10 +225,10 @@ struct TLDRCardView: View {
                     } label: {
                         HStack(spacing: 6) {
                             Image(systemName: appState.portfolioInterested ? "heart.fill" : "heart")
-                                .foregroundStyle(appState.portfolioInterested ? LapseTheme.accent : LapseTheme.textSecondary)
+                                .foregroundStyle(appState.portfolioInterested ? EmulsionTheme.accent : EmulsionTheme.textSecondary)
                             Text("\(appState.portfolioInterestCount)")
-                                .font(LapseTheme.captionFont)
-                                .foregroundStyle(LapseTheme.textSecondary)
+                                .font(EmulsionTheme.captionFont)
+                                .foregroundStyle(EmulsionTheme.textSecondary)
                         }
                     }
                     .buttonStyle(.plain)
@@ -236,15 +236,15 @@ struct TLDRCardView: View {
 
                     HStack(spacing: 6) {
                         Image(systemName: "eye")
-                            .foregroundStyle(LapseTheme.textSecondary)
+                            .foregroundStyle(EmulsionTheme.textSecondary)
                         Text("\(appState.portfolioViewCount)")
-                            .font(LapseTheme.captionFont)
-                            .foregroundStyle(LapseTheme.textSecondary)
+                            .font(EmulsionTheme.captionFont)
+                            .foregroundStyle(EmulsionTheme.textSecondary)
                     }
                 }
                 .padding(.bottom, 20)
             }
-            .background(LapseTheme.surface)
+            .background(EmulsionTheme.surface)
             .cornerRadius(16)
             .shadow(color: .black.opacity(0.06), radius: 12, x: 0, y: 6)
             .padding(.horizontal, 28)
@@ -256,8 +256,8 @@ struct TLDRCardView: View {
             Spacer()
 
             Text("Tap to view full profile")
-                .font(LapseTheme.captionFont)
-                .foregroundStyle(LapseTheme.textSecondary)
+                .font(EmulsionTheme.captionFont)
+                .foregroundStyle(EmulsionTheme.textSecondary)
                 .padding(.bottom, 32)
         }
     }

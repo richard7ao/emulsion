@@ -15,11 +15,11 @@ struct HeroView: View {
                         .aspectRatio(contentMode: .fill)
                 } placeholder: {
                     Circle()
-                        .fill(LapseTheme.border)
+                        .fill(EmulsionTheme.border)
                         .overlay {
                             Image(systemName: "person.fill")
                                 .font(.system(size: 40))
-                                .foregroundStyle(LapseTheme.textSecondary)
+                                .foregroundStyle(EmulsionTheme.textSecondary)
                         }
                 }
                 .frame(width: 120, height: 120)
@@ -27,15 +27,15 @@ struct HeroView: View {
             }
 
             Text(name)
-                .font(LapseTheme.titleFont)
-                .foregroundStyle(LapseTheme.textPrimary)
+                .font(EmulsionTheme.titleFont)
+                .foregroundStyle(EmulsionTheme.textPrimary)
 
             Text(summary)
-                .font(LapseTheme.bodyFont)
-                .foregroundStyle(LapseTheme.textSecondary)
+                .font(EmulsionTheme.bodyFont)
+                .foregroundStyle(EmulsionTheme.textSecondary)
                 .multilineTextAlignment(.center)
-                .padding(.horizontal, LapseTheme.cardPadding)
+                .padding(.horizontal, EmulsionTheme.cardPadding)
         }
-        .padding(.vertical, LapseTheme.sectionSpacing)
+        .padding(.vertical, EmulsionTheme.sectionSpacing)
     }
 }

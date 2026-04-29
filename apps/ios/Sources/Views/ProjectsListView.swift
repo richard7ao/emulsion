@@ -18,16 +18,16 @@ struct ProjectsListView: View {
                 LazyVStack(spacing: 16) {
                     ForEach(Array(viewModel.projects.enumerated()), id: \.element.id) { index, project in
                         ProjectCardView(project: project, index: index, baseURL: viewModel.apiClient.baseURL)
-                            .padding(.horizontal, LapseTheme.cardPadding)
+                            .padding(.horizontal, EmulsionTheme.cardPadding)
                             .onTapGesture {
                                 selectedProject = project
                             }
                     }
                 }
-                .padding(.top, LapseTheme.cardPadding)
+                .padding(.top, EmulsionTheme.cardPadding)
             }
         }
-        .background(LapseTheme.background)
+        .background(EmulsionTheme.background)
         .navigationTitle("Projects")
         .sheet(item: $selectedProject) { project in
             ProjectDetailView(apiClient: viewModel.apiClient, projectId: project.id, appState: appState)
@@ -56,24 +56,24 @@ private struct ProjectCardView: View {
 
             VStack(alignment: .leading, spacing: 6) {
                 Text(project.title)
-                    .font(LapseTheme.headlineFont)
-                    .foregroundStyle(LapseTheme.textPrimary)
+                    .font(EmulsionTheme.headlineFont)
+                    .foregroundStyle(EmulsionTheme.textPrimary)
 
                 Text(project.role)
                     .font(.system(size: 13))
-                    .foregroundStyle(LapseTheme.textSecondary)
+                    .foregroundStyle(EmulsionTheme.textSecondary)
 
                 HStack {
                     Label("\(project.viewCount)", systemImage: "eye")
                     Spacer()
                     Label("\(project.interestedCount)", systemImage: "heart")
                 }
-                .font(LapseTheme.captionFont)
-                .foregroundStyle(LapseTheme.textSecondary)
+                .font(EmulsionTheme.captionFont)
+                .foregroundStyle(EmulsionTheme.textSecondary)
             }
             .padding(12)
         }
-        .background(LapseTheme.surface)
+        .background(EmulsionTheme.surface)
         .cornerRadius(12)
         .contentShape(Rectangle())
         .shadow(color: .black.opacity(0.04), radius: 6, x: 0, y: 3)

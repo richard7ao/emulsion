@@ -12,24 +12,24 @@ struct ExperienceCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(experience.company)
-                .font(LapseTheme.headlineFont)
-                .foregroundStyle(LapseTheme.textPrimary)
+                .font(EmulsionTheme.headlineFont)
+                .foregroundStyle(EmulsionTheme.textPrimary)
 
             Text(experience.role)
-                .font(LapseTheme.bodyFont)
-                .foregroundStyle(LapseTheme.textSecondary)
+                .font(EmulsionTheme.bodyFont)
+                .foregroundStyle(EmulsionTheme.textSecondary)
 
             Text(experience.dates)
-                .font(LapseTheme.captionFont)
-                .foregroundStyle(LapseTheme.textSecondary)
+                .font(EmulsionTheme.captionFont)
+                .foregroundStyle(EmulsionTheme.textSecondary)
 
             ForEach(bulletItems, id: \.self) { bullet in
                 HStack(alignment: .top, spacing: 6) {
                     Text("·")
-                        .foregroundStyle(LapseTheme.accent)
+                        .foregroundStyle(EmulsionTheme.accent)
                     Text(bullet)
-                        .font(LapseTheme.bodyFont)
-                        .foregroundStyle(LapseTheme.textPrimary)
+                        .font(EmulsionTheme.bodyFont)
+                        .foregroundStyle(EmulsionTheme.textPrimary)
                 }
             }
         }

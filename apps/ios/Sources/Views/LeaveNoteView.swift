@@ -9,16 +9,16 @@ struct LeaveNoteView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: LapseTheme.cardPadding) {
+            VStack(spacing: EmulsionTheme.cardPadding) {
                 if viewModel.isSent {
                     sentConfirmation
                 } else {
                     noteForm
                 }
             }
-            .padding(.top, LapseTheme.sectionSpacing)
+            .padding(.top, EmulsionTheme.sectionSpacing)
         }
-        .background(LapseTheme.background)
+        .background(EmulsionTheme.background)
         .grainOverlay()
         .navigationTitle("Leave a Note")
     }
@@ -27,20 +27,20 @@ struct LeaveNoteView: View {
         VStack(spacing: 12) {
             TextField("Name", text: $viewModel.name)
                 .textFieldStyle(.plain)
-                .font(LapseTheme.bodyFont)
+                .font(EmulsionTheme.bodyFont)
                 .padding(12)
                 .borderedCard()
 
             TextEditor(text: $viewModel.message)
-                .font(LapseTheme.bodyFont)
+                .font(EmulsionTheme.bodyFont)
                 .frame(minHeight: 120)
                 .padding(8)
                 .borderedCard()
 
             if let error = viewModel.errorMessage {
                 Text(error)
-                    .font(LapseTheme.captionFont)
-                    .foregroundStyle(LapseTheme.accent)
+                    .font(EmulsionTheme.captionFont)
+                    .foregroundStyle(EmulsionTheme.accent)
             }
 
             Button {
@@ -52,35 +52,35 @@ struct LeaveNoteView: View {
                         .padding()
                 } else {
                     Text("Send Note")
-                        .font(LapseTheme.headlineFont)
+                        .font(EmulsionTheme.headlineFont)
                         .frame(maxWidth: .infinity)
                         .padding()
                 }
             }
-            .background(viewModel.isValid ? LapseTheme.accent : LapseTheme.border)
+            .background(viewModel.isValid ? EmulsionTheme.accent : EmulsionTheme.border)
             .foregroundStyle(.white)
-            .cornerRadius(LapseTheme.cornerRadius)
+            .cornerRadius(EmulsionTheme.cornerRadius)
             .disabled(!viewModel.isValid || viewModel.isSubmitting)
         }
-        .padding(.horizontal, LapseTheme.cardPadding)
+        .padding(.horizontal, EmulsionTheme.cardPadding)
     }
 
     private var sentConfirmation: some View {
         VStack(spacing: 16) {
             Image(systemName: "checkmark.circle")
                 .font(.system(size: 48))
-                .foregroundStyle(LapseTheme.accent)
+                .foregroundStyle(EmulsionTheme.accent)
 
             Text("Your note has been sent")
-                .font(LapseTheme.headlineFont)
-                .foregroundStyle(LapseTheme.textPrimary)
+                .font(EmulsionTheme.headlineFont)
+                .foregroundStyle(EmulsionTheme.textPrimary)
 
             Text("Thanks for reaching out!")
-                .font(LapseTheme.bodyFont)
-                .foregroundStyle(LapseTheme.textSecondary)
+                .font(EmulsionTheme.bodyFont)
+                .foregroundStyle(EmulsionTheme.textSecondary)
         }
         .frame(maxWidth: .infinity)
         .polaroidCard(index: 30)
-        .padding(.horizontal, LapseTheme.cardPadding)
+        .padding(.horizontal, EmulsionTheme.cardPadding)
     }
 }

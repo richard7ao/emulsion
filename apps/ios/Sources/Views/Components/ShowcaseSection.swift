@@ -15,7 +15,7 @@ struct ShowcaseSection: View {
                         }
                 }
             }
-            .padding(.horizontal, LapseTheme.cardPadding)
+            .padding(.horizontal, EmulsionTheme.cardPadding)
         }
         .sheet(item: $selectedProject) { project in
             ProjectDetailView(apiClient: appState.apiClient, projectId: project.id, appState: appState)
@@ -31,12 +31,12 @@ struct ShowcaseSection: View {
             if let first = screenshots.first,
                let url = URL(string: first, relativeTo: appState.apiClient.baseURL) {
                 RemoteImage(url: url, height: 140, width: 200)
-                    .clipShape(RoundedRectangle(cornerRadius: LapseTheme.cornerRadius))
+                    .clipShape(RoundedRectangle(cornerRadius: EmulsionTheme.cornerRadius))
             } else {
-                RoundedRectangle(cornerRadius: LapseTheme.cornerRadius)
+                RoundedRectangle(cornerRadius: EmulsionTheme.cornerRadius)
                     .fill(
                         LinearGradient(
-                            colors: [LapseTheme.accent.opacity(0.15), LapseTheme.border.opacity(0.3)],
+                            colors: [EmulsionTheme.accent.opacity(0.15), EmulsionTheme.border.opacity(0.3)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
@@ -45,13 +45,13 @@ struct ShowcaseSection: View {
                     .overlay {
                         Image(systemName: "photo")
                             .font(.system(size: 32))
-                            .foregroundStyle(LapseTheme.textSecondary.opacity(0.5))
+                            .foregroundStyle(EmulsionTheme.textSecondary.opacity(0.5))
                     }
             }
 
             Text(project.title)
-                .font(LapseTheme.captionFont)
-                .foregroundStyle(LapseTheme.textSecondary)
+                .font(EmulsionTheme.captionFont)
+                .foregroundStyle(EmulsionTheme.textSecondary)
         }
         .polaroidCard(index: index + 50)
     }

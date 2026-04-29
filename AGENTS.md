@@ -26,7 +26,7 @@ This repo is structured so AI coding agents can orient quickly, find the right f
 - All Rust handlers: extract AppState → call repo → return `Result<Json<T>, AppError>` (see `src/error.rs`)
 - All SwiftUI views: View → ViewModel (@Observable) → APIClient call
 - Counter updates: atomic SQL `UPDATE SET col = col + 1` (never read-modify-write)
-- Colors/fonts/spacing: always via LapseTheme (never hardcoded in Views)
+- Colors/fonts/spacing: always via EmulsionTheme (never hardcoded in Views)
 - Polaroid card rotation: seeded by item index (never random)
 
 ## Build & Test

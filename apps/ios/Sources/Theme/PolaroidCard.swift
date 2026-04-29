@@ -11,9 +11,9 @@ struct PolaroidCard: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .padding(LapseTheme.cardPadding)
-            .background(LapseTheme.surface)
-            .cornerRadius(LapseTheme.cornerRadius)
+            .padding(EmulsionTheme.cardPadding)
+            .background(EmulsionTheme.surface)
+            .cornerRadius(EmulsionTheme.cornerRadius)
             .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
             .rotationEffect(.degrees(rotation))
     }

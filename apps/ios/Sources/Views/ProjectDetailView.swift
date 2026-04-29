@@ -19,12 +19,12 @@ struct ProjectDetailView: View {
                     projectContent(project)
                 }
             }
-            .background(LapseTheme.background)
+            .background(EmulsionTheme.background)
             .grainOverlay()
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Done") { dismiss() }
-                        .foregroundStyle(LapseTheme.accent)
+                        .foregroundStyle(EmulsionTheme.accent)
                 }
             }
         }
@@ -44,11 +44,11 @@ struct ProjectDetailView: View {
             VStack(alignment: .leading, spacing: 16) {
                 Text(project.title)
                     .font(.system(size: 24, weight: .regular, design: .serif))
-                    .foregroundStyle(LapseTheme.textPrimary)
+                    .foregroundStyle(EmulsionTheme.textPrimary)
 
                 Text(project.role)
                     .font(.system(size: 15, weight: .medium))
-                    .foregroundStyle(LapseTheme.accent)
+                    .foregroundStyle(EmulsionTheme.accent)
 
                 HStack(spacing: 20) {
                     HStack(spacing: 5) {
@@ -60,14 +60,14 @@ struct ProjectDetailView: View {
                         Text("\(project.interestedCount) interested")
                     }
                 }
-                .font(LapseTheme.captionFont)
-                .foregroundStyle(LapseTheme.textSecondary)
+                .font(EmulsionTheme.captionFont)
+                .foregroundStyle(EmulsionTheme.textSecondary)
 
                 Divider()
 
                 Text(project.writeup)
                     .font(.system(size: 15, weight: .regular))
-                    .foregroundStyle(LapseTheme.textPrimary)
+                    .foregroundStyle(EmulsionTheme.textPrimary)
                     .lineSpacing(5)
 
                 Button {
@@ -80,12 +80,12 @@ struct ProjectDetailView: View {
                     .font(.system(size: 15, weight: .medium))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
-                    .background(viewModel.hasMarkedInterested ? LapseTheme.accent : LapseTheme.surface)
-                    .foregroundStyle(viewModel.hasMarkedInterested ? .white : LapseTheme.accent)
+                    .background(viewModel.hasMarkedInterested ? EmulsionTheme.accent : EmulsionTheme.surface)
+                    .foregroundStyle(viewModel.hasMarkedInterested ? .white : EmulsionTheme.accent)
                     .cornerRadius(10)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(LapseTheme.accent, lineWidth: 1)
+                            .stroke(EmulsionTheme.accent, lineWidth: 1)
                     )
                 }
                 .disabled(viewModel.hasMarkedInterested)

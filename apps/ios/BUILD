@@ -13,7 +13,7 @@ swift_library(
 
 ios_application(
     name = "app",
-    bundle_id = "com.lapse.portfolio",
+    bundle_id = "com.emulsion.portfolio",
     families = ["iphone"],
     infoplists = [":Info.plist"],
     minimum_os_version = "26.0",

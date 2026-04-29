@@ -21,6 +21,6 @@ struct MainTabView: View {
                 }
                 .tag(1)
         }
-        .tint(LapseTheme.accent)
+        .tint(EmulsionTheme.accent)
     }
 }

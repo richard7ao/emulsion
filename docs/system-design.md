@@ -10,7 +10,7 @@ The system is a two-tier client-server architecture: a native iOS app (SwiftUI) 
 │  SwiftUI + MVVM      │    localhost:8080     │  axum 0.7.9          │
 │  @Observable VMs     │                       │  SQLite (WAL mode)   │
 │  URLSession async    │                       │  DashMap cache       │
-│  LapseTheme system   │                       │  ServeDir for /static│
+│  EmulsionTheme system   │                       │  ServeDir for /static│
 └──────────────────────┘                       └──────────────────────┘
          ▲                                              ▲
          │              ┌──────────────────┐            │
@@ -22,7 +22,7 @@ The system is a two-tier client-server architecture: a native iOS app (SwiftUI) 
 
 **Backend (services/portfolio-api):** Single-binary Rust server using axum 0.7.9 with tokio async runtime. SQLite via sqlx 0.8 in WAL mode for concurrent reads. DashMap 6 provides an in-memory read cache. Static assets served via tower-http ServeDir.
 
-**iOS App (apps/ios):** SwiftUI targeting iOS 26. MVVM-lite pattern with `@Observable` ViewModels. `URLSession` for networking (no third-party dependencies). `LapseTheme` enum centralizes all visual constants. Tab bar at root with swipeable TLDR card and inbox.
+**iOS App (apps/ios):** SwiftUI targeting iOS 26. MVVM-lite pattern with `@Observable` ViewModels. `URLSession` for networking (no third-party dependencies). `EmulsionTheme` enum centralizes all visual constants. Tab bar at root with swipeable TLDR card and inbox.
 
 **Monorepo:** Bazel 9.1.0 with Bzlmod manages both the Rust service and iOS app. `rules_rust 0.70.0` for Rust, `rules_apple 4.5.3` + `rules_swift 3.6.1` for iOS.
 
