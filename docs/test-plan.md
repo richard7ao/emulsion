@@ -16,11 +16,11 @@
 - **Experience repo (2 tests):** find_by_portfolio_id (empty/populated)
 - **Skills repo (1 test):** find_by_portfolio_id returns skills
 - **Projects repo (2 tests):** increment_view_count (atomic), increment_interested_count (atomic)
-- **Q&A repo (2 tests):** fuzzy_match (found/not found)
+- **Q&A repo (4 tests):** fuzzy_match (found/not found), fuzzy_match_searches_answer_too, fuzzy_match_short_words_ignored
 - **Notes repo (1 test):** create and find_by_portfolio_id
-- **Conversations repo (1 test):** find_by_portfolio_id with messages
+- **Conversations repo (2 tests):** find_by_portfolio_id with messages, find_or_create_ama idempotency
 - **DB pragma (1 test):** `init_pool_with_url` applies busy_timeout, foreign_keys, synchronous
-- **HTTP integration (5 tests):** /health, 404 portfolio, full portfolio response, 400 empty note, 401 missing owner token
+- **HTTP integration (7 tests):** /health (with DB ping), 404 portfolio, full portfolio response, 400 empty note, 401 missing owner token, 404 JSON error body, 400 JSON error body
 - **Shared types (4 tests):** portfolio_roundtrip, portfolio_response_contains_nested, ask_response_match_serializes_as_match_keyword, ask_response_with_none_match
 - **iOS models (12 tests):** Portfolio/Experience/Project/PortfolioResponse/AskResponse/ConversationsResponse decoding, parseJSONArray (valid/empty/invalid), formatTimestamp (valid/invalid)
 - **iOS APIClient (2 tests):** default baseURL, custom baseURL
@@ -29,7 +29,7 @@
 All Rust repo tests use in-memory SQLite (`sqlite::memory:`) with `sqlx::migrate!()` for isolated, repeatable test environments. iOS tests run via `xcodebuild test` on the Simulator using a `MockAPIClient` conforming to `APIClientProtocol`.
 
 ### Tier 3 — Integration / Verification
-- **HTTP integration suite:** `tower::ServiceExt::oneshot` against the actual axum router covers happy and unhappy paths (5 tests in `routes/tests.rs`).
+- **HTTP integration suite:** `tower::ServiceExt::oneshot` against the actual axum router covers happy and unhappy paths (7 tests in `routes/tests.rs`), including JSON error body verification for 404 and 400 responses.
 - **E2E smoke test:** Start live server with seeded DB, hit all endpoints, verify HTTP 200 and correct JSON shapes.
 - **Static file serving:** `/static/hero.png`, `/static/marl.png`, etc. return 200.
 - **Route syntax:** All parameterized routes use axum 0.7.9 `:id` syntax (not `{id}`).
@@ -38,10 +38,10 @@ All Rust repo tests use in-memory SQLite (`sqlite::memory:`) with `sqlx::migrate
 
 | Layer | Coverage | Method |
 |-------|----------|--------|
-| Rust repositories | All 7 repos, 13 tests | `cargo test` with in-memory SQLite |
+| Rust repositories | All 7 repos, 16 tests | `cargo test` with in-memory SQLite |
 | Cache | 3 tests | `cargo test` |
 | DB pragmas | 1 test | `cargo test` (pool-level pragma assertions) |
-| HTTP integration | 5 tests | `tower::ServiceExt::oneshot` |
+| HTTP integration | 7 tests | `tower::ServiceExt::oneshot` |
 | Shared types | 4 tests | `cargo test -p emulsion-types` |
 | API endpoints | All routes | HTTP integration + E2E curl |
 | Static serving | hero/project PNGs | E2E curl HTTP status check |

@@ -145,3 +145,18 @@ After completing the original 24h build I did a focused review against the brief
 - Normalise `bullets` / `items` / `screenshots` into relational tables and drop the JSON-string-on-the-wire pattern.
 - A Bazel `swift_test` target for iOS so `bazel test //...` is meaningful.
 - An end-to-end CI workflow (GitHub Actions) running both build systems on PR.
+
+---
+
+## Post-script: crit-survival v2
+
+After a harsh spec review against the brief, six issues were fixed:
+
+1. **Error handling overhaul.** Every handler now returns `AppError` instead of bare `StatusCode`. Database errors are logged via `tracing::error!`; "not found" returns 404 (not 500). All error responses are structured JSON (`{"error": "message"}`). `From<sqlx::Error>` maps `RowNotFound` to 404 automatically.
+2. **AMA race condition fixed.** `UNIQUE(portfolio_id, participant_name)` constraint (`migrations/0004_ama_unique.sql`) + `INSERT OR IGNORE` eliminates the check-then-act window in `find_or_create_ama`. New idempotency test proves it.
+3. **Configurable port.** Server reads `PORT` env var (default 8080). Bind failures produce a clear panic message instead of an opaque unwrap trace.
+4. **Health check pings DB.** `GET /health` runs `SELECT 1` against the pool — readiness probes can detect database unavailability. Returns `{"status": "ok", "db": "ok"}`.
+5. **Q&A matching improved.** Tokenized keyword search across both prompt and answer text, ranked by hit count. Short words (< 3 chars) filtered out. No longer limited to a single `LIKE '%x%'` on the prompt column alone.
+6. **Benchmark script.** `scripts/benchmark.sh` runs 20 requests per endpoint and reports p50/p99 latency, backing up the "low latency" claim with real measurements.
+
+Test count: 27 backend + 4 shared = 31 Rust tests (up from 22 + 4 = 26). iOS unchanged at 18. Total: 49.

@@ -12,7 +12,7 @@
 [![axum](https://img.shields.io/badge/axum-0.7.9-7B1FA2?style=flat-square)](https://github.com/tokio-rs/axum)
 [![SQLite](https://img.shields.io/badge/SQLite-WAL-003B57?logo=sqlite&logoColor=white&style=flat-square)](https://www.sqlite.org)
 [![Bazel](https://img.shields.io/badge/Bazel-9.1.0-43A047?logo=bazel&logoColor=white&style=flat-square)](https://bazel.build)
-[![tests](https://img.shields.io/badge/tests-44_passing-success?style=flat-square)](#how-to-run-tests)
+[![tests](https://img.shields.io/badge/tests-49_passing-success?style=flat-square)](#how-to-run-tests)
 
 <br />
 
@@ -131,16 +131,16 @@ iOS requires macOS + Xcode.
 
 | Suite | Count | Command |
 |---|---|---|
-| Backend repo + cache | 16 | `cargo test -p portfolio-api` |
+| Backend repo + cache | 19 | `cargo test -p portfolio-api` |
 | Backend DB pragma | 1 | (in same suite — asserts `init_pool_with_url` applies pragmas) |
-| Backend HTTP integration | 5 | (in same suite — `tower::ServiceExt::oneshot` against the live router) |
+| Backend HTTP integration | 7 | (in same suite — `tower::ServiceExt::oneshot` against the live router) |
 | Shared types | 4 | `cargo test -p emulsion-types` |
 | iOS models / APIClient / ViewModels | 12 / 2 / 4 | `xcodebuild test` with `MockAPIClient: APIClientProtocol` |
 
 Run everything:
 
 ```bash
-cargo test --workspace          # 26 Rust tests (22 backend + 4 shared types)
+cargo test --workspace          # 31 Rust tests (27 backend + 4 shared types)
 bazel test //...                # 2 Bazel test targets aggregating the Rust suites
 xcodebuild test \
   -project apps/ios/PortfolioApp.xcodeproj \

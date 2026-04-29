@@ -85,6 +85,23 @@ The system is a two-tier client-server architecture: a native iOS app (SwiftUI) 
 
 **Why not Redis:** single server, single user. DashMap is zero-latency, zero-ops, and a cache miss costs ~1 ms (local SQLite). At this scale, the cache exists more to demonstrate the pattern than to reduce wall-clock time.
 
+## Error Handling
+
+Handlers return `AppError`, an enum that maps to the correct HTTP status and logs internal errors:
+
+| Variant | HTTP Status | Behavior |
+|---------|-------------|----------|
+| `NotFound` | 404 | Returned when `find_by_id` yields `None` or `sqlx::Error::RowNotFound` |
+| `BadRequest(msg)` | 400 | Returned on validation failure (empty name, empty message) |
+| `Unauthorized` | 401 | Returned when `X-Owner-Token` header is absent |
+| `Internal(msg)` | 500 | Logged via `tracing::error!`, generic message returned to client |
+
+`sqlx::Error` converts automatically via `From<sqlx::Error>`: `RowNotFound` becomes 404, everything else becomes 500 with the error logged. All error responses are JSON: `{"error": "message"}`.
+
+## Q&A Matching
+
+`POST /v1/portfolios/:id/qa/ask` tokenizes the query into keywords (words >= 3 characters), searches both `prompt` and `answer` text of all canned Q&A pairs, and returns the pair with the most keyword hits. Short/common words are filtered to reduce noise. This is O(n) on the Q&A count — FTS5 would be the next step for larger datasets.
+
 ## Latency Considerations
 
 - **SQLite tuning:** WAL journal mode for concurrent readers, `synchronous = NORMAL` (durable across power loss except the last fsync), `busy_timeout = 5s`, `temp_store = MEMORY`, 16 MB page cache, FK constraints enabled. Set at `init_pool()` in `db.rs`.
@@ -94,6 +111,9 @@ The system is a two-tier client-server architecture: a native iOS app (SwiftUI) 
 - **Release profile:** `lto = "thin"`, `codegen-units = 1`, `strip = "symbols"`, `panic = "abort"`. Smaller, faster binary.
 - **Static file serving:** `tower-http::ServeDir` for SVG/PNG. No DB round-trip.
 - **Request tracing:** `tower_http::trace::TraceLayer` logs method, path, status, and latency for every request. With `RUST_LOG=tower_http=debug`, per-request timing is visible in stdout.
+- **Health check:** `GET /health` runs `SELECT 1` against the connection pool. Returns `{"status": "ok", "db": "ok"}` (200) or 500 if the database is unreachable. Suitable for liveness/readiness probes.
+- **Configurable port:** Server reads `PORT` env var (default 8080). Bind failures produce a clear error.
+- **Benchmark script:** `scripts/benchmark.sh` runs 20 requests per endpoint and reports p50/p99 latency.
 
 ## Considered But Not Built
 

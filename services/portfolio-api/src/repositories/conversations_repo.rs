@@ -43,27 +43,24 @@ pub async fn add_message(pool: &Pool<Sqlite>, conversation_id: i64, sender: &str
 }
 
 pub async fn find_or_create_ama(pool: &Pool<Sqlite>, portfolio_id: i64) -> Result<i64, sqlx::Error> {
-    let row = sqlx::query_scalar::<_, i64>(
-        "SELECT id FROM conversations WHERE portfolio_id = ? AND participant_name = ?"
-    )
-        .bind(portfolio_id)
-        .bind(AMA_PARTICIPANT_NAME)
-        .fetch_optional(pool)
-        .await?;
-
-    if let Some(id) = row {
-        return Ok(id);
-    }
-
-    let result = sqlx::query(
-        "INSERT INTO conversations (portfolio_id, participant_name, last_message) VALUES (?, ?, '')"
+    sqlx::query(
+        "INSERT OR IGNORE INTO conversations (portfolio_id, participant_name, last_message) \
+         VALUES (?, ?, '')"
     )
         .bind(portfolio_id)
         .bind(AMA_PARTICIPANT_NAME)
         .execute(pool)
         .await?;
 
-    Ok(result.last_insert_rowid())
+    let id = sqlx::query_scalar::<_, i64>(
+        "SELECT id FROM conversations WHERE portfolio_id = ? AND participant_name = ?"
+    )
+        .bind(portfolio_id)
+        .bind(AMA_PARTICIPANT_NAME)
+        .fetch_one(pool)
+        .await?;
+
+    Ok(id)
 }
 
 pub async fn find_messages_by_conversation_id(pool: &Pool<Sqlite>, conversation_id: i64) -> Result<Vec<Message>, sqlx::Error> {
@@ -97,5 +94,13 @@ mod tests {
         let msgs = find_messages_by_conversation_id(&pool, 1).await.unwrap();
         assert_eq!(msgs.len(), 1);
         assert_eq!(msgs[0].sender, "Alex");
+    }
+
+    #[tokio::test]
+    async fn find_or_create_ama_is_idempotent() {
+        let pool = seeded_pool().await;
+        let id1 = find_or_create_ama(&pool, 1).await.unwrap();
+        let id2 = find_or_create_ama(&pool, 1).await.unwrap();
+        assert_eq!(id1, id2, "calling find_or_create_ama twice must return the same conversation");
     }
 }

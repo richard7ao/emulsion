@@ -24,7 +24,7 @@ bazel build //shared/emulsion-types:emulsion_types
 ## Test
 
 ```bash
-cargo test                    # All Rust tests (26: 22 backend + 4 shared types)
+cargo test                    # All Rust tests (31: 27 backend + 4 shared types)
 cargo test -p portfolio-api   # Backend only
 cargo test -p emulsion-types  # Shared types only
 ```
@@ -38,7 +38,7 @@ cargo test -p emulsion-types  # Shared types only
 
 ## Conventions
 
-- Handlers: extract AppState → call repo → map error → return Json
+- Handlers: extract AppState → call repo → return `Result<Json<T>, AppError>` (see `src/error.rs`)
 - Views: View → ViewModel (@Observable) → APIClient call
 - Counters: atomic SQL `UPDATE SET col = col + 1` (never read-modify-write)
 - Theme: all colors/fonts via LapseTheme (never hardcoded)

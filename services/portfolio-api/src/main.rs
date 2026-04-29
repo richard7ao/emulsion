@@ -1,6 +1,7 @@
 mod app_state;
 mod cache;
 mod db;
+mod error;
 mod handlers;
 mod models;
 mod repositories;
@@ -24,7 +25,12 @@ async fn main() {
     let state = AppState { pool, cache };
 
     let app = routes::create_router(state);
-    let listener = TcpListener::bind("0.0.0.0:8080").await.unwrap();
-    tracing::info!("listening on http://0.0.0.0:8080");
+
+    let port = std::env::var("PORT").unwrap_or_else(|_| "8080".to_string());
+    let addr = format!("0.0.0.0:{}", port);
+    let listener = TcpListener::bind(&addr).await.unwrap_or_else(|e| {
+        panic!("failed to bind to {}: {}", addr, e);
+    });
+    tracing::info!("listening on http://{}", addr);
     axum::serve(listener, app).await.unwrap();
 }

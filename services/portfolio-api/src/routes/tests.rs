@@ -32,7 +32,8 @@ async fn health_returns_ok() {
         .await.unwrap();
     assert_eq!(resp.status(), StatusCode::OK);
     let json = body_json(resp).await;
-    assert_eq!(json, serde_json::json!({"status": "ok"}));
+    assert_eq!(json["status"], "ok");
+    assert_eq!(json["db"], "ok");
 }
 
 #[tokio::test]
@@ -79,4 +80,34 @@ async fn list_notes_without_owner_token_returns_401() {
     let resp = app.oneshot(Request::builder().uri("/v1/portfolios/1/notes").body(Body::empty()).unwrap())
         .await.unwrap();
     assert_eq!(resp.status(), StatusCode::UNAUTHORIZED);
+}
+
+#[tokio::test]
+async fn not_found_returns_json_error_body() {
+    let app = router_empty().await;
+    let resp = app.oneshot(Request::builder().uri("/v1/portfolios/999").body(Body::empty()).unwrap())
+        .await.unwrap();
+    assert_eq!(resp.status(), StatusCode::NOT_FOUND);
+    let json = body_json(resp).await;
+    assert_eq!(json["error"], "not found");
+}
+
+#[tokio::test]
+async fn bad_request_returns_json_error_body() {
+    let app = router_with_seed().await;
+    let body = serde_json::to_vec(&serde_json::json!({
+        "name": "",
+        "message": "hello"
+    })).unwrap();
+    let resp = app.oneshot(
+        Request::builder()
+            .uri("/v1/portfolios/1/notes")
+            .method("POST")
+            .header("content-type", "application/json")
+            .body(Body::from(body))
+            .unwrap()
+    ).await.unwrap();
+    assert_eq!(resp.status(), StatusCode::BAD_REQUEST);
+    let json = body_json(resp).await;
+    assert!(json["error"].as_str().unwrap().contains("required"));
 }

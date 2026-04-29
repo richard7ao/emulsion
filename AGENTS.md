@@ -23,7 +23,7 @@ This repo is structured so AI coding agents can orient quickly, find the right f
 
 ## Patterns
 
-- All Rust handlers: extract AppState → call repo → map error → return Json
+- All Rust handlers: extract AppState → call repo → return `Result<Json<T>, AppError>` (see `src/error.rs`)
 - All SwiftUI views: View → ViewModel (@Observable) → APIClient call
 - Counter updates: atomic SQL `UPDATE SET col = col + 1` (never read-modify-write)
 - Colors/fonts/spacing: always via LapseTheme (never hardcoded in Views)
@@ -39,8 +39,8 @@ bazel build //apps/ios:app
 bazel build //shared/emulsion-types:emulsion_types
 
 # Test
-cargo test --workspace               # All Rust tests (26 total)
-cargo test -p portfolio-api           # Backend only (22 tests)
+cargo test --workspace               # All Rust tests (31 total)
+cargo test -p portfolio-api           # Backend only (27 tests)
 cargo test -p emulsion-types          # Shared types (4 tests)
 ```
 
