@@ -5,6 +5,10 @@ swift_library(
     name = "PortfolioAppLib",
     srcs = glob(["Sources/**/*.swift"]),
     module_name = "PortfolioApp",
+    # Standalone build targets host (macOS) where iOS-only APIs are
+    # unavailable. Library is reachable transitively through :app, which
+    # transitions to the iOS Simulator platform.
+    tags = ["manual"],
 )
 
 ios_application(

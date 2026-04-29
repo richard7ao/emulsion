@@ -1,10 +1,11 @@
-load("@rules_rust//rust:defs.bzl", "rust_binary")
+load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_test")
 
 rust_binary(
     name = "server",
     srcs = glob(["src/**/*.rs"]),
     compile_data = glob(["migrations/**"]),
     deps = [
+        "//shared/emulsion-types:emulsion_types",
         "@crates//:axum",
         "@crates//:tokio",
         "@crates//:sqlx",
@@ -18,4 +19,14 @@ rust_binary(
     ],
     edition = "2021",
     visibility = ["//visibility:public"],
+)
+
+rust_test(
+    name = "server_test",
+    crate = ":server",
+    deps = [
+        "@crates//:tower",
+        "@crates//:http-body-util",
+    ],
+    edition = "2021",
 )

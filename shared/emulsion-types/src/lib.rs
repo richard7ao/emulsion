@@ -1,3 +1,4 @@
+#[cfg(feature = "ffi-bindings")]
 uniffi::include_scaffolding!("emulsion_types");
 
 use serde::{Deserialize, Serialize};

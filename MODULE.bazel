@@ -24,4 +24,11 @@ crate.from_cargo(
         "//tools/seed:Cargo.toml",
     ],
 )
+
+# uniffi_testing reads env!("CARGO") at compile time; the Bazel sandbox doesn't
+# set CARGO, so injecting a value lets the crate build.
+crate.annotation(
+    crate = "uniffi_testing",
+    rustc_env = {"CARGO": "cargo"},
+)
 use_repo(crate, "crates")

@@ -8,16 +8,21 @@ crate-type = ["lib", "staticlib"]
 name = "emulsion_types"
 
 [dependencies]
-uniffi = "0.28"
+uniffi = { version = "0.28", optional = true }
 serde = { version = "1", features = ["derive"] }
 
 [build-dependencies]
-uniffi = { version = "0.28", features = ["build"] }
+uniffi = { version = "0.28", features = ["build"], optional = true }
 
 [dev-dependencies]
 serde_json = "1"
 
 [features]
+default = ["ffi-bindings"]
+# UniFFI scaffolding for cross-language Swift binding generation. Required for
+# `cargo build`; Bazel's rust_library disables this so the crate compiles
+# without the UniFFI build.rs scaffolding (which needs $OUT_DIR / cargo).
+ffi-bindings = ["dep:uniffi"]
 bindgen = ["uniffi/cli"]
 
 [[bin]]

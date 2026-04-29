@@ -1,17 +1,24 @@
-load("@rules_rust//rust:defs.bzl", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_library", "rust_test")
 
-# NOTE: UniFFI 0.28's transitive dep `uniffi_testing` uses env!("CARGO") which
-# is unavailable in Bazel's sandbox. This target builds via `cargo build -p emulsion-types`.
-# Bazel target is defined for completeness but requires a crate_universe patch to resolve.
+# Bazel build does not enable the `ffi-bindings` feature, so the UniFFI
+# scaffolding macro and build.rs are skipped. Cargo enables ffi-bindings by
+# default and runs the full UniFFI codegen path.
 rust_library(
     name = "emulsion_types",
     srcs = glob(["src/**/*.rs"]),
-    compile_data = glob(["src/**/*.udl"]),
+    crate_features = [],
     deps = [
-        "@crates//:uniffi",
         "@crates//:serde",
     ],
     edition = "2021",
-    tags = ["manual"],
     visibility = ["//visibility:public"],
+)
+
+rust_test(
+    name = "emulsion_types_test",
+    crate = ":emulsion_types",
+    deps = [
+        "@crates//:serde_json",
+    ],
+    edition = "2021",
 )
