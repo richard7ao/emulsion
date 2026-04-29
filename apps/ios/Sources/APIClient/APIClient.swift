@@ -33,6 +33,10 @@ final class APIClient: Sendable {
         try await get("/v1/projects/\(id)")
     }
 
+    func postProjectView(id: Int) async throws -> InterestedResponse {
+        try await postEmpty("/v1/projects/\(id)/view")
+    }
+
     func postInterested(projectId: Int) async throws -> InterestedResponse {
         try await postEmpty("/v1/projects/\(projectId)/interested")
     }

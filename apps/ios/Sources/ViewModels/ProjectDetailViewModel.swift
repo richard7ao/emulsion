@@ -24,6 +24,7 @@ final class ProjectDetailViewModel {
         do {
             project = try await apiClient.getProject(id: projectId)
             hasMarkedInterested = appState?.isProjectInterested(projectId) ?? false
+            Task { _ = try? await apiClient.postProjectView(id: projectId) }
         } catch {
             errorMessage = error.localizedDescription
         }

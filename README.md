@@ -107,13 +107,17 @@ Cargo and Xcode remain available for faster iteration during development.
 |--------|------|-------------|
 | GET | `/health` | Health check |
 | GET | `/v1/portfolios/:id` | Portfolio with experiences + skills |
+| POST | `/v1/portfolios/:id/view` | Increment portfolio view count |
+| POST | `/v1/portfolios/:id/interested` | Increment portfolio interest count |
 | GET | `/v1/portfolios/:id/projects` | Project list |
-| GET | `/v1/projects/:id` | Project detail |
-| POST | `/v1/projects/:id/view` | Increment view count |
-| POST | `/v1/projects/:id/interested` | Increment interest count |
+| GET | `/v1/projects/:id` | Project detail (cacheable, no side effects) |
+| POST | `/v1/projects/:id/view` | Increment project view count |
+| POST | `/v1/projects/:id/interested` | Increment project interest count |
 | GET | `/v1/portfolios/:id/qa` | FAQ pairs |
 | POST | `/v1/portfolios/:id/qa/ask` | Fuzzy-match Q&A |
+| POST | `/v1/portfolios/:id/ama` | Submit a free-form AMA question |
 | POST | `/v1/portfolios/:id/notes` | Leave a note |
+| GET | `/v1/portfolios/:id/notes` | List notes (requires `X-Owner-Token`) |
 | GET | `/v1/portfolios/:id/conversations` | Inbox conversations |
 | GET | `/v1/conversations/:id/messages` | Conversation thread |
 | POST | `/v1/conversations/:id/messages` | Send a message |
