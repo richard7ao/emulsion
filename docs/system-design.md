@@ -99,7 +99,6 @@ The system is a two-tier client-server architecture: a native iOS app (SwiftUI) 
 
 | Feature | Why Not |
 |---------|---------|
-| Full-text search for Q&A | SQLite FTS5 would be better than LIKE queries, but fuzzy LIKE matching works for 6 canned prompts. Not worth the complexity for demo scope. |
 | WebSocket for real-time inbox | Inbox is theatre (read-only seeded data). No write path means no real-time updates to push. |
 | Image upload for projects | Placeholder SVGs demonstrate the static serving pattern. Real image handling would need S3/CDN, resize pipeline, content moderation. |
 | Authentication beyond X-Owner-Token | Notes listing uses a header token as a placeholder. Real auth (JWT, OAuth) is out of scope for a demo portfolio. |
@@ -109,7 +108,5 @@ The system is a two-tier client-server architecture: a native iOS app (SwiftUI) 
 ## Known Limitations
 
 - **Single-server deployment:** No horizontal scaling. Cache is in-process, not distributed.
-- **No HTTPS:** Localhost HTTP only. iOS uses `NSAllowsLocalNetworking` ATS exception.
 - **No pagination:** All endpoints return full result sets. Would need cursor-based pagination at scale.
 - **Theatre inbox:** Conversations are seeded demo data. Users can send messages and ask questions via the AMA flow.
-- **Q&A fuzzy match:** Uses SQL LIKE which is case-insensitive but not fuzzy. Better alternatives: FTS5, trigram similarity, or vector embeddings.

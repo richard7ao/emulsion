@@ -104,7 +104,6 @@ The main thing I'd cut differently in retrospect: I should have set up XCTest ta
 - **Swift Package Manager** instead of a hand-crafted Xcode project. SPM handles file discovery and test targets automatically — this would have eliminated the pbxproj friction that dominated Phase 1.
 - **XCTest targets from the start.** Retrofitting them is harder than setting them up alongside the first view.
 - **sqlx compile-time query macros** (`query_as!`) for schema validation at build time.
-- **FTS5 for Q&A matching** instead of LIKE queries.
 - **Wire shared types into both consumers** — have the iOS app import the UniFFI-generated types and the backend re-export from the shared crate, eliminating duplicate type definitions.
 
 ## What I Learned

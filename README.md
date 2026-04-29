@@ -45,9 +45,11 @@
 
 ## What this is
 
-A native **iOS** portfolio app (SwiftUI, iOS 26) talking over local HTTP/JSON to a **Rust** API server (axum, SQLite WAL), with a shared **Rust types** crate that defines the wire contract once. Built in a single **Bazel** monorepo alongside Cargo + Xcode for local iteration.
+> **The pitch.** A network for creators. Each person gets a profile card and a portfolio of what they're working on; everyone else gets to discover them. Swipe through cards to see what people in your industry are building, tap into a profile to read the detail, and leave a note or open a thread to reach out. Think Tinder's gesture language with a creator-portfolio data model underneath — concise on the surface, deep when you want it.
 
-Seeded with real CV content for Richard Lao. Submitted as a **24-hour take-home** for Lapse — the goal is a working foundation that explains itself, not feature completeness.
+A native **iOS** app (SwiftUI, iOS 26) talking over local HTTP/JSON to a **Rust** API server (axum, SQLite WAL), with a shared **Rust types** crate that defines the wire contract once. Built in a single **Bazel** monorepo alongside Cargo + Xcode for local iteration.
+
+This submission seeds the system as a **single-user portfolio** (real CV content for Richard Lao) — but the data model and API are designed to extend to many creators. Submitted as a **24-hour take-home** for Lapse; the goal is a working foundation that explains itself, not feature completeness.
 
 End-to-end working flow:
 
@@ -152,7 +154,7 @@ Full plan, including what isn't tested and why: [`docs/test-plan.md`](docs/test-
 
 **Assumptions baked in:**
 
-- Single user, single server, localhost only. No HTTPS, no multi-tenancy, no auth beyond an `X-Owner-Token` header that's checked for presence (not value) on the notes listing.
+- Single user, single server, localhost only. No multi-tenancy, no auth beyond an `X-Owner-Token` header that's checked for presence (not value) on the notes listing.
 - Dataset is small and fixed (1 portfolio, 3 projects, 6 Q&As, a handful of conversations). All endpoints return full result sets — no pagination.
 - Inbox conversations are seeded "theatre" data; the AMA flow does write back, but the conversation list itself is read-only by design (`"theatre": true` flag in the response).
 - macOS + Xcode is the dev environment. iOS app requires the Simulator; Windows users can still run the backend.
