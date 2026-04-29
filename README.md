@@ -127,16 +127,16 @@ Cargo and Xcode remain available for faster iteration during development.
 ## Tests
 
 ```bash
-# Rust backend (16 tests)
+# Rust backend (22 tests: 16 repo/cache + 1 db pragma + 5 HTTP integration)
 cargo test -p portfolio-api
 
-# Shared types (3 tests)
+# Shared types (4 tests)
 cargo test -p emulsion-types
 
-# iOS (15 tests, requires Xcode + Simulator)
+# iOS (18 tests, requires Xcode + Simulator)
 xcodebuild test -project apps/ios/PortfolioApp.xcodeproj \
   -scheme PortfolioApp \
-  -destination 'platform=iOS Simulator,name=iPhone 16'
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
 ```
 
 See [`docs/test-plan.md`](docs/test-plan.md) for the full test plan.

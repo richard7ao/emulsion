@@ -28,17 +28,20 @@ The system is a two-tier client-server architecture: a native iOS app (SwiftUI) 
 
 ## Shared Platform Layer
 
-`shared/emulsion-types` is a Rust crate that defines all domain types once:
+`shared/emulsion-types` is a Rust crate defining the canonical wire types shared between the backend and (eventually) the iOS client.
 
-- **8 domain structs:** Portfolio, Experience, Skill, Project, QAPair, Note, Conversation, Message
-- **5 response DTOs:** PortfolioResponse, AskMatch, AskResponse, ConversationsResponse, MessagesResponse
-- **UDL schema** (`emulsion_types.udl`): UniFFI interface definition for cross-language binding generation
-- **Generated Swift bindings** (`generated/emulsion_types.swift`): Type-safe Swift structs generated from the Rust definitions
-- **xcframework generation** (`generate-bindings.sh`): Builds for aarch64-apple-ios-sim, produces .xcframework
+**Wired today (backend):**
+- `services/portfolio-api/src/handlers/portfolio_handler.rs::get_portfolio` returns `Json<emulsion_types::PortfolioResponse>`. The shared crate is a real Cargo dependency, not a placeholder.
+- Backend row types in `services/portfolio-api/src/models/*.rs` implement `From<RowType> for emulsion_types::CanonicalType`, so a field rename in the shared crate forces a compile error on the conversion site.
+- The wire format is verified by tests: `ask_response_match_serializes_as_match_keyword` ensures the iOS `match` key contract is preserved.
 
-The backend depends on `emulsion-types` via Cargo path dependency. The iOS app currently uses its own Codable models matching the same JSON contract; see "Direct FFI calls" in Considered But Not Built for the migration path.
+**Not yet wired (iOS):**
+- `apps/ios/Sources/Models/Models.swift` has its own Codable structs matching the same wire format. Migrating iOS to consume the UniFFI-generated bindings (or a Swift package wrapping them) is the next step.
+- `shared/emulsion-types/generate-bindings.sh` produces an xcframework but it is not yet imported in `PortfolioApp.xcodeproj`.
 
-A type change in Rust regenerates Swift bindings automatically — the iOS Codable models still need manual sync until the app migrates to the generated bindings.
+**Why the gap:** within the time budget, wiring one consumer end-to-end with verified wire compatibility was prioritized over wiring both consumers superficially. The iOS migration is mechanical once the xcframework is added to the project.
+
+**JSON-string nested arrays:** `Experience.bullets`, `Skill.items`, and `Project.screenshots` are typed as `String` (containing a JSON-encoded array) in both shared types and the row schema. This is a deliberate storage choice for SQLite — flat columns instead of join tables — and is documented as such on each type. A future migration would normalize these into separate tables.
 
 ## Data Flow
 
@@ -65,21 +68,32 @@ A type change in Rust regenerates Swift bindings automatically — the iOS Codab
 
 ## Cache Strategy
 
-**Pattern:** Cache-aside with DashMap (in-process, lock-free concurrent hashmap).
+**Pattern:** Cache-aside with `DashMap` (in-process, lock-free concurrent hashmap). Keys are produced by the `cache::keys` module to avoid stringly-typed mistakes.
 
-- **Reads:** Check cache first. On miss, query SQLite, store result, return.
-- **Writes:** Execute write, then invalidate related cache entries via `invalidate_prefix`.
-- **Scope:** Portfolio fan-out response cached (most expensive query — 3 joins). Project lists invalidated on view/interested increments.
-- **No TTL:** Cache lives for process lifetime. Invalidation is write-driven, not time-driven. Acceptable for single-server, single-user deployment.
+**What is cached:**
+- `portfolio:{id}` — full `PortfolioResponse` (portfolio + experiences + skills fan-out). Populated on `GET /v1/portfolios/:id` cache miss.
+- `projects:list:{portfolio_id}` — project list. Populated on `GET /v1/portfolios/:id/projects` cache miss.
+- `projects:item:{id}` — single project. Populated on `GET /v1/projects/:id` cache miss.
 
-**Why not Redis/external cache:** Single server process, single user. DashMap is zero-latency, zero-ops. A cache miss costs ~1ms (local SQLite), so even without caching, latency is negligible.
+**Invalidation:**
+- `POST /v1/portfolios/:id/{view,interested}` invalidates `portfolio:{id}`.
+- `POST /v1/projects/:id/{view,interested}` invalidates the entire `projects:` prefix (both list and item).
+
+**No TTL:** cache lives for process lifetime. Invalidation is write-driven.
+
+**Scope discipline:** writes are kept on `POST` endpoints. `GET /v1/projects/:id` is now pure (the prior side-effecting view increment moved to `POST /v1/projects/:id/view`), so the cache entry stays valid until an explicit invalidation.
+
+**Why not Redis:** single server, single user. DashMap is zero-latency, zero-ops, and a cache miss costs ~1 ms (local SQLite). At this scale, the cache exists more to demonstrate the pattern than to reduce wall-clock time.
 
 ## Latency Considerations
 
-- **SQLite WAL mode:** Allows concurrent readers without blocking writers. Eliminates lock contention for the read-heavy portfolio endpoint.
-- **Fan-out with tokio::join!:** Portfolio, experiences, and skills queries run concurrently. Wall-clock time is max(query times) rather than sum.
-- **Atomic counters:** `UPDATE SET col = col + 1` avoids read-modify-write race conditions and eliminates the need for transactions.
-- **Static file serving:** SVG placeholders served from memory-mapped files by tower-http. No database round-trip.
+- **SQLite tuning:** WAL journal mode for concurrent readers, `synchronous = NORMAL` (durable across power loss except the last fsync), `busy_timeout = 5s`, `temp_store = MEMORY`, 16 MB page cache, FK constraints enabled. Set at `init_pool()` in `db.rs`.
+- **FK indexes:** every `portfolio_id` and `conversation_id` filter column has a B-tree index (`migrations/0003_indexes.sql`). `EXPLAIN QUERY PLAN SELECT * FROM experiences WHERE portfolio_id = 1` reports `SEARCH … USING INDEX`.
+- **Fan-out with `tokio::join!`:** `get_portfolio` issues three queries concurrently (portfolio, experiences, skills). Wall-clock = max instead of sum.
+- **Atomic counters:** `UPDATE … SET col = col + 1` avoids read-modify-write race conditions and removes the need for transactions.
+- **Release profile:** `lto = "thin"`, `codegen-units = 1`, `strip = "symbols"`, `panic = "abort"`. Smaller, faster binary.
+- **Static file serving:** `tower-http::ServeDir` for SVG/PNG. No DB round-trip.
+- **Request tracing:** `tower_http::trace::TraceLayer` logs method, path, status, and latency for every request. With `RUST_LOG=tower_http=debug`, per-request timing is visible in stdout.
 
 ## Considered But Not Built
 

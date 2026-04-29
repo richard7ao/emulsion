@@ -61,16 +61,31 @@
 
 ## Phase 5 — Shared Platform Layer (Bonus)
 
-### Key Decisions
+### What I built within the original 24h
 
-- **UniFFI 0.28 for cross-language type sharing:** Domain types defined once in Rust, Swift bindings generated from a UDL schema. A type change in Rust propagates to Swift automatically.
-- **All 8 domain types + 5 response DTOs** in the shared crate, covering the full API contract.
-- **xcframework generation script:** `generate-bindings.sh` builds for aarch64-apple-ios-sim and packages the output. Standard distribution mechanism for Xcode consumption.
-- **Backend depends on shared types via Cargo path.** Backend models maintain their own `FromRow` implementations for sqlx; shared types define the canonical serialisation format.
+- A `shared/emulsion-types` crate defining all 8 domain types and 5 response DTOs.
+- A UniFFI UDL schema and a `generate-bindings.sh` that produces an xcframework for iOS consumption.
+- Cargo dependency from `services/portfolio-api` to the shared crate.
 
-### What Was Hard
+### What I deliberately did *not* finish in 24h
 
-- UniFFI's UDL syntax for optional types and sequences. Documentation is comprehensive but spread across multiple pages — getting `sequence<string>` and nullable fields (`string?`) right required cross-referencing the UDL spec with generated output.
+- **Wiring either consumer to the shared types.** The Cargo dep was declared but the backend kept its own response shapes; iOS kept its own Codable. The shared crate compiled and round-trip-tested but no traffic flowed through it. I documented this as a known gap rather than papering over it.
+
+### What I added in the crit-survival pass
+
+- Backend `get_portfolio` now returns `Json<emulsion_types::PortfolioResponse>`, with `From` conversions on the row types in `models/*.rs`. The dependency is real; a field rename in the shared crate now forces a compile error on the conversion site.
+- Aligned shared types to the actual wire format (`AskResponse.match` rename, JSON-string array fields documented).
+- Added a serde test asserting the `match` wire key cannot regress to `match_result`.
+
+### What remains
+
+- iOS migration to the generated bindings. The xcframework exists; the pbxproj entry and a Swift Package wrapper are the missing steps.
+- Normalising the JSON-string array columns (`bullets`, `items`, `screenshots`) into proper relational tables. The shared types reflect today's storage shape, not the destination shape.
+
+### What was hard
+
+- UniFFI's UDL syntax for nullable fields and sequences. Documentation is comprehensive but spread across multiple pages.
+- Bazel + UniFFI: `crates_universe` builds `uniffi_testing` which uses `env!("CARGO")`, unavailable in the Bazel sandbox. The Bazel target is marked `tags = ["manual"]`; Cargo is the canonical build for that crate.
 
 ## Priorities and Tradeoffs
 
@@ -98,3 +113,36 @@ The main thing I'd cut differently in retrospect: I should have set up XCTest ta
 - **UniFFI is surprisingly production-ready.** The setup ceremony (UDL → scaffolding → bindings → xcframework) is a one-time cost. After that, adding a new shared type is three lines of Rust and a few lines of UDL.
 - **Swift 6 concurrency catches real bugs but has a learning curve.** The `@Observable` + `@MainActor` + async pattern is the right model, but the compiler needs better diagnostics. I spent more time on concurrency annotations than on actual UI code.
 - **Always check version-specific API docs.** The axum `:id` vs `{id}` issue cost me debugging time that reading the 0.7.9 docs would have prevented. Minor version differences can change fundamental APIs.
+
+---
+
+## Post-script: crit-survival pass
+
+After completing the original 24h build I did a focused review against the brief and made a second pass focused on closing the gap between what the docs claimed and what the code did.
+
+**Backend substance:**
+- FK indexes on every `portfolio_id` and `conversation_id` filter column (`migrations/0003_indexes.sql`). `EXPLAIN QUERY PLAN` now reports `SEARCH … USING INDEX` instead of `SCAN`.
+- SQLite pragmas tuned at `init_pool()`: `synchronous = NORMAL`, `busy_timeout = 5s`, `foreign_keys = ON`, in-memory temp store, 16 MB page cache.
+- Release profile: `lto = "thin"`, `codegen-units = 1`, `strip = "symbols"`, `panic = "abort"`.
+- `GET /v1/projects/:id` made pure (cacheable); view increment moved to `POST /v1/projects/:id/view`.
+- `tower_http::trace::TraceLayer` for per-request method/path/status/latency logs.
+- `cache::keys` module replaces stringly-typed cache key format strings.
+
+**Shared types wired:**
+- Backend `get_portfolio` returns `Json<emulsion_types::PortfolioResponse>`. `From` conversions on row types make schema drift a compile error.
+- Shared types aligned to the real wire format (`#[serde(rename = "match")]` on `AskResponse.match_result`; JSON-string arrays documented).
+
+**Test depth:**
+- `APIClient` extracted to `APIClientProtocol`; ViewModels now accept `any APIClientProtocol`.
+- `MockAPIClient` + happy-path, error-path, and `markInterested` increment tests for ViewModels (4 ViewModel tests, 18 iOS tests total).
+- 5 backend HTTP-level integration tests via `tower::ServiceExt::oneshot`: health, 404, 401, 400 validation, full portfolio response (22 backend tests total).
+- `init_pool_with_url()` helper avoids global env mutation in the pragma test.
+
+**iOS quality:**
+- `Project.interestedCount` made `var`; `markInterested` mutates in place instead of rebuilding the struct field-by-field.
+
+**What I would still want with another day:**
+- Wire the UniFFI xcframework into `PortfolioApp.xcodeproj` so iOS consumes shared Swift types.
+- Normalise `bullets` / `items` / `screenshots` into relational tables and drop the JSON-string-on-the-wire pattern.
+- A Bazel `swift_test` target for iOS so `bazel test //...` is meaningful.
+- An end-to-end CI workflow (GitHub Actions) running both build systems on PR.

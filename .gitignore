@@ -42,3 +42,7 @@ target/
 # UniFFI generated outputs
 shared/emulsion-types/EmulsionTypes.xcframework/
 shared/emulsion-types/generated/
+
+# Build/agent scaffolding (not for submission)
+docs/superpowers/
+tasks/
