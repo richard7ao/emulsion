@@ -77,6 +77,18 @@ pub async fn find_messages_by_conversation_id(pool: &Pool<Sqlite>, conversation_
         .await
 }
 
+pub async fn delete_by_id(pool: &Pool<Sqlite>, id: i64) -> Result<bool, sqlx::Error> {
+    sqlx::query("DELETE FROM messages WHERE conversation_id = ?")
+        .bind(id)
+        .execute(pool)
+        .await?;
+    let result = sqlx::query("DELETE FROM conversations WHERE id = ?")
+        .bind(id)
+        .execute(pool)
+        .await?;
+    Ok(result.rows_affected() > 0)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -129,5 +141,21 @@ mod tests {
         let id1 = find_or_create_ama(&pool, 1).await.unwrap();
         let id2 = find_or_create_ama(&pool, 1).await.unwrap();
         assert_eq!(id1, id2, "calling find_or_create_ama twice must return the same conversation");
+    }
+
+    #[tokio::test]
+    async fn test_delete_removes_conversation_and_messages() {
+        let pool = seeded_pool().await;
+        let deleted = delete_by_id(&pool, 1).await.unwrap();
+        assert!(deleted);
+        assert!(find_by_id(&pool, 1).await.unwrap().is_none());
+        assert!(find_messages_by_conversation_id(&pool, 1).await.unwrap().is_empty());
+    }
+
+    #[tokio::test]
+    async fn test_delete_nonexistent_returns_false() {
+        let pool = seeded_pool().await;
+        let deleted = delete_by_id(&pool, 999).await.unwrap();
+        assert!(!deleted);
     }
 }

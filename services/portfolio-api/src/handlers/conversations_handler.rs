@@ -1,5 +1,5 @@
 use axum::extract::{Path, State};
-use axum::http::StatusCode;
+use axum::http::{HeaderMap, StatusCode};
 use axum::Json;
 use serde::Deserialize;
 use serde_json::{json, Value};
@@ -48,4 +48,19 @@ pub async fn get_messages(
         "messages": messages,
         "theatre": theatre
     })))
+}
+
+pub async fn delete_conversation(
+    State(state): State<AppState>,
+    Path(cid): Path<i64>,
+    headers: HeaderMap,
+) -> Result<Json<Value>, AppError> {
+    if headers.get("X-Owner-Token").is_none() {
+        return Err(AppError::Unauthorized);
+    }
+    let deleted = conversations_repo::delete_by_id(&state.pool, cid).await?;
+    if !deleted {
+        return Err(AppError::NotFound);
+    }
+    Ok(Json(json!({"status": "ok"})))
 }

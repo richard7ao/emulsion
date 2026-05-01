@@ -14,6 +14,16 @@ async fn router_with_seed() -> axum::Router {
     create_router(state)
 }
 
+async fn router_with_conversation() -> axum::Router {
+    let pool = seeded_test_pool().await;
+    sqlx::query("INSERT INTO conversations (id, portfolio_id, participant_name, last_message) VALUES (1, 1, 'Alex', 'Hello')")
+        .execute(&pool).await.unwrap();
+    sqlx::query("INSERT INTO messages (conversation_id, sender, body) VALUES (1, 'Alex', 'Hello')")
+        .execute(&pool).await.unwrap();
+    let state = AppState { pool, cache: AppCache::new() };
+    create_router(state)
+}
+
 async fn router_empty() -> axum::Router {
     let pool = test_pool().await;
     let state = AppState { pool, cache: AppCache::new() };
@@ -110,4 +120,47 @@ async fn bad_request_returns_json_error_body() {
     assert_eq!(resp.status(), StatusCode::BAD_REQUEST);
     let json = body_json(resp).await;
     assert!(json["error"].as_str().unwrap().contains("required"));
+}
+
+#[tokio::test]
+async fn delete_conversation_without_owner_token_returns_401() {
+    let app = router_with_seed().await;
+    let resp = app.oneshot(
+        Request::builder()
+            .uri("/v1/conversations/1")
+            .method("DELETE")
+            .body(Body::empty())
+            .unwrap()
+    ).await.unwrap();
+    assert_eq!(resp.status(), StatusCode::UNAUTHORIZED);
+}
+
+#[tokio::test]
+async fn delete_conversation_with_token_returns_ok() {
+    let app = router_with_conversation().await;
+    let resp = app.oneshot(
+        Request::builder()
+            .uri("/v1/conversations/1")
+            .method("DELETE")
+            .header("X-Owner-Token", "owner")
+            .body(Body::empty())
+            .unwrap()
+    ).await.unwrap();
+    assert_eq!(resp.status(), StatusCode::OK);
+    let json = body_json(resp).await;
+    assert_eq!(json["status"], "ok");
+}
+
+#[tokio::test]
+async fn delete_nonexistent_conversation_returns_404() {
+    let app = router_with_seed().await;
+    let resp = app.oneshot(
+        Request::builder()
+            .uri("/v1/conversations/999")
+            .method("DELETE")
+            .header("X-Owner-Token", "owner")
+            .body(Body::empty())
+            .unwrap()
+    ).await.unwrap();
+    assert_eq!(resp.status(), StatusCode::NOT_FOUND);
 }

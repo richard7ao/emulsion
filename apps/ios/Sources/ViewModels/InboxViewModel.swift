@@ -51,4 +51,13 @@ final class InboxViewModel {
             errorMessage = error.localizedDescription
         }
     }
+
+    func deleteConversation(id: Int) async {
+        do {
+            _ = try await apiClient.deleteConversation(id: id)
+            conversations.removeAll { $0.id == id }
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
 }

@@ -149,6 +149,10 @@ func parseJSONArray(_ jsonString: String) -> [String] {
     return array
 }
 
+struct DeleteConversationResponse: Codable {
+    let status: String
+}
+
 struct AMAResponse: Codable {
     let conversationId: Int
     let messageId: Int

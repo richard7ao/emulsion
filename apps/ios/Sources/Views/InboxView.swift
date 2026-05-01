@@ -36,10 +36,26 @@ struct InboxView: View {
 
                     LazyVStack(spacing: 0) {
                         ForEach(regularConversations) { convo in
-                            NavigationLink {
-                                ConversationThreadView(viewModel: viewModel, conversation: convo)
-                            } label: {
-                                conversationRow(convo)
+                            HStack(spacing: 0) {
+                                NavigationLink {
+                                    ConversationThreadView(viewModel: viewModel, conversation: convo)
+                                } label: {
+                                    conversationRow(convo)
+                                }
+
+                                Button {
+                                    Task { await viewModel.deleteConversation(id: convo.id) }
+                                } label: {
+                                    Image(systemName: "trash")
+                                        .font(.body)
+                                        .foregroundStyle(EmulsionTheme.textSecondary)
+                                        .frame(width: 44, height: 44)
+                                }
+                                .padding(.trailing, 8)
+                            }
+                            .background(EmulsionTheme.surface)
+                            .overlay(alignment: .bottom) {
+                                Divider()
                             }
                         }
                     }
@@ -101,9 +117,5 @@ struct InboxView: View {
                 .lineLimit(1)
         }
         .padding(EmulsionTheme.cardPadding)
-        .background(EmulsionTheme.surface)
-        .overlay(alignment: .bottom) {
-            Divider()
-        }
     }
 }

@@ -1,4 +1,4 @@
-use axum::{routing::{get, post}, Router};
+use axum::{routing::{delete, get, post}, Router};
 use tower_http::cors::CorsLayer;
 use tower_http::services::ServeDir;
 use tower_http::trace::TraceLayer;
@@ -23,6 +23,7 @@ pub fn create_router(state: AppState) -> Router {
         .route("/v1/portfolios/:id/ama", post(handlers::qa_handler::post_ama_question))
         .route("/v1/portfolios/:id/notes", post(handlers::notes_handler::create_note).get(handlers::notes_handler::list_notes))
         .route("/v1/portfolios/:id/conversations", get(handlers::conversations_handler::list_conversations))
+        .route("/v1/conversations/:cid", delete(handlers::conversations_handler::delete_conversation))
         .route("/v1/conversations/:cid/messages", get(handlers::conversations_handler::get_messages).post(handlers::conversations_handler::post_message))
         .nest_service("/static", ServeDir::new("static"))
         .layer(TraceLayer::new_for_http())

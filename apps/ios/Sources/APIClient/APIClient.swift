@@ -16,6 +16,7 @@ protocol APIClientProtocol: Sendable {
     func listConversations(portfolioId: Int) async throws -> ConversationsResponse
     func getMessages(conversationId: Int) async throws -> MessagesResponse
     func sendMessage(conversationId: Int, sender: String, body: String) async throws -> SendMessageResponse
+    func deleteConversation(id: Int) async throws -> DeleteConversationResponse
 }
 
 final class APIClient: APIClientProtocol {
@@ -89,6 +90,10 @@ final class APIClient: APIClientProtocol {
         return try await post("/v1/conversations/\(conversationId)/messages", body: req)
     }
 
+    func deleteConversation(id: Int) async throws -> DeleteConversationResponse {
+        try await performDelete("/v1/conversations/\(id)")
+    }
+
     // MARK: - Private
 
     private func get<T: Decodable>(_ path: String) async throws -> T {
@@ -119,6 +124,20 @@ final class APIClient: APIClientProtocol {
             encoder.keyEncodingStrategy = .convertToSnakeCase
             request.httpBody = try encoder.encode(body)
         }
+
+        let (data, response) = try await session.data(for: request)
+        try validateResponse(response)
+        return try decode(data)
+    }
+
+    private func performDelete<T: Decodable>(_ path: String) async throws -> T {
+        guard let url = URL(string: path, relativeTo: baseURL) else {
+            throw APIError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        request.setValue("owner", forHTTPHeaderField: "X-Owner-Token")
 
         let (data, response) = try await session.data(for: request)
         try validateResponse(response)
